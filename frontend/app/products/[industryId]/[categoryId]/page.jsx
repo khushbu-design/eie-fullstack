@@ -1,10 +1,12 @@
 import { fetchAPI } from "@/lib/api";
 import Link from "next/link";
 import AddToCompareButton from "@/components/AddToCompareButton";
+import { getStrapiMedia } from "@/lib/strapi-media";
 import "./style.css";
 
 export default async function CategoryProducts({ params }) {
-  const { industryId, categoryId } = params;
+  // મહત્વનું: params ને await કરવું પડે છે
+  const { industryId, categoryId } = await params;
 
   const categoryRes = await fetchAPI(
     `/categories?filters[slug][$eq]=${categoryId}&filters[industry][slug][$eq]=${industryId}&populate=*`
@@ -15,7 +17,6 @@ export default async function CategoryProducts({ params }) {
   }
 
   const category = categoryRes.data[0];
-  const base = process.env.NEXT_PUBLIC_STRAPI_URL.replace("/api", "");
 
   const query = new URLSearchParams({
     "filters[category][id][$eq]": category.id.toString(),
@@ -26,16 +27,20 @@ export default async function CategoryProducts({ params }) {
 
   const products = await fetchAPI(`/products?${query}`);
 
+  const STRAPI_BASE = process.env.NEXT_PUBLIC_STRAPI_URL.replace("/api", "");
+
   return (
     <div className="category-products-page">
       <h1 className="category-title">{category.name}</h1>
 
       {products.data.length === 0 ? (
-        <p className="text-center text-xl text-gray-600">No products found in this category.</p>
+        <p className="text-center text-xl text-gray-600">
+          No products found in this category.
+        </p>
       ) : (
         <div className="products-grid">
           {products.data.map((prod, index) => {
-            const imageUrl = prod.image?.url ? `${base}${prod.image.url}` : null;
+            const imageUrl = getStrapiMedia(prod.image?.url);
 
             return (
               <div
@@ -53,14 +58,12 @@ export default async function CategoryProducts({ params }) {
 
                 <h2 className="product-name">{prod.name}</h2>
 
-                <p className="product-desc">
-                  {prod.short_description}
-                </p>
+                <p className="product-desc">{prod.short_description}</p>
 
                 <div className="product-buttons">
                   {prod.catalog_pdf?.url && (
                     <a
-                      href={`${base}${prod.catalog_pdf.url}`}
+                      href={`${STRAPI_BASE}${prod.catalog_pdf.url}`}
                       target="_blank"
                       rel="noreferrer"
                       className="btn btn-download"
@@ -80,7 +83,7 @@ export default async function CategoryProducts({ params }) {
                     More Info
                   </Link>
 
-                  <AddToCompareButton product={prod} base={base} />
+                  <AddToCompareButton product={prod} />
                 </div>
               </div>
             );

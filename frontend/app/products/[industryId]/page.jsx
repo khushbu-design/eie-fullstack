@@ -1,92 +1,49 @@
 import { fetchAPI } from "@/lib/api";
 import Link from "next/link";
-import AddToCompareButton from "@/components/AddToCompareButton";
-import { getStrapiMedia } from "@/lib/strapi-media";
 import "./style.css";
 
-export default async function CategoryProducts({ params }) {
-  const { industryId, categoryId } = params;
+export default async function IndustryPage({ params }) {
+  // મહત્વનું: params ને await કરવું પડે છે (Next.js 13+ App Router rule)
+  const { industryId } = await params;
 
-  const categoryRes = await fetchAPI(
-    `/categories?filters[slug][$eq]=${categoryId}&filters[industry][slug][$eq]=${industryId}&populate=*`
+  const industryRes = await fetchAPI(
+    `/industries?filters[slug][$eq]=${industryId}&populate=*`
   );
 
-  if (!categoryRes.data || categoryRes.data.length === 0) {
-    return <p className="text-center py-20 text-2xl">Category not found</p>;
+  if (!industryRes.data || industryRes.data.length === 0) {
+    return <p className="text-center py-20 text-2xl">Industry not found</p>;
   }
 
-  const category = categoryRes.data[0];
+  const industry = industryRes.data[0];
 
-  const query = new URLSearchParams({
-    "filters[category][id][$eq]": category.id.toString(),
-    "populate[0]": "image",
-    "populate[1]": "catalog_pdf",
-    "populate[2]": "specification",
-  }).toString();
-
-  const products = await fetchAPI(`/products?${query}`);
-
-  const STRAPI_BASE = process.env.NEXT_PUBLIC_STRAPI_URL.replace("/api", "");
+  const categories = await fetchAPI(
+    `/categories?filters[industry][id][$eq]=${industry.id}&populate=*`
+  );
 
   return (
-    <div className="category-products-page">
-      <h1 className="category-title">{category.name}</h1>
+    <div style={{ padding: "40px" }}>
+      <h1 style={{ fontSize: "32px", marginBottom: "30px", fontWeight: "600" }}>
+        Categories for {industry.name}
+      </h1>
 
-      {products.data.length === 0 ? (
-        <p className="text-center text-xl text-gray-600">No products found in this category.</p>
-      ) : (
-        <div className="products-grid">
-          {products.data.map((prod, index) => {
-            const imageUrl = getStrapiMedia(prod.image?.url);
-
-            return (
-              <div
-                key={prod.id}
-                className="product-card"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <div className="product-image-wrapper">
-                  {imageUrl ? (
-                    <img src={imageUrl} alt={prod.name} />
-                  ) : (
-                    <div className="no-image">Coming Soon...</div>
-                  )}
-                </div>
-
-                <h2 className="product-name">{prod.name}</h2>
-
-                <p className="product-desc">{prod.short_description}</p>
-
-                <div className="product-buttons">
-                  {prod.catalog_pdf?.url && (
-                    <a
-                      href={`${STRAPI_BASE}${prod.catalog_pdf.url}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="btn btn-download"
-                    >
-                      Product PDF
-                    </a>
-                  )}
-
-                  <Link href="/contact" className="btn btn-primary">
-                    Instant Quote
-                  </Link>
-
-                  <Link
-                    href={`/products/${industryId}/${categoryId}/${prod.slug}`}
-                    className="btn btn-primary"
-                  >
-                    More Info
-                  </Link>
-
-                  <AddToCompareButton product={prod} />
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      )}
+      <div className="category-grid">
+        {categories.data.length === 0 ? (
+          <p className="text-center text-xl text-gray-600">
+            No categories found for this industry.
+          </p>
+        ) : (
+          categories.data.map((cat) => (
+            <Link
+              key={cat.id}
+              href={`/products/${industryId}/${cat.slug}`}
+              className="category-card"
+            >
+              <h2 className="cat-title">{cat.name}</h2>
+              <p className="cat-desc">Explore all products in this category →</p>
+            </Link>
+          ))
+        )}
+      </div>
     </div>
   );
 }
