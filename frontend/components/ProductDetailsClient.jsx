@@ -3,6 +3,7 @@
 import { BlocksRenderer } from "@strapi/blocks-react-renderer";
 import Link from "next/link";
 import { useCompare } from "@/context/CompareContext";
+import { getStrapiMedia } from "@/lib/strapi-media";  // ← આ ખાસ ઉમેરેલું છે
 import "./style.css";
 
 export default function ProductDetailsClient({ product, base, industryId, categoryId }) {
@@ -15,10 +16,12 @@ export default function ProductDetailsClient({ product, base, industryId, catego
       id: product.id,
       slug: product.slug,
       name: product.name,
-      image: base + (product.image?.url || "/placeholder.jpg"),
-      specifications: product.specification || [], 
+      image: getStrapiMedia(product.image?.url) || "/placeholder.jpg",
+      specifications: product.specification || [],
     });
   };
+
+  const mainImage = getStrapiMedia(product.image?.url) || "/placeholder.jpg";
 
   return (
     <div className="product-wrapper">
@@ -26,7 +29,7 @@ export default function ProductDetailsClient({ product, base, industryId, catego
       <div className="top-section">
         <div className="image-box">
           <img
-            src={base + (product.image?.url || "/placeholder.jpg")}
+            src={mainImage}
             className="main-image"
             alt={product.name}
           />
@@ -47,7 +50,7 @@ export default function ProductDetailsClient({ product, base, industryId, catego
             {product.catalog_pdf?.url && (
               <a
                 className="btn secondary"
-                href={base + product.catalog_pdf.url}
+                href={`${base}${product.catalog_pdf.url}`}
                 target="_blank"
                 rel="noreferrer"
               >
@@ -76,9 +79,7 @@ export default function ProductDetailsClient({ product, base, industryId, catego
             {product.variants.map((variant) => {
               const isVariantAdded = compareList.some((p) => p.id === variant.id);
 
-              const variantImage = variant.image?.url 
-                ? base + variant.image.url 
-                : base + (product.image?.url || "/placeholder.jpg");
+              const variantImage = getStrapiMedia(variant.image?.url) || mainImage;
 
               return (
                 <div key={variant.id} className="variant-card-final">
@@ -87,11 +88,17 @@ export default function ProductDetailsClient({ product, base, industryId, catego
                   </div>
 
                   {variant.image?.url && (
-                    <img 
-                      src={variantImage} 
-                      alt={variant.name} 
-                      className="variant-image-preview" 
-                      style={{ width: "100%", height: "180px", objectFit: "contain", marginBottom: "12px", borderRadius: "8px" }}
+                    <img
+                      src={variantImage}
+                      alt={variant.name || "Variant"}
+                      className="variant-image-preview"
+                      style={{
+                        width: "100%",
+                        height: "180px",
+                        objectFit: "contain",
+                        marginBottom: "12px",
+                        borderRadius: "8px",
+                      }}
                     />
                   )}
 
@@ -110,7 +117,7 @@ export default function ProductDetailsClient({ product, base, industryId, catego
                           slug: variant.slug || variant.id,
                           name: variant.name || variant.model_number || product.name + " Variant",
                           image: variantImage,
-                          specifications: variant.specification || [], // આ મહત્વનું છે!
+                          specifications: variant.specification || [],
                         })
                       }
                       className={`btn maroon ${isVariantAdded ? "active" : ""}`}
@@ -142,6 +149,7 @@ export default function ProductDetailsClient({ product, base, industryId, catego
         <input type="radio" id="tab4" name="tab" />
         <label htmlFor="tab4" className="tab-btn">Spares</label>
 
+        {/* Tab 1: Details */}
         <div className="tab-content">
           <div className="rich-text-content">
             {product.long_description ? (
@@ -152,6 +160,7 @@ export default function ProductDetailsClient({ product, base, industryId, catego
           </div>
         </div>
 
+        {/* Tab 2: Specifications */}
         <div className="tab-content">
           <div className="spec-box">
             {product.specification && product.specification.length > 0 ? (
@@ -169,13 +178,17 @@ export default function ProductDetailsClient({ product, base, industryId, catego
           </div>
         </div>
 
+        {/* Tab 3: Accessories */}
         <div className="tab-content">
           <div className="accessory-grid">
             {product.accessories && product.accessories.length > 0 ? (
               product.accessories.map((acc) => (
                 <div key={acc.id} className="accessory-card">
                   {acc.image?.url ? (
-                    <img src={base + acc.image.url} alt={acc.name} />
+                    <img
+                      src={getStrapiMedia(acc.image.url)}
+                      alt={acc.name}
+                    />
                   ) : (
                     <div className="no-img">Coming Soon...</div>
                   )}
@@ -194,13 +207,17 @@ export default function ProductDetailsClient({ product, base, industryId, catego
           </div>
         </div>
 
+        {/* Tab 4: Spares */}
         <div className="tab-content">
           <div className="accessory-grid">
             {product.spares && product.spares.length > 0 ? (
               product.spares.map((sp) => (
                 <div key={sp.id} className="accessory-card">
                   {sp.image?.url ? (
-                    <img src={base + sp.image.url} alt={sp.name} />
+                    <img
+                      src={getStrapiMedia(sp.image.url)}
+                      alt={sp.name}
+                    />
                   ) : (
                     <div className="no-img">Coming Soon...</div>
                   )}

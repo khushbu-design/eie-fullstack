@@ -6,22 +6,39 @@ export default function VisitorTracker() {
   useEffect(() => {
     const incrementVisitorCount = async () => {
       try {
-        const baseUrl = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337/api';
-        const url = `${baseUrl.replace(/\/$/, '')}/visitor-count`; // single type માટે no "s", no ID
+        const base = process.env.NEXT_PUBLIC_STRAPI_URL 
+          ? process.env.NEXT_PUBLIC_STRAPI_URL.replace(/\/api\/?$/, '')
+          : 'https://popular-boot-8befa4f005.strapiapp.com';
 
-        console.log('Fetching/Updating single type at:', url);
+        const url = `${base}/api/visitor-count`; // singular UID – no /s, no ID
+
+        console.log('Visitor count - Trying URL:', url);
 
         const res = await fetch(url, { cache: 'no-store' });
 
         if (!res.ok) {
-          console.log('Fetch failed:', res.status);
+          const errorText = await res.text();
+          console.error('GET failed - Status:', res.status, 'Response:', errorText);
+          if (res.status === 404) {
+            console.error('→ Possible reasons: Single-type not published, wrong UID, or entry missing');
+          }
           return;
         }
 
         const data = await res.json();
+        console.log('GET success - Raw data:', data);
 
-        const currentCount = data.data.count || 0;
+        // Strapi v4/v5 compatibility: count ક્યાં છે તે ચેક કરીએ
+        let currentCount = 0;
+        if (data.data?.attributes?.count !== undefined) {
+          currentCount = data.data.attributes.count;
+        } else if (data.data?.count !== undefined) {
+          currentCount = data.data.count;
+        }
 
+        console.log('Current count from Strapi:', currentCount);
+
+        // PUT update
         const updateRes = await fetch(url, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
@@ -31,12 +48,13 @@ export default function VisitorTracker() {
         });
 
         if (updateRes.ok) {
-          console.log('✅ SUCCESS! Visitor count updated to:', currentCount + 1);
+          console.log('✅ Visitor count incremented to:', currentCount + 1);
         } else {
-          console.log('Update failed:', updateRes.status);
+          const updateError = await updateRes.text();
+          console.error('PUT failed - Status:', updateRes.status, 'Response:', updateError);
         }
       } catch (error) {
-        console.log('Error:', error);
+        console.error('VisitorTracker general error:', error);
       }
     };
 

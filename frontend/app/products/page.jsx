@@ -1,5 +1,6 @@
-import { fetchAPI } from "@/lib/api";
 import Link from "next/link";
+import { fetchAPI } from "@/lib/api";
+import { getStrapiMedia } from "@/lib/strapi-media";
 
 export default async function ProductsPage() {
   const industries = await fetchAPI("/industries?populate=*");
@@ -14,21 +15,17 @@ export default async function ProductsPage() {
           animation: fadeIn 0.6s ease forwards;
           opacity: 0;
         }
-
         .card:hover {
           transform: translateY(-8px);
           box-shadow: 0 10px 20px rgba(0,0,0,0.15);
           border-color: #9d0000 !important;
         }
-
         .icon-box img {
           transition: transform 0.4s ease;
         }
-
         .card:hover .icon-box img {
           transform: scale(1.15);
         }
-
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(10px); }
           to { opacity: 1; transform: translateY(0); }
@@ -71,18 +68,18 @@ export default async function ProductsPage() {
                 overflow: "hidden",
               }}
             >
-              {item.image && (
+              {item.image?.url ? (
                 <img
-                  src={
-                    process.env.NEXT_PUBLIC_STRAPI_URL.replace("/api", "") +
-                    item.image.url
-                  }
+                  src={getStrapiMedia(item.image.url)}
+                  alt={item.name}
                   style={{
                     width: "70%",
                     height: "70%",
                     objectFit: "contain",
                   }}
                 />
+              ) : (
+                <div style={{ color: "#999" }}>No Image</div>
               )}
             </div>
 

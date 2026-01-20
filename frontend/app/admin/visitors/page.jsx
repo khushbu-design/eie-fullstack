@@ -6,25 +6,41 @@ export default function VisitorsAdminPage() {
   const [password, setPassword] = useState('');
   const [count, setCount] = useState(null);
   const [error, setError] = useState('');
-
-  const correctPassword = 'eie2025'; 
+  const correctPassword = 'eie2025';
 
   const fetchCount = async () => {
     try {
-      const baseUrl = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337/api';
-      const url = `${baseUrl.replace(/\/$/, '')}/visitor-count`; 
+      const base = process.env.NEXT_PUBLIC_STRAPI_URL 
+        ? process.env.NEXT_PUBLIC_STRAPI_URL.replace(/\/api\/?$/, '')
+        : 'https://popular-boot-8befa4f005.strapiapp.com';
+
+      const url = `${base}/api/visitor-count`;
+
+      console.log('Admin fetching visitor count from:', url);
 
       const res = await fetch(url, { cache: 'no-store' });
 
       if (!res.ok) {
-        setError('Something went wrong!');
+        const text = await res.text();
+        console.error('Admin fetch failed:', res.status, text);
+        setError(`Error ${res.status}: ${text || 'Something went wrong!'}`);
         return;
       }
 
       const data = await res.json();
-      setCount(data.data.count || 0);
+      console.log('Admin fetch data:', data);
+
+      let fetchedCount = 0;
+      if (data.data?.attributes?.count !== undefined) {
+        fetchedCount = data.data.attributes.count;
+      } else if (data.data?.count !== undefined) {
+        fetchedCount = data.data.count;
+      }
+
+      setCount(fetchedCount);
     } catch (err) {
-      setError('Network Error!!');
+      console.error('Admin network error:', err);
+      setError('Network or Strapi connection error!');
     }
   };
 
@@ -48,7 +64,7 @@ export default function VisitorsAdminPage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label className="block text-lg font-medium mb-2">
-                Add Password
+                Enter Password
               </label>
               <input
                 type="password"
