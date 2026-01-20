@@ -1,9 +1,20 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 
-export default function UnsubscribePage() {
+function Loading() {
+  return (
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <div className="bg-white p-10 rounded-xl shadow-xl text-center max-w-lg">
+        <h1 className="text-3xl font-bold text-red-600 mb-6">Unsubscribe</h1>
+        <p className="text-lg">Processing...</p>
+      </div>
+    </div>
+  );
+}
+
+function UnsubscribeContent() {
   const searchParams = useSearchParams();
   const email = searchParams.get('email');
   const [status, setStatus] = useState('processing');
@@ -37,6 +48,7 @@ export default function UnsubscribePage() {
         );
 
         if (deleteRes.ok) {
+          // Send email notification
           await fetch("/api/send-email", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -70,19 +82,30 @@ export default function UnsubscribePage() {
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="bg-white p-10 rounded-xl shadow-xl text-center max-w-lg">
         <h1 className="text-3xl font-bold text-red-600 mb-6">Unsubscribe</h1>
-        
+
         {status === 'processing' && (
-          <p className="text-lg">Processing unsubscription for <strong>{email}</strong>...</p>
+          <p className="text-lg">
+            Processing unsubscription for <strong>{email || '...'}</strong>...
+          </p>
         )}
-        
+
         {status === 'success' && (
           <p className="text-lg text-green-700 font-semibold">{message}</p>
         )}
-        
+
         {status === 'error' && (
           <p className="text-lg text-red-600 font-semibold">{message}</p>
         )}
       </div>
     </div>
+  );
+}
+
+// Export with Suspense boundary (આ જરૂરી છે!)
+export default function UnsubscribePage() {
+  return (
+    <Suspense fallback={<Loading />}>
+      <UnsubscribeContent />
+    </Suspense>
   );
 }
