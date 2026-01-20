@@ -1,8 +1,9 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from 'react'; 
+import { useEffect, useRef, useState } from 'react';
 
+// Reusable AnimateOnScroll component
 const AnimateOnScroll = ({ children, delay = 0, className = '' }) => {
   const [isVisible, setIsVisible] = useState(false);
   const domRef = useRef();
@@ -12,25 +13,25 @@ const AnimateOnScroll = ({ children, delay = 0, className = '' }) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          observer.unobserve(domRef.current); 
+          observer.unobserve(domRef.current);
         }
       });
     }, { threshold: 0.1 });
-    
+
     if (domRef.current) {
       observer.observe(domRef.current);
     }
-    
+
     return () => {
       if (domRef.current) {
-         observer.unobserve(domRef.current);
+        observer.unobserve(domRef.current);
       }
     };
   }, []);
 
   const animationClasses = `
-    transition-all duration-400 ease-out 
-    ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}
+    transition-all duration-700 ease-out 
+    ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}
   `;
 
   return (
@@ -44,44 +45,46 @@ const AnimateOnScroll = ({ children, delay = 0, className = '' }) => {
   );
 };
 
-export default function CalibrationValidationPage() {
-  const ClickableImageThumbnail = ({
-    src,
-    alt,
-    width,
-    height,
-    isExternalLink = false,
-    linkHref,
-  }) => {
-    const thumbnailClasses =
-      "inline-block max-w-xs cursor-pointer overflow-hidden rounded-md shadow-lg hover:shadow-xl transition transform hover:scale-[1.03] duration-500";
+// Reusable ClickableImageThumbnail component (બહાર define કર્યું – render ની અંદર નહીં)
+const ClickableImageThumbnail = ({
+  src,
+  alt,
+  width,
+  height,
+  isExternalLink = false,
+  linkHref,
+}) => {
+  const thumbnailClasses =
+    "inline-block max-w-xs cursor-pointer overflow-hidden rounded-md shadow-lg hover:shadow-xl transition transform hover:scale-[1.03] duration-500";
 
-    const imageElement = (
-      <Image
-        src={src}
-        alt={alt}
-        width={width}
-        height={height}
-        sizes="(max-width: 600px) 100vw, 500px" 
-        className="w-full h-auto"
-      />
-    );
+  const imageElement = (
+    <Image
+      src={src}
+      alt={alt}
+      width={width}
+      height={height}
+      sizes="(max-width: 600px) 100vw, 500px"
+      className="w-full h-auto object-contain"
+      priority={false} // optional: large images માટે priority=true કરી શકે
+    />
+  );
 
-    if (isExternalLink) {
-      return (
-        <a href={linkHref} target="_blank" rel="noopener noreferrer" className={thumbnailClasses}>
-          {imageElement}
-        </a>
-      );
-    }
-    
+  if (isExternalLink) {
     return (
-      <div className={thumbnailClasses}>
+      <a href={linkHref} target="_blank" rel="noopener noreferrer" className={thumbnailClasses}>
         {imageElement}
-      </div>
+      </a>
     );
-  };
+  }
 
+  return (
+    <div className={thumbnailClasses}>
+      {imageElement}
+    </div>
+  );
+};
+
+export default function CalibrationValidationPage() {
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-800">
 
@@ -109,22 +112,30 @@ export default function CalibrationValidationPage() {
               Validation Services
             </h2>
           </AnimateOnScroll>
-          
-          <AnimateOnScroll delay={250}><p>
-            Validation is a systematic approach, where data is collected and analyzed to confirm that a process will operate within the specified parameters, whenever required and that it will produce consistent results within the predetermined specifications. The process verifies, if the compliance and quality standards are being met by a product in real time. In short, Validation is defined as a documented program that provides a high degree of assurance that a specific process, method, instrument or system will consistently produce a result meeting pre-determined acceptance criteria.
-          </p></AnimateOnScroll>
-          
-          <AnimateOnScroll delay={300}><p>
-            In a pharmaceutical facility, the validation program establishes that a company is meeting Current Good Manufacturing Process (cGMP) guidelines that are set for the industry by concerned regulatory bodies.
-          </p></AnimateOnScroll>
-          
-          <AnimateOnScroll delay={350}><p>
-            Validation is concerned mainly with processes. When the same approach is applied to a machine or any equipment instead of a process, it is referred to as Qualification instead. Qualification is not limited to a Validation process, but it is a part of it. It can be further divided into Installation Qualification (IQ), Operation Qualification (OQ) or Performance Qualification (PQ).
-          </p></AnimateOnScroll>
-          
-          <AnimateOnScroll delay={400}><p>
-            <b>EIE Instruments </b> offers a wide variety of Validation Services that meet FDA, ICH, and many European standards. We are well equipped with necessary Validation Accessories & SOP to carry out On-site Validation Process for following list of Instruments in any Pharmaceutical Industries:
-          </p></AnimateOnScroll>
+
+          <AnimateOnScroll delay={250}>
+            <p>
+              Validation is a systematic approach, where data is collected and analyzed to confirm that a process will operate within the specified parameters, whenever required and that it will produce consistent results within the predetermined specifications. The process verifies, if the compliance and quality standards are being met by a product in real time. In short, Validation is defined as a documented program that provides a high degree of assurance that a specific process, method, instrument or system will consistently produce a result meeting pre-determined acceptance criteria.
+            </p>
+          </AnimateOnScroll>
+
+          <AnimateOnScroll delay={300}>
+            <p>
+              In a pharmaceutical facility, the validation program establishes that a company is meeting Current Good Manufacturing Process (cGMP) guidelines that are set for the industry by concerned regulatory bodies.
+            </p>
+          </AnimateOnScroll>
+
+          <AnimateOnScroll delay={350}>
+            <p>
+              Validation is concerned mainly with processes. When the same approach is applied to a machine or any equipment instead of a process, it is referred to as Qualification instead. Qualification is not limited to a Validation process, but it is a part of it. It can be further divided into Installation Qualification (IQ), Operation Qualification (OQ) or Performance Qualification (PQ).
+            </p>
+          </AnimateOnScroll>
+
+          <AnimateOnScroll delay={400}>
+            <p>
+              <strong>EIE Instruments</strong> offers a wide variety of Validation Services that meet FDA, ICH, and many European standards. We are well equipped with necessary Validation Accessories & SOP to carry out On-site Validation Process for following list of Instruments in any Pharmaceutical Industries:
+            </p>
+          </AnimateOnScroll>
 
           <ul className="list-disc ml-8 space-y-1">
             {[
@@ -139,7 +150,10 @@ export default function CalibrationValidationPage() {
             ))}
           </ul>
 
-          <AnimateOnScroll delay={1000}><h3 className="text-xl font-semibold mt-6">Validation Documents Include:</h3></AnimateOnScroll>
+          <AnimateOnScroll delay={1000}>
+            <h3 className="text-xl font-semibold mt-6">Validation Documents Include:</h3>
+          </AnimateOnScroll>
+
           <ul className="list-disc ml-8 space-y-1">
             {[
               "Diagram Procedures", "Door Opening Studies", "Result & Conclusion", 
@@ -153,7 +167,7 @@ export default function CalibrationValidationPage() {
         </div>
       </section>
 
-
+      {/* Why EIE's Validation Services */}
       <section className="py-16 bg-white">
         <AnimateOnScroll delay={1300}>
           <h2 className="text-3xl text-center font-bold text-red-700 mb-10 transition duration-300 hover:text-red-900">
@@ -191,6 +205,7 @@ export default function CalibrationValidationPage() {
         </div>
       </section>
 
+      {/* Calibration Services */}
       <section className="py-16">
         <div className="max-w-4xl mx-auto text-left space-y-4 px-4">
           <div className="w-full flex justify-center mb-6">
@@ -208,7 +223,12 @@ export default function CalibrationValidationPage() {
             <h2 className="text-3xl font-bold text-red-700">Calibration Services</h2>
           </AnimateOnScroll>
 
-          <AnimateOnScroll delay={2200}><p>Calibration facilities are given the highest priorities at our organization. We hold excellent technical know-how to calibrate versatile calibration parameters with National & International Traceability. EIE’s in-house Calibration Lab is accredited by NABL Authorities as per IEC/ISO : 17025 Guidelines. The Laboratory at Precise is very well equipped with the most modern and sophisticated Master Instruments / Equipment & Reference Standards, which are employed for providing precise & accurate calibration services to the prestigious clients. We provide following 2 kinds of calibration services to our esteemed clients.</p></AnimateOnScroll>
+          <AnimateOnScroll delay={2200}>
+            <p>
+              Calibration facilities are given the highest priorities at our organization. We hold excellent technical know-how to calibrate versatile calibration parameters with National & International Traceability. EIE’s in-house Calibration Lab is accredited by NABL Authorities as per IEC/ISO : 17025 Guidelines. The Laboratory at Precise is very well equipped with the most modern and sophisticated Master Instruments / Equipment & Reference Standards, which are employed for providing precise & accurate calibration services to the prestigious clients. We provide following 2 kinds of calibration services to our esteemed clients.
+            </p>
+          </AnimateOnScroll>
+
           <ul className="list-disc ml-8 space-y-1">
             <AnimateOnScroll delay={2300}><li>In-house Calibration Service</li></AnimateOnScroll>
             <AnimateOnScroll delay={2350}><li>On-Site Calibration Service</li></AnimateOnScroll>
@@ -216,6 +236,7 @@ export default function CalibrationValidationPage() {
         </div>
       </section>
 
+      {/* Calibration Scope */}
       <section className="py-20 bg-zinc-100">
         <AnimateOnScroll delay={2500}>
           <h2 className="text-3xl text-center font-bold text-red-700 mb-12 transition duration-300 hover:text-red-900">
@@ -224,72 +245,33 @@ export default function CalibrationValidationPage() {
         </AnimateOnScroll>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto px-4">
-          <AnimateOnScroll delay={2600}>
-            <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
-              <ClickableImageThumbnail src="/images/thermal.png" alt="Thermal Scope" width={400} height={300} />
-              <h3 className="text-xl font-semibold mt-4 text-red-600">Thermal Scope</h3>
-              <p className="text-sm mt-2">Sensors, Thermometers, Switches, Recorders, Transmitters and Analytical Instruments such as Freezers, Refrigerators, Stability Chambers (Humidity chambers), Incubators, Ovens, Furnace, Waterbath Hygrometers etc</p>
-            </div>
-          </AnimateOnScroll>
-
-          <AnimateOnScroll delay={2700}>
-            <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
-              <ClickableImageThumbnail src="/images/Mass.png" width={400} height={300} alt="Mass Scope" />
-              <h3 className="text-xl font-semibold mt-4 text-red-600">Mass Scope</h3>
-              <p className="text-sm mt-2">Laboratory balances, F1 Class weights, F2 Class weights, M1 Class weights, M2 Class weights etc</p>
-            </div>
-          </AnimateOnScroll>
-
-          <AnimateOnScroll delay={2800}>
-            <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
-              <ClickableImageThumbnail src="/images/Pressure.png" width={400} height={300} alt="Pressure Scope" />
-              <h3 className="text-xl font-semibold mt-4 text-red-600">Pressure/Vacuum Scope</h3>
-              <p className="text-sm mt-2">Pressure Sensors, Pressure Gages, Pressure Transducers, Pressure Switches, Vacuum Gauges, Magnehelic Gauges, Compound gauges, Recorders and more</p>
-            </div>
-          </AnimateOnScroll>
-
-          <AnimateOnScroll delay={2900}>
-            <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
-              <ClickableImageThumbnail src="/images/Dimension.png" width={400} height={300} alt="Dimension Scope" />
-              <h3 className="text-xl font-semibold mt-4 text-red-600">Dimension Lab Scope</h3>
-              <p className="text-sm mt-2">Vernier Calipers, Rulers, Micrometers, Thickness Gauges, Dial Gauges, Depth Gauges, Level and more</p>
-            </div>
-          </AnimateOnScroll>
-
-          <AnimateOnScroll delay={3000}>
-            <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
-              <ClickableImageThumbnail src="/images/System.png" width={400} height={300} alt="System Calibrations" />
-              <h3 className="text-xl font-semibold mt-4 text-red-600">System Calibrations</h3>
-              <p className="text-sm mt-2">Autoclave, Lyophilizer, Centrifuge</p>
-            </div>
-          </AnimateOnScroll>
-
-          <AnimateOnScroll delay={3100}>
-            <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
-              <ClickableImageThumbnail src="/images/Force.png" width={400} height={300} alt="Force Scope" />
-              <h3 className="text-xl font-semibold mt-4 text-red-600">Force Lab Scope</h3>
-              <p className="text-sm mt-2">CBR Testing machine, Marshall Stability testing machine, Compression testing machine, Tensile testing machine, Universal tensile testing machine, Load cells, Proving Rings etc</p>
-            </div>
-          </AnimateOnScroll>
-
-          <AnimateOnScroll delay={3200}>
-            <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
-              <ClickableImageThumbnail src="/images/Volume.png" width={400} height={300} alt="Volume Scope" />
-              <h3 className="text-xl font-semibold mt-4 text-red-600">Volume Scope</h3>
-              <p className="text-sm mt-2">Beakers, Funnels, Pipettes, Burettes, etc</p>
-            </div>
-          </AnimateOnScroll>
-
-          <AnimateOnScroll delay={3300}>
-            <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
-              <ClickableImageThumbnail src="/images/Electro-Technical.png" width={400} height={300} alt="Electro-Technical" />
-              <h3 className="text-xl font-semibold mt-4 text-red-600">Electro-Technical</h3>
-              <p className="text-sm mt-2">Shakers, Mixers, RPM, Timer, pH meter, Conductivity meter, ORP Meter, TDS Meter</p>
-            </div>
-          </AnimateOnScroll>
+          {[
+            { src: "/images/thermal.png", alt: "Thermal Scope", title: "Thermal Scope", desc: "Sensors, Thermometers, Switches, Recorders, Transmitters and Analytical Instruments such as Freezers, Refrigerators, Stability Chambers (Humidity chambers), Incubators, Ovens, Furnace, Waterbath Hygrometers etc" },
+            { src: "/images/Mass.png", alt: "Mass Scope", title: "Mass Scope", desc: "Laboratory balances, F1 Class weights, F2 Class weights, M1 Class weights, M2 Class weights etc" },
+            { src: "/images/Pressure.png", alt: "Pressure Scope", title: "Pressure/Vacuum Scope", desc: "Pressure Sensors, Pressure Gages, Pressure Transducers, Pressure Switches, Vacuum Gauges, Magnehelic Gauges, Compound gauges, Recorders and more" },
+            { src: "/images/Dimension.png", alt: "Dimension Scope", title: "Dimension Lab Scope", desc: "Vernier Calipers, Rulers, Micrometers, Thickness Gauges, Dial Gauges, Depth Gauges, Level and more" },
+            { src: "/images/System.png", alt: "System Calibrations", title: "System Calibrations", desc: "Autoclave, Lyophilizer, Centrifuge" },
+            { src: "/images/Force.png", alt: "Force Scope", title: "Force Lab Scope", desc: "CBR Testing machine, Marshall Stability testing machine, Compression testing machine, Tensile testing machine, Universal tensile testing machine, Load cells, Proving Rings etc" },
+            { src: "/images/Volume.png", alt: "Volume Scope", title: "Volume Scope", desc: "Beakers, Funnels, Pipettes, Burettes, etc" },
+            { src: "/images/Electro-Technical.png", alt: "Electro-Technical", title: "Electro-Technical", desc: "Shakers, Mixers, RPM, Timer, pH meter, Conductivity meter, ORP Meter, TDS Meter" },
+          ].map((item, index) => (
+            <AnimateOnScroll key={item.title} delay={2600 + index * 100}>
+              <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+                <ClickableImageThumbnail
+                  src={item.src}
+                  alt={item.alt}
+                  width={400}
+                  height={300}
+                />
+                <h3 className="text-xl font-semibold mt-4 text-red-600">{item.title}</h3>
+                <p className="text-sm mt-2">{item.desc}</p>
+              </div>
+            </AnimateOnScroll>
+          ))}
         </div>
       </section>
 
+      {/* NABL Certificate */}
       <section className="py-20 text-center">
         <AnimateOnScroll delay={3500}>
           <h2 className="text-3xl font-bold text-red-700 mb-8 transition duration-300 hover:text-red-900">
@@ -301,7 +283,7 @@ export default function CalibrationValidationPage() {
           <AnimateOnScroll delay={3600}>
             <ClickableImageThumbnail
               src="/images/NABL Certificate of Accreditation.png"
-              alt="NABL Certificate"
+              alt="NABL Certificate of Accreditation"
               width={800}
               height={1000}
               isExternalLink={true}
@@ -311,9 +293,12 @@ export default function CalibrationValidationPage() {
         </div>
       </section>
 
+      {/* Catalog */}
       <section className="py-20 bg-white text-center">
         <AnimateOnScroll delay={3800}>
-          <h2 className="text-3xl font-bold text-red-700 mb-6 transition duration-300 hover:text-red-900">Catalog</h2>
+          <h2 className="text-3xl font-bold text-red-700 mb-6 transition duration-300 hover:text-red-900">
+            Catalog
+          </h2>
         </AnimateOnScroll>
 
         <div className="max-w-xl mx-auto mb-6 flex justify-center">
