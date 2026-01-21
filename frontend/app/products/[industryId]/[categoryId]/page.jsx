@@ -5,8 +5,7 @@ import { getStrapiMedia } from "@/lib/strapi-media";
 import "./style.css";
 
 export default async function CategoryProducts({ params }) {
-  // મહત્વનું: params ને await કરવું પડે છે
-  const { industryId, categoryId } = await params;
+  const { industryId, categoryId } = await params; // await required in Next.js App Router
 
   const categoryRes = await fetchAPI(
     `/categories?filters[slug][$eq]=${categoryId}&filters[industry][slug][$eq]=${industryId}&populate=*`
@@ -26,8 +25,6 @@ export default async function CategoryProducts({ params }) {
   }).toString();
 
   const products = await fetchAPI(`/products?${query}`);
-
-  const STRAPI_BASE = process.env.NEXT_PUBLIC_STRAPI_URL.replace("/api", "");
 
   return (
     <div className="category-products-page">
@@ -50,7 +47,11 @@ export default async function CategoryProducts({ params }) {
               >
                 <div className="product-image-wrapper">
                   {imageUrl ? (
-                    <img src={imageUrl} alt={prod.name} />
+                    <img 
+                      src={imageUrl} 
+                      alt={prod.name} 
+                      loading="lazy" 
+                    />
                   ) : (
                     <div className="no-image">Coming Soon...</div>
                   )}
@@ -61,15 +62,28 @@ export default async function CategoryProducts({ params }) {
                 <p className="product-desc">{prod.short_description}</p>
 
                 <div className="product-buttons">
-                  {prod.catalog_pdf?.url && (
+                  {prod.catalog_pdf?.url ? (
                     <a
-                      href={`${STRAPI_BASE}${prod.catalog_pdf.url}`}
+                      href={getStrapiMedia(prod.catalog_pdf.url)}
                       target="_blank"
-                      rel="noreferrer"
+                      rel="noopener noreferrer"
+                      download={`${prod.name.replace(/\s+/g, '_')}.pdf`}
                       className="btn btn-download"
                     >
                       Product PDF
                     </a>
+                  ) : (
+                    <div 
+                      className="btn btn-download" 
+                      style={{ 
+                        opacity: 0.6, 
+                        cursor: 'not-allowed', 
+                        background: '#ccc', 
+                        color: '#666' 
+                      }}
+                    >
+                      PDF Coming Soon...
+                    </div>
                   )}
 
                   <Link href="/contact" className="btn btn-primary">

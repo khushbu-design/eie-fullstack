@@ -1,11 +1,13 @@
 export function getStrapiMedia(url) {
-  if (!url) return "/placeholder.jpg";
+  if (!url) {
+    return "/placeholder.jpg"; 
+  }
+
+  const baseUrl = process.env.NEXT_PUBLIC_STRAPI_URL?.replace("/api", "") || "";
 
   if (url.startsWith("http://") || url.startsWith("https://")) {
     return url;
   }
 
-  const MEDIA_BASE = "https://popular-boot-8befa4f005.media.strapiapp.com";
-
-  return `${MEDIA_BASE}${url.startsWith("/") ? "" : "/"}${url}`;
+  return `${baseUrl}${url.startsWith("/") ? "" : "/"}${url}`;
 }

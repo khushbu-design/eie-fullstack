@@ -3,7 +3,7 @@
 import { BlocksRenderer } from "@strapi/blocks-react-renderer";
 import Link from "next/link";
 import { useCompare } from "@/context/CompareContext";
-import { getStrapiMedia } from "@/lib/strapi-media";  // ← આ ખાસ ઉમેરેલું છે
+import { getStrapiMedia } from "@/lib/strapi-media";
 import "./style.css";
 
 export default function ProductDetailsClient({ product, base, industryId, categoryId }) {
@@ -25,13 +25,13 @@ export default function ProductDetailsClient({ product, base, industryId, catego
 
   return (
     <div className="product-wrapper">
-
       <div className="top-section">
         <div className="image-box">
           <img
             src={mainImage}
             className="main-image"
             alt={product.name}
+            loading="lazy"
           />
         </div>
 
@@ -47,15 +47,28 @@ export default function ProductDetailsClient({ product, base, industryId, catego
           <p className="short-desc">{product.short_description || ""}</p>
 
           <div className="btn-group">
-            {product.catalog_pdf?.url && (
+            {product.catalog_pdf?.url ? (
               <a
                 className="btn secondary"
-                href={`${base}${product.catalog_pdf.url}`}
+                href={getStrapiMedia(product.catalog_pdf.url)}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
+                download={`${product.name.replace(/\s+/g, '_')}.pdf`}
               >
                 Product PDF
               </a>
+            ) : (
+              <div
+                className="btn secondary"
+                style={{
+                  opacity: 0.6,
+                  cursor: 'not-allowed',
+                  background: '#ccc',
+                  color: '#666',
+                }}
+              >
+                PDF Coming Soon...
+              </div>
             )}
 
             <Link href="/contact" className="btn primary">
@@ -87,7 +100,7 @@ export default function ProductDetailsClient({ product, base, industryId, catego
                     {variant.name || variant.model_number || "Variant"}
                   </div>
 
-                  {variant.image?.url && (
+                  {variant.image?.url ? (
                     <img
                       src={variantImage}
                       alt={variant.name || "Variant"}
@@ -99,7 +112,10 @@ export default function ProductDetailsClient({ product, base, industryId, catego
                         marginBottom: "12px",
                         borderRadius: "8px",
                       }}
+                      loading="lazy"
                     />
+                  ) : (
+                    <div className="no-img">Coming Soon...</div>
                   )}
 
                   <div className="variant-buttons-final">
@@ -188,6 +204,7 @@ export default function ProductDetailsClient({ product, base, industryId, catego
                     <img
                       src={getStrapiMedia(acc.image.url)}
                       alt={acc.name}
+                      loading="lazy"
                     />
                   ) : (
                     <div className="no-img">Coming Soon...</div>
@@ -217,6 +234,7 @@ export default function ProductDetailsClient({ product, base, industryId, catego
                     <img
                       src={getStrapiMedia(sp.image.url)}
                       alt={sp.name}
+                      loading="lazy"
                     />
                   ) : (
                     <div className="no-img">Coming Soon...</div>
