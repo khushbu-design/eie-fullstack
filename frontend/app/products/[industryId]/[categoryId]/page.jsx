@@ -5,7 +5,7 @@ import { getStrapiMedia } from "@/lib/strapi-media";
 import "./style.css";
 
 export default async function CategoryProducts({ params }) {
-  const { industryId, categoryId } = await params; // await required in Next.js App Router
+  const { industryId, categoryId } = await params;
 
   const categoryRes = await fetchAPI(
     `/categories?filters[slug][$eq]=${categoryId}&filters[industry][slug][$eq]=${industryId}&populate=*`
@@ -37,7 +37,11 @@ export default async function CategoryProducts({ params }) {
       ) : (
         <div className="products-grid">
           {products.data.map((prod, index) => {
-            const imageUrl = getStrapiMedia(prod.image?.url);
+            const rawImageUrl = prod.image?.url;
+            const imageUrl = rawImageUrl ? getStrapiMedia(rawImageUrl) : null;
+
+            // Strict check: જો imageUrl valid અને non-empty હોય તો જ img show કરો
+            const hasValidImage = imageUrl && imageUrl.trim() !== "" && !imageUrl.includes("undefined");
 
             return (
               <div
@@ -46,16 +50,14 @@ export default async function CategoryProducts({ params }) {
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="product-image-wrapper">
-                  {imageUrl ? (
+                  {hasValidImage ? (
                     <img 
                       src={imageUrl} 
                       alt={prod.name} 
                       loading="lazy" 
                     />
                   ) : (
-                    <div className="no-image">
-                      Coming Soon...
-                    </div>
+                    <div className="no-image">Coming Soon...</div>
                   )}
                 </div>
 
