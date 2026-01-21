@@ -53,13 +53,15 @@ export default async function CategoryProducts({ params }) {
                       loading="lazy" 
                     />
                   ) : (
-                    <div className="no-image">Coming Soon...</div>
+                    <div className="no-image">
+                      Coming Soon...
+                    </div>
                   )}
                 </div>
 
                 <h2 className="product-name">{prod.name}</h2>
 
-                <p className="product-desc">{prod.short_description}</p>
+                <p className="product-desc">{prod.short_description || "No description available."}</p>
 
                 <div className="product-buttons">
                   {prod.catalog_pdf?.url ? (
@@ -74,7 +76,7 @@ export default async function CategoryProducts({ params }) {
                     </a>
                   ) : (
                     <div 
-                      className="btn btn-download" 
+                      className="btn btn-download disabled" 
                       style={{ 
                         opacity: 0.6, 
                         cursor: 'not-allowed', 
