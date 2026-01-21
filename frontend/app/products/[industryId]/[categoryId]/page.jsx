@@ -50,7 +50,7 @@ export default async function CategoryProducts({ params }) {
               >
                 <div className="product-image-wrapper">
                   {imageUrl ? (
-                    <img src={imageUrl} alt={Coming Soon} />
+                    <img src={imageUrl} alt={prod.name} />
                   ) : (
                     <div className="no-image">Coming Soon...</div>
                   )}
