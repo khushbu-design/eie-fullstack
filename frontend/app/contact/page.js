@@ -11,33 +11,41 @@ export default function ContactPage() {
       title: "Founders & Co-Founders",
       cols: 3,
       members: [
-        { name: "Mr. Sanjay Vimalbhai Parikh", email: "sanjay@eieinstruments.com", phone1: "+91 7935208301", phone2: "+91 9825071625" },
-        { name: "Mr. Deepak Vimalbhai Parikh", email: "deepak@eieinstruments.com", phone1: "+91 7966211205", phone2: "+91 9824041391" },
-        { name: "Mr. Uday Vimalbhai Parikh", email: "uday@eieinstruments.com", phone1: "+91 7966211213", phone2: "+91 8530301083" },
+        { name: "Mr. Sanjay Vimalbhai Parikh", email: "sanjay@eieinstruments.com", phone1: "7935208301", phone2: "+91 9825071625" },
+        { name: "Mr. Deepak Vimalbhai Parikh", email: "deepak@eieinstruments.com", phone1: "7966211205", phone2: "+91 9824041391" },
+        { name: "Mr. Uday Vimalbhai Parikh", email: "uday@eieinstruments.com", phone1: "7966211213", phone2: "+91 8530301083" },
       ],
     },
     {
       title: "CEO",
       cols: 3,
       members: [
-        { name: "Mr. Chintan Deepakbhai Parikh", email: "chintan@eieinstruments.com", phone1: "+91 7935208335", phone2: "+91 9904020401" },
-        { name: "Mr. Kunal Sanjaybhai Parikh", email: "kunal@eieinstruments.com", phone1: "+91 7935208304", phone2: "+91 7874716251" },
-        { name: "Mr. Tejas Udaybhai Parikh", email: "tejas@eieinstruments.com", phone1: "+91 7935208302", phone2: "+91 9726411991" },
+        { name: "Mr. Chintan Deepakbhai Parikh", email: "chintan@eieinstruments.com", phone1: "7935208335", phone2: "+91 9904020401" },
+        { name: "Mr. Kunal Sanjaybhai Parikh", email: "kunal@eieinstruments.com", phone1: "7935208304", phone2: "+91 7874716251" },
+        { name: "Mr. Tejas Udaybhai Parikh", email: "tejas@eieinstruments.com", phone1: "7935208302", phone2: "+91 9726411991" },
+      ],
+    },
+    {
+      title: "Corporate Office",
+      cols: 1,
+      members: [
+        { name: "Mrs Aarti Krunal Patel", email: "aarti@eieinstruments.com", phone1: "7966211204", phone2: "+91 9227230010 (WhatsApp Only)" },
       ],
     },
     {
       title: "Customer Support For Service",
       cols: 2,
       members: [
-        { name: "Mr. Jigneshkumar Hashmukhbhai Patel", email: "service@eieinstruments.com", phone1: "+91 7935208330", phone2: "+91 9909903582" },
-        { name: "Mr. Nikhil Hadiyel", email: "tmelectrical@eieinstruments.com", phone1: "+91 7935208377", phone2: "+91 9664861317" },
+        { name: "Mr. Jigneshkumar Hashmukhbhai Patel", email: "service@eieinstruments.com", phone1: "7935208330", phone2: "+91 9909903582" },
+        { name: "Mr. Nikhil Hadiyel", email: "tmelectrical@eieinstruments.com", phone1: "7935208377", phone2: "+91 9664861317" },
       ],
     },
     {
       title: "NABL Calibration Laboratory",
-      cols: 1,
+      cols: 2,
       members: [
-        { name: "Mr. Bhadreshkumar Ramanbhai Patel", email: "dp@eieinstruments.com", phone1: "+91 7935208324", phone2: "+91 9898919671" },
+        { name: "Mr. Bhadreshkumar Ramanbhai Patel", email: "dp@eieinstruments.com", phone1: "7935208324", phone2: "+91 9898919671" },
+        { name: "Mr. Parimal D. Solanki", email: "parimal@eieinstruments.com", phone1: "07935208316", phone2: "+91 9227230010 (WhatsApp Only)" },
       ],
     },
   ];
