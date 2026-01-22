@@ -32,28 +32,21 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} bg-white text-gray-800`}>
         
-        {/* CompareProviderને સૌથી ઉપર wrap કરો — બધા components context access કરી શકશે */}
         <CompareProvider>
           
-          {/* Navbar પહેલા */}
           <Navbar />
 
-          {/* Main content */}
           <main>
             <VisitorTracker />
             {children}
           </main>
 
-          {/* Inquiry Button */}
           <InquiryButton />
 
-          {/* Footer */}
           <Footer />
 
-          {/* Compare Bar (bottom floating bar) */}
           <CompareBar />
 
-          {/* WhatsApp Floating Button */}
           <a
             href="https://wa.me/916357075375"
             target="_blank"
