@@ -4,48 +4,48 @@ import { motion } from "framer-motion";
 
 export default function ContactPage() {
   const [loading, setLoading] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(""); // New: For better UX
+  const [submitStatus, setSubmitStatus] = useState("");
 
   const teamSections = [
     {
       title: "Founders & Co-Founders",
       cols: 3,
       members: [
-        { name: "Mr. Sanjay Vimalbhai Parikh", email: "sanjay@eieinstruments.com", phone1: "7935208301", phone2: "+91 9825071625" },
-        { name: "Mr. Deepak Vimalbhai Parikh", email: "deepak@eieinstruments.com", phone1: "7966211205", phone2: "+91 9824041391" },
-        { name: "Mr. Uday Vimalbhai Parikh", email: "uday@eieinstruments.com", phone1: "7966211213", phone2: "+91 8530301083" },
+        { name: "Mr. Sanjay Vimalbhai Parikh", email: "sanjay@eieinstruments.com", phone1: "7935208301", phone2: "+919825071625" },
+        { name: "Mr. Deepak Vimalbhai Parikh", email: "deepak@eieinstruments.com", phone1: "7966211205", phone2: "+919824041391" },
+        { name: "Mr. Uday Vimalbhai Parikh", email: "uday@eieinstruments.com", phone1: "7935208213", phone2: "+918530301083" },
       ],
     },
     {
       title: "CEO",
       cols: 3,
       members: [
-        { name: "Mr. Chintan Deepakbhai Parikh", email: "chintan@eieinstruments.com", phone1: "7935208335", phone2: "+91 9904020401" },
-        { name: "Mr. Kunal Sanjaybhai Parikh", email: "kunal@eieinstruments.com", phone1: "7935208304", phone2: "+91 7874716251" },
-        { name: "Mr. Tejas Udaybhai Parikh", email: "tejas@eieinstruments.com", phone1: "7935208302", phone2: "+91 9726411991" },
+        { name: "Mr. Chintan Deepakbhai Parikh", email: "chintan@eieinstruments.com", phone1: "7935208335", phone2: "+919904020401" },
+        { name: "Mr. Kunal Sanjaybhai Parikh", email: "kunal@eieinstruments.com", phone1: "7935208304", phone2: "+917874716251" },
+        { name: "Mr. Tejas Udaybhai Parikh", email: "tejas@eieinstruments.com", phone1: "7935208302", phone2: "+919726411991" },
       ],
     },
     {
       title: "Corporate Office",
       cols: 1,
       members: [
-        { name: "Mrs Aarti Krunal Patel", email: "aarti@eieinstruments.com", phone1: "7966211204", phone2: "+91 9227230010 (WhatsApp Only)" },
+        { name: "Mrs Aarti Krunal Patel", email: "aarti@eieinstruments.com", phone1: "7966211204", phone2: "+919227230010" },
       ],
     },
     {
       title: "Customer Support For Service",
       cols: 2,
       members: [
-        { name: "Mr. Jigneshkumar Hashmukhbhai Patel", email: "service@eieinstruments.com", phone1: "7935208330", phone2: "+91 9909903582" },
-        { name: "Mr. Nikhil Hadiyel", email: "tmelectrical@eieinstruments.com", phone1: "7935208377", phone2: "+91 9664861317" },
+        { name: "Mr. Jigneshkumar Hashmukhbhai Patel", email: "service@eieinstruments.com", phone1: "7935208330", phone2: "+919909903582" },
+        { name: "Mr. Nikhil Hadiyel", email: "tmelectrical@eieinstruments.com", phone1: "7935208377", phone2: "+919664861317" },
       ],
     },
     {
       title: "NABL Calibration Laboratory",
       cols: 2,
       members: [
-        { name: "Mr. Bhadreshkumar Ramanbhai Patel", email: "dp@eieinstruments.com", phone1: "7935208324", phone2: "+91 9898919671" },
-        { name: "Mr. Parimal D. Solanki", email: "parimal@eieinstruments.com", phone1: "07935208316", phone2: "+91 9227230010 (WhatsApp Only)" },
+        { name: "Mr. Bhadreshkumar Ramanbhai Patel", email: "dp@eieinstruments.com", phone1: "7935208324", phone2: "+919898919671" },
+        { name: "Mr. Parimal D. Solanki", email: "parimal@eieinstruments.com", phone1: "7935208316", phone2: "+919227230010" },
       ],
     },
   ];
@@ -55,19 +55,19 @@ export default function ContactPage() {
       title: "Calibration Laboratory",
       address: "Survey No. 1098, Nr. Mahakali Temple, Opp. Primary School, Village Kubadthal, Tal: Daskroi, Ahmedabad Gujarat - 382430",
       email: "sales@eieinstruments.com",
-      phone: "079-35208300",
+      phone: "7935208300",
     },
     {
       title: "Manufacturing Plant",
       address: "Survey No. 1098, Nr. Mahakali Temple, Opp. Primary School, Village Kubadthal, Tal: Daskroi, Ahmedabad Gujarat - 382430",
       email: "info@eieinstruments.com",
-      phone: "079-35208300",
+      phone: "7935208300",
     },
     {
       title: "Registered Office",
       address: "A-1301 BVR Ek, Opp. Hotel Inder Residency, Nr. Gujarat College Ellisbridge, Ahmedabad Gujarat - 380006",
       email: "info@eieinstruments.com",
-      phone: "079-66211234",
+      phone: "7966211234",
     },
   ];
 
@@ -82,21 +82,25 @@ export default function ContactPage() {
         className="w-full max-w-6xl bg-white/80 backdrop-blur-md shadow-lg rounded-3xl p-8 border border-gray-200"
       >
         <h2 className="text-3xl font-bold text-red-600 mb-6 text-center">Contact Us</h2>
-        <p className="text-gray-700 mb-4 leading-relaxed text-center">
+        <p className="text-black mb-4 leading-relaxed text-center">
           We’re here to help! Reach out to us for any product inquiries, technical questions, or service support.
         </p>
-        <div className="space-y-4 text-gray-800 text-center">
+        <div className="space-y-4 text-black text-center">
           <div>
             <strong>Factory Address:</strong>
             <p>Survey No. 1098, Nr. Mahakali Temple, Opp. Primary School, Village Kubadthal, Tal : Daskroi, Ahmedabad Gujarat - 382430</p>
           </div>
           <div>
             <strong>Phone:</strong>
-            <p>079-66211234</p>
+            <a href="tel:+917935208300" className="text-black hover:underline">
+              079-35208300
+            </a>
           </div>
           <div>
             <strong>Email:</strong>
-            <p>info@eieinstruments.com</p>
+            <a href="mailto:info@eieinstruments.com" className="text-black hover:underline">
+              info@eieinstruments.com
+            </a>
           </div>
         </div>
         <motion.div
@@ -128,13 +132,70 @@ export default function ContactPage() {
               key={idx}
               className="border p-6 rounded-2xl bg-gray-50 shadow-sm hover:shadow-lg hover:scale-105 transition transform"
             >
-              <p className="font-semibold mb-2">{office.title}</p>
-              <p className="text-gray-700 mb-2">{office.address}</p>
-              <p>📧 {office.email}</p>
-              <p>📞 {office.phone}</p>
+              <p className="font-semibold mb-2 text-black">{office.title}</p>
+              <p className="text-black mb-2">{office.address}</p>
+              <p className="text-black">
+                📧{" "}
+                <a href={`mailto:${office.email}`} className="text-black hover:underline">
+                  {office.email}
+                </a>
+              </p>
+              <p className="text-black">
+                📞{" "}
+                <a href={`tel:${office.phone.replace(/\D/g, '')}`} className="text-black hover:underline">
+                  {office.phone}
+                </a>
+              </p>
             </motion.div>
           ))}
         </motion.div>
+      </div>
+
+      {/* TEAM CONTACTS */}
+      <div className="w-full max-w-6xl p-6">
+        <h2 className="text-4xl font-bold text-center text-red-600 mb-12">Team Contacts</h2>
+        {teamSections.map((section, idx) => (
+          <motion.div
+            key={idx}
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: idx * 0.2 }}
+            className="mb-12"
+          >
+            <h3 className="text-2xl font-semibold text-center text-black mb-6">{section.title}</h3>
+            <div className={`grid grid-cols-1 md:grid-cols-${section.cols} gap-6`}>
+              {section.members.map((p, i) => (
+                <motion.div
+                  key={i}
+                  className="border p-5 rounded-2xl bg-gray-50 shadow-sm hover:shadow-lg hover:scale-105 transition transform"
+                >
+                  <p className="font-semibold text-black">{p.name}</p>
+                  <p className="text-black">
+                    📧{" "}
+                    <a href={`mailto:${p.email}`} className="text-black hover:underline">
+                      {p.email}
+                    </a>
+                  </p>
+                  <p className="text-black">
+                    📞{" "}
+                    <a href={`tel:${p.phone1.replace(/\D/g, '')}`} className="text-black hover:underline">
+                      {p.phone1}
+                    </a>
+                  </p>
+                  {p.phone2 && (
+                    <p className="text-black">
+                      📞{" "}
+                      <a href={`tel:${p.phone2.replace(/\D/g, '')}`} className="text-black hover:underline">
+                        {p.phone2}
+                      </a>
+                    </p>
+                  )}
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        ))}
       </div>
 
       {/* PRODUCT INQUIRY FORM */}
@@ -151,7 +212,7 @@ export default function ContactPage() {
           onSubmit={async (e) => {
             e.preventDefault();
             setLoading(true);
-            setSubmitStatus(""); // Reset status
+            setSubmitStatus("");
 
             const formData = new FormData(e.target);
             formData.append("to", "info@eieinstruments.com");
@@ -168,16 +229,15 @@ export default function ContactPage() {
                 setSubmitStatus("Your inquiry has been sent successfully!");
                 e.target.reset();
               } else {
-                setSubmitStatus("Failed to send inquiry. Please try again later. (Error: " + (result.error || "Unknown") + ")");
+                setSubmitStatus("Failed to send inquiry. Please try again later.");
               }
             } catch (error) {
-              console.error("Submit error:", error);
-              setSubmitStatus("Network error. Please check your connection and try again.");
+              setSubmitStatus("Network error. Please check your connection.");
             }
 
             setLoading(false);
           }}
-          className="space-y-5"
+          className="space-y-5 text-black"
         >
           <div>
             <label className="block font-medium mb-1">Person Name</label>
@@ -232,7 +292,6 @@ export default function ContactPage() {
             {loading ? "Sending..." : "Send Message"}
           </button>
 
-          {/* New: Status Message */}
           {submitStatus && (
             <div className={`p-3 rounded-xl text-center font-medium ${submitStatus.includes("success") ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
               {submitStatus}
@@ -240,36 +299,6 @@ export default function ContactPage() {
           )}
         </form>
       </motion.div>
-
-      {/* TEAM CONTACTS */}
-      <div className="w-full max-w-6xl p-6">
-        <h2 className="text-4xl font-bold text-center text-red-600 mb-12">Team Contacts</h2>
-        {teamSections.map((section, idx) => (
-          <motion.div
-            key={idx}
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: idx * 0.2 }}
-            className="mb-12"
-          >
-            <h3 className="text-2xl font-semibold text-center text-gray-800 mb-6">{section.title}</h3>
-            <div className={`grid grid-cols-1 md:grid-cols-${section.cols} gap-6`}>
-              {section.members.map((p, i) => (
-                <motion.div
-                  key={i}
-                  className="border p-5 rounded-2xl bg-gray-50 shadow-sm hover:shadow-lg hover:scale-105 transition transform"
-                >
-                  <p className="font-semibold">{p.name}</p>
-                  <p>📧 {p.email}</p>
-                  <p>📞 {p.phone1}</p>
-                  <p>📞 {p.phone2}</p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        ))}
-      </div>
     </div>
   );
 }

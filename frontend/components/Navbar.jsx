@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
 import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
-import Link from 'next/link'; // ← આ import જરૂરી છે
+import Link from 'next/link';
 
 export default function Navbar() {
   const router = useRouter();
@@ -21,8 +21,15 @@ export default function Navbar() {
 
       {/* Top Bar (Contact & Search) */}
       <div className="bg-red-700 text-white flex flex-col sm:flex-row justify-between items-center px-6 py-3 gap-4">
-        <span className="text-sm font-medium">📞 +91-079-66211234</span>
+        {/* Phone - Click to Call */}
+        <a 
+          href="tel:7966211234" 
+          className="text-sm font-medium hover:underline flex items-center gap-1"
+        >
+          📞 079-66211234
+        </a>
 
+        {/* Search Form */}
         <form onSubmit={handleSearch} className="relative w-full sm:w-1/3 max-w-md">
           <input
             ref={searchInputRef}
@@ -43,7 +50,6 @@ export default function Navbar() {
               focus:ring-red-300
             "
           />
-
           <button
             type="submit"
             className="absolute right-1 top-1/2 -translate-y-1/2 bg-red-600 hover:bg-red-800 text-white w-10 h-10 rounded-full flex items-center justify-center transition"
@@ -52,18 +58,30 @@ export default function Navbar() {
           </button>
         </form>
 
-        <span className="text-sm font-medium">✉ info@eieinstruments.com</span>
+        {/* Email - Click to Email */}
+        <a 
+          href="mailto:info@eieinstruments.com" 
+          className="text-sm font-medium hover:underline flex items-center gap-1"
+        >
+          ✉ info@eieinstruments.com
+        </a>
       </div>
 
       {/* Main Navbar */}
       <div className="bg-white shadow-md flex flex-col lg:flex-row items-center justify-between px-6 py-4">
 
+        {/* Logo - Click to Home */}
         <div className="mb-4 lg:mb-0">
           <Link href="/">
-            <img src="/logo.png" alt="EIE Instruments" className="h-12 cursor-pointer" />
+            <img 
+              src="/logo.png" 
+              alt="EIE Instruments" 
+              className="h-12 cursor-pointer" 
+            />
           </Link>
         </div>
 
+        {/* Menu Items */}
         <ul className="flex flex-wrap justify-center gap-6 lg:gap-8 font-medium text-gray-700">
 
           {/* Home with dropdown */}

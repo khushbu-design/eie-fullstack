@@ -23,11 +23,23 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto px-5 grid md:grid-cols-3 text-center md:text-left gap-6">
           <div>
             <p className="text-sm text-gray-300">📞 Call Us</p>
-            <p className="text-lg font-semibold">+91-079-66211234</p>
+            {/* Phone - Click to Call */}
+            <a 
+              href="tel:7966211234" 
+              className="text-lg font-semibold hover:underline flex items-center gap-1"
+            >
+              079-66211234
+            </a>
           </div>
           <div>
             <p className="text-sm text-gray-300">📩 Send Email</p>
-            <p className="text-lg font-semibold">info@eieinstruments.com</p>
+            {/* Email - Click to Email */}
+            <a 
+              href="mailto:info@eieinstruments.com" 
+              className="text-lg font-semibold hover:underline flex items-center gap-1"
+            >
+              info@eieinstruments.com
+            </a>
           </div>
           <div>
             <p className="text-sm text-gray-300">⏰ Working Hours</p>
@@ -121,7 +133,6 @@ export default function Footer() {
                 const result = await res.json();
 
                 if (res.ok) {
-
                   setStatusMessage('Thank you for subscribing! Confirmation email sent.');
                   e.target.reset();
                   setIsLoading(false);
