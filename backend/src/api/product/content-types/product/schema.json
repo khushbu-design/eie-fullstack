@@ -12,14 +12,17 @@
   "pluginOptions": {},
   "attributes": {
     "name": {
-      "type": "string"
+      "type": "string",
+      "maxLength": 10000
     },
     "slug": {
       "type": "uid",
-      "targetField": "name"
+      "targetField": "name",
+      "maxLength": 10000
     },
     "short_description": {
-      "type": "string"
+      "type": "string",
+      "maxLength": 100000
     },
     "long_description": {
       "type": "blocks"
@@ -81,7 +84,8 @@
       "repeatable": true
     },
     "model_number": {
-      "type": "string"
+      "type": "string",
+      "maxLength": 1000
     }
   }
 }
