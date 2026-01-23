@@ -558,11 +558,23 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     long_description: Schema.Attribute.Blocks;
-    model_number: Schema.Attribute.String;
-    name: Schema.Attribute.String;
+    model_number: Schema.Attribute.Text &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 1000;
+      }>;
+    name: Schema.Attribute.Text &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 10000;
+      }>;
     publishedAt: Schema.Attribute.DateTime;
-    short_description: Schema.Attribute.String;
-    slug: Schema.Attribute.UID<'name'>;
+    short_description: Schema.Attribute.Text &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 100000;
+      }>;
+    slug: Schema.Attribute.UID<'name'> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 10000;
+      }>;
     spares: Schema.Attribute.Relation<'oneToMany', 'api::product.product'>;
     specification: Schema.Attribute.Component<
       'specifications.specification',

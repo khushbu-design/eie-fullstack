@@ -12,7 +12,7 @@
   "pluginOptions": {},
   "attributes": {
     "name": {
-      "type": "string",
+      "type": "text",
       "maxLength": 10000
     },
     "slug": {
@@ -21,7 +21,7 @@
       "maxLength": 10000
     },
     "short_description": {
-      "type": "string",
+      "type": "text",
       "maxLength": 100000
     },
     "long_description": {
@@ -84,7 +84,7 @@
       "repeatable": true
     },
     "model_number": {
-      "type": "string",
+      "type": "text",
       "maxLength": 1000
     }
   }
