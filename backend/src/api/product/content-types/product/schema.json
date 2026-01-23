@@ -57,11 +57,10 @@
         "audios"
       ]
     },
-    "category": {
+    "categories": {
       "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::category.category",
-      "inversedBy": "products"
+      "relation": "oneToMany",
+      "target": "api::category.category"
     },
     "variants": {
       "type": "relation",
