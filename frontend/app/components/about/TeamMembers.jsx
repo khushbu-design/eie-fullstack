@@ -3,11 +3,11 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 
 const team = [
-  { name: "Deepak Parikh", designation: "EIE Instruments", img: "/team/deepak.jpg" },
-  { name: "Sanjay Parikh", designation: "EIE Instruments", img: "/team/sanjay.jpg" },
-  { name: "Uday Parikh", designation: "EIE Instruments", img: "/team/uday.jpg" },
-  { name: "Kunal Parikh", designation: "EIE Instruments", img: "/team/kunal.jpg" },
-  { name: "Chintan Parikh", designation: "EIE Instruments", img: "/team/chintan.jpg" },
+  { name: "Deepak Parikh", designation: "Managing Director at EIE Instruments", img: "/team/deepak.jpg" },
+  { name: "Sanjay Parikh", designation: "Managing Director at EIE Instruments", img: "/team/sanjay.jpg" },
+  { name: "Uday Parikh", designation: "Managing Director at EIE Instruments", img: "/team/uday.jpg" },
+  { name: "Kunal Parikh", designation: "Managing Director at EIE Instruments", img: "/team/kunal.jpg" },
+  { name: "Chintan Parikh", designation: "Managing Director at EIE Instruments", img: "/team/chintan.jpg" },
 ];
 
 export default function TeamMembers() {
