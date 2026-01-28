@@ -8,42 +8,87 @@ import { useState } from "react";
 const latestEvents = [
   {
     id: 1,
-    title: "PharmaTech Expo Ahmedabad 2024",
+    title: "Indian Ceramics Asia - 2026",
     description:
-      "PharmaTech Expo is the perfect platform to exhibit your latest equipment & technologies for the pharma industry with 250+ exhibitors.",
-    date: "15-17 May, 2024",
+      "cordially invites you to visit us at India’s only B2B trade fair for the ceramics and brick industry.",
+    date: "28-30 January, 2026",
     location: "Helipad Ground Exhibition Center, Ahmedabad",
-    image: "/events/event1.jpg",
-  },
-  {
-    id: 2,
-    title: "Analytica Anacon Analytical Expo Hyderabad, 2024",
-    description:
-      "India Lab Expo brings manufacturers, professionals, and distributors under one roof for advanced lab technologies.",
-    date: "26-28 September 2024",
-    location: "HITEX Exhibition Center, Hyderabad",
-    image: "/events/event2.jpg",
+    image: "/events/event9.jpg",
   },
 ];
 
 // ------------------- PREVIOUS EVENTS -------------------
 const previousEvents = [
   {
-    id: 101,
-    title: "India Lab Expo 2023 – New Delhi",
+    id: 108,
+    title: "Paperex World's Largest Paper Show - 2025",
     description:
-      "India’s largest laboratory technology exhibition featuring 300+ exhibitors from the scientific community.",
-    date: "10-12 July 2023",
-    location: "Pragati Maidan, New Delhi",
-    image: "/events/event3.jpg",
+      "We were delighted to welcome you at Paperex – World’s Largest Paper Show 2025, the premier international exhibition and conference on paper, pulp, and allied industries.",
+    date: "3-6 December, 2025",
+    location: "Yashobhumi, Dwarka, New Delhi, India",
+    image: "/events/event8.jpg",
+  },
+  {
+    id: 107,
+    title: "Asia Lab Expo - 2025 at Gandhinagar",
+    description:
+      "We were delighted to welcome you at Asia Lab Expo 2025, the premier event showcasing the latest innovations and advancements in laboratory technology.",
+    date: "13-15 November, 2025",
+    location: "Hall 12 & 12A, Helipad Exhibition Centre, Gandhinagar, Gujarat",
+    image: "/events/event7.jpg",
+  },
+  {
+    id: 106,
+    title: "Pharma Lab Chem Expo 2025",
+    description:
+      "We were delighted to welcome you at Pharma Lab Chem Expo 2025, the premier international exhibition and conference for the Pharmaceutical, Laboratory, and Chemical industries.",
+    date: "6-8 November, 2025",
+    location: "Shri K.H. Desai Purush Adhyapan Mandir College, Near G.E.B., Balith, N.H. No-08, Vapi, Gujarat",
+    image: "/events/event6.jpg",
+  },
+  {
+    id: 105,
+    title: "PharmaTech Expo 2025",
+    description:
+      "It was a pleasure meeting you at PharmaTech Expo (5–7 August 2025) at the Helipad Exhibition Centre, Gandhinagar, Gujarat. Thank you for stopping by EIE Instruments Pvt. Ltd., Hall 1, Stall A52. We truly appreciate your time and interest.",
+    date: "5-7 August, 2025",
+    location: "Helipad Exhibition Centre, Gandhinagar, Gujarat",
+    image: "/events/event5.jpg",
+  },
+  {
+    id: 104,
+    title: "Global Conclave on Plastic Recycling and Sustainability International Exhibition - 2025",
+    description:
+      "Thank you for visiting us at the Global Conclave on Plastic Recycling and Sustainability International Exhibition 2025, held from 17th to 20th June 2025, at Hall No. 6, Booth No. C-47. It was a pleasure connecting with you.",
+    date: "17-20 June, 2025",
+    location: "Bharat Mandapam, IECC, (Pragati Maidan), Delhi",
+    image: "/events/event1.jpg",
+  },
+  {
+    id: 103,
+    title: "Asia Lab Expo - 2025",
+    description:
+      "It was a pleasure meeting you at Asia Lab Expo 2025 (11–13 June 2025) at Stall No. A-02. We truly appreciate your time and interest.",
+    date: "11-13 June, 2025",
+    location: "Bangalore, Karnataka, India",
+    image: "/events/event2.jpg",
   },
   {
     id: 102,
-    title: "ChemTech World Expo 2022 – Mumbai",
+    title: "Analytical Lab India - 2025",
     description:
-      "An international event covering chemical processing, laboratory engineering & industrial safety.",
-    date: "24-27 Feb 2022",
-    location: "Bombay Exhibition Centre, Mumbai",
+      "Thank you for visiting us at Analytical Lab India 2025, held from 23rd to 25th April 2025, at Booth No. O041, Pavilion 1. It was a pleasure connecting with you.",
+    date: "23-25 April, 2025",
+    location: "Jio World Convention Center, Mumbai",
+    image: "/events/event3.jpg",
+  },
+  {
+    id: 101,
+    title: "Indian Ceramic Asia - 2025",
+    description:
+      "It was a pleasure meeting you at Indian Ceramics Asia 2025 (5–7 March 2025) at Booth No. D321, Hall No. 2. We appreciate your time and interest.",
+    date: "5-7 March, 2025",
+    location: "Helipad Exhibition Centre, Gandhinagar, Gujarat",
     image: "/events/event4.jpg",
   },
 ];

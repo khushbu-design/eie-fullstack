@@ -24,47 +24,52 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.95rem; /* નાનું font size – normal લાગશે */
+  line-height: 1.5;
 }
 
+/* Input & Textarea – normal size */
 .input {
-  @apply border border-gray-300 p-2 rounded;
+  @apply border border-gray-300 px-3 py-2 text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-red-300;
 }
 
 .textarea {
-  @apply border border-gray-300 p-2 rounded min-h-[80px];
+  @apply border border-gray-300 px-3 py-2 text-sm rounded-md min-h-[100px] focus:outline-none focus:ring-2 focus:ring-red-300;
 }
 
+/* Animations – same, but faster */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
 @keyframes zoomIn {
-  from { transform: scale(0.7); opacity: 0; }
+  from { transform: scale(0.85); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
 
 .animate-fadeIn {
-  animation: fadeIn 0.3s ease-out;
+  animation: fadeIn 0.4s ease-out;
 }
 
 .animate-zoomIn {
-  animation: zoomIn 0.3s ease-out;
+  animation: zoomIn 0.4s ease-out;
 }
 
+/* Compare Bar – compact & normal */
 .compare-bar {
   position: fixed;
-  bottom: 20px;
+  bottom: 16px;
   left: 50%;
   transform: translateX(-50%);
   background: white;
-  padding: 15px 30px;
-  border-radius: 12px;
-  box-shadow: 0 -5px 30px rgba(0,0,0,0.2);
-  border: 3px solid #d60000;
+  padding: 12px 20px;
+  border-radius: 10px;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+  border: 2px solid #d60000;
   z-index: 9999;
   width: 90%;
-  max-width: 800px;
+  max-width: 700px;
 }
 
 .compare-inner {
@@ -72,24 +77,25 @@ body {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 12px;
 }
 
 .compare-btn {
   background: #d60000;
   color: white;
-  padding: 12px 25px;
-  border-radius: 8px;
+  padding: 10px 20px;
+  border-radius: 6px;
   text-decoration: none;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .clear-btn {
   background: white;
   border: 2px solid #d60000;
   color: #d60000;
-  padding: 12px 20px;
-  border-radius: 8px;
+  padding: 10px 18px;
+  border-radius: 6px;
   cursor: pointer;
+  font-size: 14px;
 }

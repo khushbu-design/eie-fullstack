@@ -8,7 +8,7 @@ import ClientsCarousel from "./components/home/ClientsCarousel";
 
 export default function Home() {
   return (
-    <div className="space-y-12 md:space-y-16 lg:space-y-20">
+    <div>
       <BannerSlider />
       
       <WorldClass />

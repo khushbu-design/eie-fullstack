@@ -8,6 +8,7 @@ const team = [
   { name: "Uday Parikh", designation: "Managing Director at EIE Instruments", img: "/team/uday.jpg" },
   { name: "Kunal Parikh", designation: "Managing Director at EIE Instruments", img: "/team/kunal.jpg" },
   { name: "Chintan Parikh", designation: "Managing Director at EIE Instruments", img: "/team/chintan.jpg" },
+  { name: "Tejas Parikh", designation: "Managing Director at EIE Instruments", img: "/team/tejas.png" },
 ];
 
 export default function TeamMembers() {
