@@ -23,7 +23,7 @@ const facilities = [
   "/images/manufacture-16.jpg",
 ];
 
-const duplicated = [...facilities, ...facilities, ...facilities];
+const duplicated = [...facilities, ...facilities];
 
 function ImageModal({ src, onClose, onPrev, onNext }) {
   useEffect(() => {
@@ -43,7 +43,6 @@ function ImageModal({ src, onClose, onPrev, onNext }) {
         className="relative w-[90vw] h-[90vh] md:w-[85vw] md:h-[85vh] lg:w-[80vw] lg:h-[80vh] rounded-2xl overflow-hidden shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close Button */}
         <button
           onClick={onClose}
           className="absolute top-4 right-4 z-20 bg-red-600 hover:bg-red-700 text-white rounded-full w-12 h-12 flex items-center justify-center text-2xl shadow-lg transition"
@@ -51,7 +50,6 @@ function ImageModal({ src, onClose, onPrev, onNext }) {
           ✕
         </button>
 
-        {/* Previous Arrow */}
         <button
           onClick={onPrev}
           className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 bg-white/30 hover:bg-white/50 text-white rounded-full w-14 h-14 flex items-center justify-center text-4xl backdrop-blur-sm transition"
@@ -59,7 +57,6 @@ function ImageModal({ src, onClose, onPrev, onNext }) {
           ←
         </button>
 
-        {/* Next Arrow */}
         <button
           onClick={onNext}
           className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 bg-white/30 hover:bg-white/50 text-white rounded-full w-14 h-14 flex items-center justify-center text-4xl backdrop-blur-sm transition"
@@ -67,13 +64,15 @@ function ImageModal({ src, onClose, onPrev, onNext }) {
           →
         </button>
 
-        {/* Image */}
         <Image
           src={src}
-          alt="Full View"
+          alt="Full facility view"
           fill
+          quality={85}
           className="object-contain p-4 md:p-8"
-          priority
+          priority={false} 
+          placeholder="blur"
+          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAErgJ7J4l7bwAAAABJRU5ErkJggg=="
         />
       </div>
     </div>
@@ -99,59 +98,62 @@ export default function ManufacturingFacilities() {
   };
 
   return (
-    <section className="relative py-16 md:py-24 bg-white px-6 md:px-20 overflow-hidden">
-      {/* Title */}
+    <section className="relative py-16 md:py-20 bg-white px-5 sm:px-10 lg:px-16 overflow-hidden">
+
       <motion.h2
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="text-3xl md:text-5xl font-bold text-center text-red-600 mb-4"
+        transition={{ duration: 0.7 }}
+        viewport={{ once: true }}
+        className="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-red-600 mb-5"
       >
         World-Class Laboratory Testing Equipment
       </motion.h2>
 
-      {/* Description */}
       <motion.p
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        className="text-gray-700 text-base md:text-lg leading-relaxed text-center max-w-4xl mx-auto mb-6 px-4"
+        transition={{ duration: 0.7, delay: 0.15 }}
+        viewport={{ once: true }}
+        className="text-gray-700 text-base sm:text-lg leading-relaxed text-center max-w-4xl mx-auto mb-6 px-4"
       >
         "Established in 1977, EIE Instruments designs, develops and manufactures a comprehensive range of laboratory testing products catering to various engineering and academic sectors, such as Material (Soil, Cement, Asphalt) Testing Laboratories, POY Industries, Textiles Industries, Tiles-Ceramic Industries, Cement & Concrete Industries, Healthcare Industries, Pharmaceutical & Microbiology laboratories, Hospital and Medical Colleges, Universities & research institutes."
       </motion.p>
 
-      {/* More Details Button */}
-      <div className="text-center mb-8">
-        <a
-          href="/about" // તારા page પ્રમાણે link બદલી શકે છે
-          className="inline-block bg-red-600 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:bg-red-700 transition-all hover:scale-105 text-lg"
+      <div className="text-center mb-10">
+        <motion.a
+          href="/about"
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, delay: 0.25 }}
+          viewport={{ once: true }}
+          className="inline-block bg-red-600 text-white px-7 sm:px-9 py-3 sm:py-4 rounded-xl font-semibold shadow-lg hover:bg-red-700 transition-all hover:scale-105 text-base sm:text-lg"
         >
           More Details →
-        </a>
+        </motion.a>
       </div>
 
-      {/* Since 1977 */}
       <motion.div
         initial={{ scale: 0.9, opacity: 0 }}
         whileInView={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.7 }}
-        className="flex justify-center mb-12 md:mb-16"
+        transition={{ duration: 0.6, delay: 0.35 }}
+        viewport={{ once: true }}
+        className="flex justify-center mb-10 md:mb-14"
       >
-        <div className="inline-flex items-center gap-4 bg-red-600 text-white px-10 py-4 rounded-2xl shadow-2xl border-4 border-white">
-          <span className="text-2xl md:text-3xl font-bold">Since</span>
-          <span className="text-5xl md:text-6xl font-extrabold bg-white text-red-600 px-6 py-2 rounded-xl shadow-inner border-2 border-red-600">
+        <div className="inline-flex items-center gap-3 sm:gap-4 bg-red-600 text-white px-8 sm:px-10 py-3 sm:py-4 rounded-2xl shadow-2xl border-4 border-white">
+          <span className="text-xl sm:text-2xl md:text-3xl font-bold">Since</span>
+          <span className="text-4xl sm:text-5xl md:text-6xl font-extrabold bg-white text-red-600 px-5 sm:px-6 py-1.5 sm:py-2 rounded-xl shadow-inner border-2 border-red-600">
             1977
           </span>
         </div>
       </motion.div>
 
-      {/* Carousel */}
       <div className="relative overflow-hidden">
         <motion.div
-          className="flex gap-6 md:gap-10 lg:gap-12"
-          animate={{ x: ["0%", "-33.333%"] }}
+          className="flex gap-4 sm:gap-6 md:gap-8 lg:gap-10"
+          animate={{ x: ["0%", "-50%"] }} 
           transition={{
-            duration: 16, // fast scroll (14-18 ની વચ્ચે adjust કરી શકે છે)
+            duration: 20,         
             ease: "linear",
             repeat: Infinity,
           }}
@@ -159,19 +161,24 @@ export default function ManufacturingFacilities() {
           {duplicated.map((src, idx) => (
             <motion.div
               key={idx}
-              className="w-[280px] md:w-[380px] lg:w-[420px] flex-shrink-0 cursor-pointer"
-              whileHover={{ scale: 1.03 }}
+              className="w-[240px] sm:w-[280px] md:w-[340px] lg:w-[380px] xl:w-[420px] flex-shrink-0 cursor-pointer"
+              whileHover={{ scale: 1.04 }}
+              transition={{ duration: 0.3 }}
               onClick={() => openModal(idx % facilities.length)}
+              viewport={{ once: true }}
             >
-              <div className="rounded-2xl overflow-hidden shadow-xl border border-gray-200 hover:border-red-400 transition-all duration-300">
+              <div className="rounded-2xl overflow-hidden shadow-lg border border-gray-200 hover:border-red-400 transition-all duration-300">
                 <Image
                   src={src}
-                  alt={`Facility ${idx + 1}`}
+                  alt={`Manufacturing facility ${idx + 1}`}
                   width={500}
                   height={320}
+                  quality={78}                
+                  sizes="(max-width: 640px) 240px, (max-width: 768px) 280px, (max-width: 1024px) 340px, 420px"
                   className="w-full h-auto object-cover aspect-[5/3]"
-                  loading={idx < 8 ? "eager" : "lazy"}
-                  sizes="(max-width: 768px) 280px, 420px"
+                  placeholder="blur"
+                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAErgJ7J4l7bwAAAABJRU5ErkJggg=="
+                  loading={idx < 6 ? "eager" : "lazy"} 
                 />
               </div>
             </motion.div>
@@ -179,7 +186,6 @@ export default function ManufacturingFacilities() {
         </motion.div>
       </div>
 
-      {/* Full Screen Modal */}
       {selectedIndex !== null && (
         <ImageModal
           src={facilities[selectedIndex]}

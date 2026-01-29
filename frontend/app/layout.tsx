@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import InquiryButton from "@/components/InquiryButton";
@@ -7,9 +8,19 @@ import { CompareProvider } from '@/context/CompareContext';
 import CompareBar from '@/components/CompareBar';
 import VisitorTracker from '@/components/VisitorTracker';
 
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',         
+  variable: '--font-inter',
+  preload: true,
+  weight: ['400', '500', '600', '700'], 
+});
+
 export const metadata: Metadata = {
   title: "EIE Instruments Pvt Ltd",
   description: "Leading manufacturer of testing instruments for Civil, Pharma, Petroleum, Tiles, Paper & more",
+
+  viewport: 'width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover',
 };
 
 export default function RootLayout({
@@ -18,7 +29,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className={`${inter.variable} scroll-smooth`}>
       <body className="bg-white text-gray-900 antialiased font-sans">
         <CompareProvider>
           <Navbar />
@@ -34,7 +45,6 @@ export default function RootLayout({
 
           <CompareBar />
 
-          {/* Floating WhatsApp Button */}
           <a
             href="https://wa.me/916357075375"
             target="_blank"
