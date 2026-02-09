@@ -1,19 +1,23 @@
 @import "tailwindcss";
 @import "aos/dist/aos.css";
 
-/* Font variable setup – CLS ઘટાડવા માટે */
+/* Root variables */
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --font-inter: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+
+  /* Consistent font variable (matches layout.tsx --font-sans) */
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
 }
 
+/* Theme tokens for Tailwind v4 */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
 }
 
-/* Dark mode (જો જરૂર પડે તો) */
+/* Dark mode */
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -21,95 +25,114 @@
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-inter); 
-  font-size: 0.95rem;
-  line-height: 1.6;
-  margin: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Base layer – global defaults */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-size: 0.95rem;           /* base ~15.2px */
+    line-height: 1.6;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Consistent heading styles – same everywhere unless overridden */
+  h1, .h1 {
+    @apply font-bold tracking-tight text-4xl sm:text-5xl md:text-6xl;
+    line-height: 1.1;
+  }
+
+  h2, .h2 {
+    @apply font-bold tracking-tight text-3xl sm:text-4xl md:text-5xl;
+    line-height: 1.2;
+  }
+
+  h3, .h3 {
+    @apply font-bold tracking-tight text-2xl sm:text-3xl md:text-4xl;
+    line-height: 1.3;
+  }
+
+  h4, .h4 {
+    @apply font-bold tracking-tight text-xl sm:text-2xl md:text-3xl;
+    line-height: 1.4;
+  }
+
+  h5, .h5 {
+    @apply font-bold tracking-tight text-lg sm:text-xl md:text-2xl;
+    line-height: 1.4;
+  }
+
+  h6, .h6 {
+    @apply font-bold tracking-tight text-base sm:text-lg md:text-xl;
+    line-height: 1.5;
+  }
+
+  /* Optional: paragraphs consistent */
+  p {
+    @apply text-base leading-relaxed;
+  }
 }
 
-.input {
-  @apply border border-gray-300 px-3 py-2 text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-red-300;
+/* Custom components */
+@layer components {
+  .input {
+    @apply border border-gray-300 px-3 py-2 text-sm rounded-md
+           focus:outline-none focus:ring-2 focus:ring-red-300 focus:border-red-300
+           transition-all duration-150;
+  }
+
+  .textarea {
+    @apply border border-gray-300 px-3 py-2 text-sm rounded-md min-h-[100px]
+           focus:outline-none focus:ring-2 focus:ring-red-300 focus:border-red-300
+           transition-all duration-150;
+  }
+
+  .compare-bar {
+    @apply fixed bottom-4 left-1/2 -translate-x-1/2 bg-white px-5 py-3 rounded-xl shadow-2xl
+           border-2 border-red-600 z-[9999] w-[90%] max-w-[720px];
+  }
+
+  .compare-inner {
+    @apply flex justify-between items-center flex-wrap gap-3;
+  }
+
+  .compare-btn {
+    @apply bg-red-600 text-white px-5 py-2.5 rounded-lg font-bold text-sm hover:bg-red-700 transition-colors;
+  }
+
+  .clear-btn {
+    @apply bg-white border-2 border-red-600 text-red-600 px-5 py-2.5 rounded-lg font-bold text-sm hover:bg-red-50 transition-colors cursor-pointer;
+  }
 }
 
-.textarea {
-  @apply border border-gray-300 px-3 py-2 text-sm rounded-md min-h-[100px] focus:outline-none focus:ring-2 focus:ring-red-300;
-}
-
+/* Animations */
 @keyframes fadeIn {
   from { opacity: 0; }
-  to { opacity: 1; }
+  to   { opacity: 1; }
 }
 
 @keyframes zoomIn {
   from { transform: scale(0.92); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  to   { transform: scale(1); opacity: 1; }
 }
 
-.animate-fadeIn {
-  animation: fadeIn 0.5s ease-out forwards;
-}
+.animate-fadeIn { animation: fadeIn 0.5s ease-out forwards; }
+.animate-zoomIn { animation: zoomIn 0.5s ease-out forwards; }
 
-.animate-zoomIn {
-  animation: zoomIn 0.5s ease-out forwards;
-}
-
-.compare-bar {
-  position: fixed;
-  bottom: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: white;
-  padding: 12px 20px;
-  border-radius: 10px;
-  box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
-  border: 2px solid #d60000;
-  z-index: 9999;
-  width: 90%;
-  max-width: 700px;
-}
-
-.compare-inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.compare-btn {
-  background: #d60000;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 6px;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 14px;
-}
-
-.clear-btn {
-  background: white;
-  border: 2px solid #d60000;
-  color: #d60000;
-  padding: 10px 18px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
+/* Mobile overrides */
 @media (max-width: 768px) {
   body {
-    font-size: 1rem; 
+    font-size: 1rem;
     line-height: 1.7;
   }
+
+  /* Headings already have responsive classes (sm:, md:), so no need to !important here */
 
   .banner-container {
     height: 55vh !important;
@@ -117,29 +140,11 @@ html {
   }
 
   main {
-    padding-bottom: 120px !important; 
+    padding-bottom: 120px !important;
   }
 
-
-  .fixed.bottom-5 {
-    bottom: 80px !important; 
-  }
-
-  .fixed.bottom-20 {
-    bottom: 140px !important;
-  }
-
-
-  .text-3xl {
-    font-size: 1.75rem !important; 
-  }
-  .text-4xl {
-    font-size: 2rem !important;
-  }
-  .text-5xl {
-    font-size: 2.25rem !important;
-  }
-
+  .fixed.bottom-5  { bottom: 80px  !important; }
+  .fixed.bottom-20 { bottom: 140px !important; }
 
   .product-image-wrapper {
     height: 180px !important;
@@ -148,11 +153,10 @@ html {
   .product-desc {
     font-size: 0.95rem !important;
   }
-}
 
-
-@supports (padding-bottom: env(safe-area-inset-bottom)) {
-  main {
-    padding-bottom: calc(120px + env(safe-area-inset-bottom)) !important;
+  @supports (padding-bottom: env(safe-area-inset-bottom)) {
+    main {
+      padding-bottom: calc(120px + env(safe-area-inset-bottom)) !important;
+    }
   }
 }

@@ -10,17 +10,24 @@ import VisitorTracker from '@/components/VisitorTracker';
 
 const inter = Inter({
   subsets: ['latin'],
-  display: 'swap',         
-  variable: '--font-inter',
+  display: 'swap',
+  variable: '--font-sans',          
   preload: true,
-  weight: ['400', '500', '600', '700'], 
+  weight: ['400', '500', '600', '700'],
 });
 
 export const metadata: Metadata = {
   title: "EIE Instruments Pvt Ltd",
-  description: "Leading manufacturer of testing instruments for Civil, Pharma, Petroleum, Tiles, Paper & more",
-
+  description: "Leading manufacturer of testing instruments for Civil, Pharma, Petroleum, Tiles, Paper & Packaging industries and more.",
   viewport: 'width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover',
+
+  openGraph: {
+    title: "EIE Instruments Pvt Ltd",
+    description: "Leading manufacturer of testing instruments for Civil, Pharma, Petroleum, Tiles, Paper & more",
+    url: "eieinstruments.co.in", 
+    siteName: "EIE Instruments",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -29,7 +36,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} scroll-smooth`}>
+    <html lang="en" className={`${inter.variable}`}>
       <body className="bg-white text-gray-900 antialiased font-sans">
         <CompareProvider>
           <Navbar />

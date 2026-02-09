@@ -7,7 +7,6 @@ export default async function ProductDetails({ params }) {
 
   const query = new URLSearchParams({
     "filters[slug][$eq]": productId,
-    "filters[categories][slug][$eq]": categoryId,     // ← Added (recommended for many-to-many)
     "populate[image][populate]": "*",
     "populate[catalog_pdf][populate]": "*",
     "populate[specification][populate]": "*",

@@ -62,7 +62,7 @@ export default function CertificatesPage() {
     },
 
     {
-      title: "Others",
+      title: "Calibration Certification",
       items: [
         { label: "NABL Certificate", img: "/certificates/accreditation.jpg" },
         { label: "NPL Calibration Certificate", img: "/certificates/calibration.jpg" },

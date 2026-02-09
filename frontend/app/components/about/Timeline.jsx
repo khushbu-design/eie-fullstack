@@ -4,14 +4,14 @@ import { motion } from "framer-motion";
 const timelineData = [
   {
     year: "1977",
-    title: "Veecon Associates Established",
-    description: "A Partnership Trading firm by the name of Veecon Associates was established.",
+    title: "Vindish Associates Established",
+    description: "A Partnership Trading firm by the name of Vindish Associates was established.",
     color: "bg-red-600",
   },
   {
     year: "1979",
     title: "Erection & Instrumentation Engineers",
-    description: "Erection & Instrumentation Engineers was established.",
+    description: "A Partnership Trading firm by the name of Erection & Instrumentation Engineers was established.",
     color: "bg-gray-700",
   },
   {
@@ -23,7 +23,7 @@ const timelineData = [
   {
     year: "2012",
     title: "Stress Management Seminar",
-    description: "Stress Management Seminar held at ELE Kathawada on 14.07.2012 to contribute spiritually & ethically towards employees growth & success.",
+    description: "Stress Management Seminar Held at EIE Kathawada premises on 14.07.2012 to contribute spiritually & ethically towards employees growth & success.",
     color: "bg-gray-700",
   },
   {
@@ -35,7 +35,7 @@ const timelineData = [
   {
     year: "2020",
     title: "New Corporate HQ",
-    description: "Corporate HQ moved to 6000 sq.ft. office at BVR EK Complex.",
+    description: "Corporate headquarter moved to spacious 6000 sq.ft. office premises at BVR EK Complex, Near Gujarat College.",
     color: "bg-gray-700",
   },
   {
@@ -65,9 +65,8 @@ export default function Timeline() {
           Company History Timeline
         </motion.h2>
 
-        {/* Vertical Timeline - Center aligned */}
         <div className="relative flex flex-col items-center">
-          {/* Vertical Line - Center */}
+
           <motion.div
             initial={{ scaleY: 0 }}
             whileInView={{ scaleY: 1 }}
@@ -84,7 +83,7 @@ export default function Timeline() {
               viewport={{ once: true }}
               className="flex flex-col items-center w-full max-w-lg mb-12 md:mb-16 relative z-10"
             >
-              {/* Year Circle - On the line */}
+
               <motion.div
                 initial={{ scale: 0 }}
                 whileInView={{ scale: 1 }}
@@ -94,10 +93,8 @@ export default function Timeline() {
                 {item.year}
               </motion.div>
 
-              {/* Arrow Pointer - From circle to card */}
               <div className="w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-t-[14px] border-t-red-600 mt-2 mb-4" />
 
-              {/* Event Card - Below circle */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}

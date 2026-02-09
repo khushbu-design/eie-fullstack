@@ -19,7 +19,7 @@ const statsData = [
   {
     id: 3,
     label: "Years Experience",
-    value: 40,
+    value: 49,
     icon: <Timer size={40} />,
   },
   {

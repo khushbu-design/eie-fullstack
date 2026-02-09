@@ -29,7 +29,7 @@ export default function ComparePage() {
     <div className="min-h-screen bg-gray-50 py-12 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col sm:flex-row justify-between items-center mb-10 gap-6">
-          <h1 className="text-4xl font-bold text-red-700">Product Comparison</h1>
+          <h1 className="text-4xl font-bold text-red-600">Product Comparison</h1>
           <button
             onClick={clearCompare}
             className="bg-red-600 text-white px-8 py-3 rounded-lg hover:bg-red-700 transition"
@@ -41,8 +41,8 @@ export default function ComparePage() {
         <div className="overflow-x-auto rounded-xl shadow-2xl bg-white">
           <table className="w-full table-auto border-collapse">
             <thead>
-              <tr className="bg-red-700 text-white">
-                <th className="py-6 px-8 text-left font-bold sticky left-0 bg-red-700">Feature</th>
+              <tr className="bg-red-100 text-red-800">
+                <th className="py-6 px-8 text-left font-bold sticky left-0 bg-red-100">Feature</th>
                 {compareList.map((product) => (
                   <th key={product.id} className="py-6 px-8 text-center min-w-[300px]">
                     <div className="flex flex-col items-center gap-4">

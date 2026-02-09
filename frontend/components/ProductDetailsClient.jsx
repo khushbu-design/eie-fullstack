@@ -119,12 +119,18 @@ export default function ProductDetailsClient({ product, base, industryId, catego
                   )}
 
                   <div className="variant-buttons-final">
-                    <Link
-                      href={`/products/${industryId}/${categoryId}/${variant.slug || variant.id}`}
-                      className="btn maroon"
-                    >
-                      More Info
-                    </Link>
+                    {variant.slug ? (
+                      <Link
+                        href={`/products/${industryId}/${categoryId}/${variant.slug}`}
+                        className="btn maroon"
+                      >
+                        More Info
+                      </Link>
+                    ) : (
+                      <button className="btn maroon disabled" disabled>
+                        No Details Available
+                      </button>
+                    )}
 
                     <button
                       onClick={() =>

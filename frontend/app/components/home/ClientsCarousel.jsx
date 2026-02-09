@@ -27,7 +27,7 @@ export default function ClientsCarousel() {
         initial={{ opacity: 0, y: 25 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="text-4xl font-bold text-center text-red-600 mb-12"
+        className="text-4xl md:text-5xl font-bold text-center text-red-600 mb-12"
       >
         Our Valuable Clients
       </motion.h2>
@@ -35,20 +35,19 @@ export default function ClientsCarousel() {
       <div className="relative overflow-hidden">
         <motion.div
           ref={sliderRef}
-          className="flex gap-16 w-max"
+          className="flex gap-10 md:gap-15 w-max"
           initial={{ x: 0 }}
           animate={{ x: ["0%", "-100%"] }}
           transition={{
-            duration: 25,
+            duration: 60,      
             ease: "linear",
             repeat: Infinity,
           }}
         >
-
           {[...logos, ...logos].map((src, idx) => (
             <div
               key={idx}
-              className="w-40 h-24 flex items-center justify-center bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition p-4"
+              className="w-56 h-32 md:w-64 md:h-36 flex items-center justify-center bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-lg transition p-6"
             >
               <div className="relative w-full h-full">
                 <Image
@@ -56,6 +55,8 @@ export default function ClientsCarousel() {
                   alt="client logo"
                   fill
                   className="object-contain"
+                  sizes="(max-width: 768px) 200px, 240px"
+                  priority={idx < 6}
                 />
               </div>
             </div>
@@ -66,7 +67,7 @@ export default function ClientsCarousel() {
       <div className="text-center mt-12">
         <a
           href="/clientele"
-          className="bg-red-600 text-white px-8 py-3 rounded-xl text-lg font-semibold shadow hover:bg-red-700 transition"
+          className="bg-red-600 text-white px-8 py-4 rounded-xl text-lg font-semibold shadow hover:bg-red-700 transition hover:scale-105"
         >
           View Our Clients
         </a>
