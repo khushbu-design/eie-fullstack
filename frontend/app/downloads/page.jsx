@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from 'framer-motion';
-import Link from 'next/link';
 
 export default function DownloadsPage() {
   const catalogues = [
@@ -17,12 +16,12 @@ export default function DownloadsPage() {
     },
     {
       name: "Microbiology Lab Instruments",
-      pdfUrl: "/pdfs/Microbiolgy & General Lab Testing Instruments New.pdf",
+      pdfUrl: "/pdfs/Microbiolgy.pdf",
       image: "/images/3.png",
     },
     {
       name: "Stability & Walk-In Stability Chamber",
-      pdfUrl: "/pdfs/Stability & Walk-In Stability Chamber.pdf",
+      pdfUrl: "/pdfs/Stability.pdf",
       image: "/images/4.png",
     },
     {
@@ -129,7 +128,7 @@ export default function DownloadsPage() {
           initial={{ opacity: 0, y: -40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-5xl md:text-6xl font-extrabold text-center mb-16 bg-gradient-to-r from-red-600 to-blue-600 bg-clip-text text-transparent"
+          className="text-5xl md:text-6xl font-extrabold text-center mb-16 bg-gradient-to-r from-red-800 to-red-950 bg-clip-text text-transparent"
         >
           Downloads
         </motion.h1>
@@ -141,7 +140,7 @@ export default function DownloadsPage() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.08 }}
-              className="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-shadow duration-300 border border-gray-100"
+              className="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-shadow duration-300 border border-gray-100 flex flex-col"
             >
               <div className="h-64 bg-gray-100 relative">
                 <img
@@ -154,17 +153,18 @@ export default function DownloadsPage() {
                 />
               </div>
 
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-800 mb-4 line-clamp-2">
+              <div className="p-6 flex flex-col flex-grow">
+                <h3 className="text-xl font-bold text-gray-800 mb-6 line-clamp-2 text-center">
                   {item.name}
                 </h3>
 
-                <div className="flex gap-4">
+                {/* Buttons - View in middle, Download below */}
+                <div className="mt-auto space-y-4">
                   <a
                     href={item.pdfUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 bg-red-600 hover:bg-red-700 text-white font-medium py-3 px-4 rounded-lg text-center transition"
+                    className="block w-full bg-red-600 hover:bg-red-700 text-white font-medium py-3 px-6 rounded-lg text-center transition"
                   >
                     Download PDF
                   </a>
@@ -173,7 +173,7 @@ export default function DownloadsPage() {
                     href={item.pdfUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg text-center transition"
+                    className="block w-full bg-gray-600 hover:bg-gray-700 text-white font-medium py-3 px-6 rounded-lg text-center transition"
                   >
                     View
                   </a>
