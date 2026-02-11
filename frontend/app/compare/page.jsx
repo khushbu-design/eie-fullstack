@@ -41,15 +41,15 @@ export default function ComparePage() {
         <div className="overflow-x-auto rounded-xl shadow-2xl bg-white">
           <table className="w-full table-auto border-collapse">
             <thead>
-              <tr className="bg-red-100 text-red-800">
-                <th className="py-6 px-8 text-left font-bold sticky left-0 bg-red-100">Feature</th>
+              <tr className="bg-gray-600 text-white">
+                <th className="py-6 px-8 text-left font-bold sticky left-0 bg-gray-650">Feature</th>
                 {compareList.map((product) => (
                   <th key={product.id} className="py-6 px-8 text-center min-w-[300px]">
                     <div className="flex flex-col items-center gap-4">
                       <img
                         src={product.image}
                         alt={product.name}
-                        className="w-28 h-28 object-contain rounded-lg border-2 border-gray-200"
+                        className="w-28 h-28 object-contain rounded-lg border-2 border-gray-300"
                       />
                       <h3 className="font-bold text-lg break-words px-2">{product.name}</h3>
                     </div>
