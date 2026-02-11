@@ -8,97 +8,117 @@ export default function DownloadsPage() {
     {
       name: "Soil Testing Lab Instruments",
       pdfUrl: "/pdfs/Soil Testing Book small.pdf",
-      image: "/pdfs/Soil Testing Book small.pdf",
+      image: "/images/1.png",
     },
     {
-      name: "Bitumen-Emulsion",
-      pdfUrl: "/pdfs/Bitumen-Emulsion-&-Aggregate-Testing-Introductory-Design-21-05-2020-02.pdf",
-      image: "https://www.nouryon.com/globalassets/inriver/resources/brochure-asphalt-bitumen-emulsion-global-en.jpg", // placeholder — change to your cover
+      name: "Bitumen Testing Instruments",
+      pdfUrl: "/pdfs/Bitumen-Emulsion.pdf",
+      image: "/images/2.png",
     },
     {
       name: "Microbiology Lab Instruments",
       pdfUrl: "/pdfs/Microbiolgy & General Lab Testing Instruments New.pdf",
-      image: "https://assets.thermofisher.com/TFS-Assets/MBD/Catalogs/US%20Catalog_EN-cover.jpg", // example from Thermo — replace
+      image: "/images/3.png",
     },
     {
       name: "Stability & Walk-In Stability Chamber",
       pdfUrl: "/pdfs/Stability & Walk-In Stability Chamber.pdf",
-      image: "https://www.labonce.com/images/stability-chamber-product.jpg", // example — update with actual
+      image: "/images/4.png",
     },
     {
       name: "Compression Testing Machine",
-      pdfUrl: "/pdfs/CTM-4.5.18_LATEST_FOR_MAILcf9fb4r.pdf",
-      image: "https://via.placeholder.com/300x400/ef4444/ffffff?text=CTM+Catalogue",
+      pdfUrl: "/pdfs/CTM.pdf",
+      image: "/images/5.png",
     },
     {
       name: "Compression Testing Machine Automatic & Fully Automatic",
       pdfUrl: "/pdfs/CTM-FULLY_AUTOMATIC.-4.5.182527e4.pdf",
-      image: "https://via.placeholder.com/300x400/ef4444/ffffff?text=Auto+CTM",
+      image: "/images/6.png",
     },
     {
       name: "Accelerated Carbonation Chamber",
       pdfUrl: "/pdfs/ACCELERATED CARBONATION CHAMBER.pdf",
-      image: "https://via.placeholder.com/300x400/3b82f6/ffffff?text=Carbonation+Chamber",
+      image: "/images/7.png",
     },
     {
       name: "Fluid Mechanics Lab Instruments",
       pdfUrl: "/pdfs/FLUID MECHANICS LAB - LATEST.pdf",
-      image: "https://via.placeholder.com/300x400/10b981/ffffff?text=Fluid+Mechanics",
+      image: "/images/8.png",
     },
     {
       name: "Chambers & Incubators for Pharmaceutical Industries",
       pdfUrl: "/pdfs/Walk-In Stability Chambers & Walk-In BOD Incubators (2)-compressed copy.pdf",
-      image: "https://via.placeholder.com/300x400/ec4899/ffffff?text=Pharma+Chambers",
+      image: "/images/9.png",
     },
     {
       name: "Geotextile Laboratory testing instruments",
       pdfUrl: "/pdfs/Updated Geotextile Testing Instruments Catalog - Version 2.0_11zon.pdf",
-      image: "https://via.placeholder.com/300x400/f59e0b/ffffff?text=Geotextile",
+      image: "/images/10.png",
     },
     {
       name: "Corporate Company Profile",
       pdfUrl: "/pdfs/Corporate Company Profile (1).pdf",
-      image: "https://via.placeholder.com/300x400/8b5cf6/ffffff?text=Company+Profile",
+      image: "/images/11.png",
     },
     {
       name: "Paper & Packaging Testing Instruments",
-      pdfUrl: "/pdfs/Corporate Company Profile (1).pdf", // note: same as above — maybe update path?
-      image: "https://via.placeholder.com/300x400/f97316/ffffff?text=Paper+Packaging",
+      pdfUrl: "/pdfs/packaging.pdf",
+      image: "/images/12.png",
     },
     {
       name: "Computerized Direct Shear Apparatus",
-      pdfUrl: "/pdfs/Stability & Walk-In Stability Chamber (1).pdf",
-      image: "https://via.placeholder.com/300x400/ef4444/ffffff?text=Direct+Shear",
+      pdfUrl: "/pdfs/computerized.pdf",
+      image: "/images/13.png",
     },
     {
       name: "Refractory / Muffle Furnace",
-      pdfUrl: "/pdfs/Muffle Or Refractory Furnaced2d502.pdf",
-      image: "https://via.placeholder.com/300x400/64748b/ffffff?text=Muffle+Furnace",
+      pdfUrl: "/pdfs/furnace.pdf",
+      image: "/images/14.png",
     },
     {
       name: "Hot Air Oven",
       pdfUrl: "/pdfs/hot-air-oven.pdf",
-      image: "https://via.placeholder.com/300x400/f87171/ffffff?text=Hot+Air+Oven",
+      image: "/images/15.png",
     },
     {
       name: "Bursting Strength Tester",
       pdfUrl: "/pdfs/Bursting Strength Tester.pdf",
-      image: "https://via.placeholder.com/300x400/60a5fa/ffffff?text=Bursting+Tester",
+      image: "/images/16.png",
     },
     {
       name: "Asphalt Content Oven",
       pdfUrl: "/pdfs/ASPHALT_CONTENT_OVEN.pdf",
-      image: "https://via.placeholder.com/300x400/fbbf24/ffffff?text=Asphalt+Oven",
+      image: "/images/17.png",
     },
     {
       name: "Bomb Calorimeter",
-      pdfUrl: "/pdfs/Digital Bomb Calorimeter.pdf",
-      image: "https://via.placeholder.com/300x400/a78bfa/ffffff?text=Bomb+Calorimeter",
+      pdfUrl: "/pdfs/bomb.pdf",
+      image: "/images/18.png",
     },
     {
       name: "Geotextile universal tensile testing machine",
       pdfUrl: "/pdfs/geotextile universal tensile testing machine.pdf",
-      image: "https://via.placeholder.com/300x400/34d399/ffffff?text=Tensile+Machine",
+      image: "/images/19.png",
+    },
+    {
+      name: "Tile Ceramics Testing Instruments",
+      pdfUrl: "/pdfs/tiles-ceramic.pdf",
+      image: "/images/20.png",
+    },
+    {
+      name: "Concrete Testing Instruments",
+      pdfUrl: "/pdfs/concrete.pdf",
+      image: "/images/21.png",
+    },
+    {
+      name: "Universal Testing Machine",
+      pdfUrl: "/pdfs/universal.pdf",
+      image: "/images/22.png",
+    },
+    {
+      name: "Universal Fully Automatic Penetrometer",
+      pdfUrl: "/pdfs/penetrometer.pdf",
+      image: "/images/23.png",
     },
   ];
 
