@@ -16,6 +16,73 @@ export default function Footer() {
     }
   }, [statusMessage]);
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatusMessage('');
+    setIsLoading(true);
+
+    const email = e.target.email.value.trim();
+
+    if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+      setStatusMessage('Please enter a valid email address');
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/newsletter-subscribers`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ data: { email } }),
+      });
+
+      const result = await res.json();
+
+      if (res.ok) {
+        setStatusMessage('Thank you for subscribing! Confirmation email sent.');
+        e.target.reset();
+        
+        // Secondary Email API call
+        fetch("/api/send-email", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            to: email,
+            from: "info@eieinstruments.com",
+            subject: "Thank You for Subscribing to EIE Instruments!",
+            message: `
+              <h2>Thank You for Subscribing!</h2>
+              <p>Dear Subscriber,</p>
+              <p>Welcome to EIE Instruments family! You'll now receive updates about new products, lab expos, and special offers.</p>
+              <p><a href="${window.location.origin}/unsubscribe?email=${encodeURIComponent(email)}" style="color: #d60000; font-weight: bold;">Click here to unsubscribe anytime</a></p>
+              <p>Best regards,<br>EIE Instruments Team</p>
+            `.trim(),
+          }),
+        });
+
+      } else {
+        const errorMessage = (result?.error?.message || '').toLowerCase();
+        const errorName = result?.error?.name || '';
+
+        if (
+          errorName === 'ValidationError' ||
+          errorMessage.includes('unique') ||
+          errorMessage.includes('already') ||
+          errorMessage.includes('taken') ||
+          errorMessage.includes('duplicate')
+        ) {
+          setStatusMessage('Already subscribed with this email');
+        } else {
+          setStatusMessage('Something went wrong. Please try again later.');
+        }
+      }
+    } catch (err) {
+      setStatusMessage('Network error. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <footer className="bg-gray-900 text-white pt-12 pb-6 mt-10">
       
@@ -23,20 +90,18 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto px-5 grid md:grid-cols-3 text-center md:text-left gap-6">
           <div>
             <p className="text-sm text-gray-300">📞 Call Us</p>
-            {/* Phone - Click to Call */}
             <a 
               href="tel:7966211234" 
-              className="text-lg font-semibold hover:underline flex items-center gap-1"
+              className="text-lg font-semibold hover:underline flex items-center justify-center md:justify-start gap-1"
             >
               079-66211234
             </a>
           </div>
           <div>
             <p className="text-sm text-gray-300">📩 Send Email</p>
-            {/* Email - Click to Email */}
             <a 
               href="mailto:info@eieinstruments.com" 
-              className="text-lg font-semibold hover:underline flex items-center gap-1"
+              className="text-lg font-semibold hover:underline flex items-center justify-center md:justify-start gap-1"
             >
               info@eieinstruments.com
             </a>
@@ -92,10 +157,10 @@ export default function Footer() {
         <div>
           <h3 className="text-lg font-semibold mb-4">Follow Us</h3>
           <div className="flex gap-4 text-xl text-gray-300">
-            <a href="https://www.facebook.com/EIEInstruments" className="hover:text-red-400"><FaFacebookF /></a>
-            <a href="https://www.linkedin.com/company/eie-instruments-pvt-ltd" className="hover:text-red-400"><FaLinkedinIn /></a>
-            <a href="https://x.com/eieinstrument" className="hover:text-red-400"><FaTwitter /></a>
-            <a href="https://www.youtube.com/channel/UChMqVEbtLIUmUrot4UGY5rw" className="hover:text-red-400"><FaYoutube /></a>
+            <a href="https://www.facebook.com/EIEInstruments" target="_blank" rel="noopener noreferrer" className="hover:text-red-400"><FaFacebookF /></a>
+            <a href="https://www.linkedin.com/company/eie-instruments-pvt-ltd" target="_blank" rel="noopener noreferrer" className="hover:text-red-400"><FaLinkedinIn /></a>
+            <a href="https://x.com/eieinstrument" target="_blank" rel="noopener noreferrer" className="hover:text-red-400"><FaTwitter /></a>
+            <a href="https://www.youtube.com/channel/UChMqVEbtLIUmUrot4UGY5rw" target="_blank" rel="noopener noreferrer" className="hover:text-red-400"><FaYoutube /></a>
           </div>
         </div>
       </div>
@@ -110,72 +175,7 @@ export default function Footer() {
           </p>
 
           <form
-            onSubmit={async (e) => {
-              e.preventDefault();
-              setStatusMessage('');
-              setIsLoading(true);
-
-              const email = e.target.email.value.trim();
-
-              if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
-                setStatusMessage('Please enter a valid email address');
-                setIsLoading(false);
-                return;
-              }
-
-              try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/newsletter-subscribers`, {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ data: { email } }),
-                });
-
-                const result = await res.json();
-
-                if (res.ok) {
-                  setStatusMessage('Thank you for subscribing! Confirmation email sent.');
-                  e.target.reset();
-                  setIsLoading(false);
-
-                  fetch("/api/send-email", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                      to: email,
-                      from: "info@eieinstruments.com",
-                      subject: "Thank You for Subscribing to EIE Instruments!",
-                      message: `
-                        <h2>Thank You for Subscribing!</h2>
-                        <p>Dear Subscriber,</p>
-                        <p>Welcome to EIE Instruments family! You'll now receive updates about new products, lab expos, and special offers.</p>
-                        <p><a href="${window.location.origin}/unsubscribe?email=${encodeURIComponent(email)}" style="color: #d60000; font-weight: bold;">Click here to unsubscribe anytime</a></p>
-                        <p>Best regards,<br>EIE Instruments Team</p>
-                      `.trim(),
-                    }),
-                  });
-
-                } else {
-                  const errorMessage = (result?.error?.message || '').toLowerCase();
-                  const errorName = result?.error?.name || '';
-
-                  if (
-                    errorName === 'ValidationError' ||
-                    errorMessage.includes('unique') ||
-                    errorMessage.includes('already') ||
-                    errorMessage.includes('taken') ||
-                    errorMessage.includes('duplicate')
-                  ) {
-                    setStatusMessage('Already subscribed with this email');
-                  } else {
-                    setStatusMessage('Something went wrong. Please try again later.');
-                  }
-                  setIsLoading(false);
-                }
-              } catch (err) {
-                setStatusMessage('Network error. Please try again.');
-                setIsLoading(false);
-              }
-            }}
+            onSubmit={handleSubmit}
             className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto"
           >
             <input
@@ -209,7 +209,14 @@ export default function Footer() {
 
       <div className="text-center text-sm mt-10 border-t border-gray-700 pt-5 text-gray-400">
         © 2025 EIE Instruments. Developed & Designed by 
-        <span className="text-red-400"> Khushbu Vaghela</span>
+        <a 
+          href="https://incandescent-pony-b655e7.netlify.app/"
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="hover:underline ml-1"
+        >
+          <span className="text-red-400">Khushbu Vaghela</span>
+        </a>
       </div>
     </footer>
   );

@@ -1,23 +1,21 @@
 @import "tailwindcss";
 @import "aos/dist/aos.css";
 
-/* Root variables */
 :root {
   --background: #ffffff;
   --foreground: #171717;
 
   /* Consistent font variable (matches layout.tsx --font-sans) */
-  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
 }
 
-/* Theme tokens for Tailwind v4 */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
 }
 
-/* Dark mode */
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -25,7 +23,6 @@
   }
 }
 
-/* Base layer – global defaults */
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -35,51 +32,54 @@
     background: var(--background);
     color: var(--foreground);
     font-family: var(--font-sans);
-    font-size: 0.95rem;           /* base ~15.2px */
+    font-size: 0.95rem; /* ~15.2px */
     line-height: 1.6;
     margin: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Consistent heading styles – same everywhere unless overridden */
-  h1, .h1 {
+  h1,
+  .h1 {
     @apply font-bold tracking-tight text-4xl sm:text-5xl md:text-6xl;
     line-height: 1.1;
   }
 
-  h2, .h2 {
+  h2,
+  .h2 {
     @apply font-bold tracking-tight text-3xl sm:text-4xl md:text-5xl;
     line-height: 1.2;
   }
 
-  h3, .h3 {
+  h3,
+  .h3 {
     @apply font-bold tracking-tight text-2xl sm:text-3xl md:text-4xl;
     line-height: 1.3;
   }
 
-  h4, .h4 {
+  h4,
+  .h4 {
     @apply font-bold tracking-tight text-xl sm:text-2xl md:text-3xl;
     line-height: 1.4;
   }
 
-  h5, .h5 {
+  h5,
+  .h5 {
     @apply font-bold tracking-tight text-lg sm:text-xl md:text-2xl;
     line-height: 1.4;
   }
 
-  h6, .h6 {
+  h6,
+  .h6 {
     @apply font-bold tracking-tight text-base sm:text-lg md:text-xl;
     line-height: 1.5;
   }
 
-  /* Optional: paragraphs consistent */
   p {
     @apply text-base leading-relaxed;
   }
 }
 
-/* Custom components */
 @layer components {
   .input {
     @apply border border-gray-300 px-3 py-2 text-sm rounded-md
@@ -94,8 +94,10 @@
   }
 
   .compare-bar {
-    @apply fixed bottom-4 left-1/2 -translate-x-1/2 bg-white px-5 py-3 rounded-xl shadow-2xl
-           border-2 border-red-600 z-[9999] w-[90%] max-w-[720px];
+    @apply fixed bottom-4 left-1/2 -translate-x-1/2 bg-white
+           px-5 py-3 rounded-xl shadow-2xl
+           border-2 border-red-600 z-[9999]
+           w-[90%] max-w-[720px];
   }
 
   .compare-inner {
@@ -103,36 +105,50 @@
   }
 
   .compare-btn {
-    @apply bg-red-600 text-white px-5 py-2.5 rounded-lg font-bold text-sm hover:bg-red-700 transition-colors;
+    @apply bg-red-600 text-white px-5 py-2.5 rounded-lg
+           font-bold text-sm hover:bg-red-700 transition-colors;
   }
 
   .clear-btn {
-    @apply bg-white border-2 border-red-600 text-red-600 px-5 py-2.5 rounded-lg font-bold text-sm hover:bg-red-50 transition-colors cursor-pointer;
+    @apply bg-white border-2 border-red-600 text-red-600
+           px-5 py-2.5 rounded-lg font-bold text-sm
+           hover:bg-red-50 transition-colors cursor-pointer;
   }
 }
 
-/* Animations */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes zoomIn {
-  from { transform: scale(0.92); opacity: 0; }
-  to   { transform: scale(1); opacity: 1; }
+  from {
+    transform: scale(0.92);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
-.animate-fadeIn { animation: fadeIn 0.5s ease-out forwards; }
-.animate-zoomIn { animation: zoomIn 0.5s ease-out forwards; }
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out forwards;
+}
 
-/* Mobile overrides */
+.animate-zoomIn {
+  animation: zoomIn 0.5s ease-out forwards;
+}
+
 @media (max-width: 768px) {
   body {
     font-size: 1rem;
     line-height: 1.7;
   }
-
-  /* Headings already have responsive classes (sm:, md:), so no need to !important here */
 
   .banner-container {
     height: 55vh !important;
@@ -143,8 +159,13 @@
     padding-bottom: 120px !important;
   }
 
-  .fixed.bottom-5  { bottom: 80px  !important; }
-  .fixed.bottom-20 { bottom: 140px !important; }
+  .fixed.bottom-5 {
+    bottom: 80px !important;
+  }
+
+  .fixed.bottom-20 {
+    bottom: 140px !important;
+  }
 
   .product-image-wrapper {
     height: 180px !important;
