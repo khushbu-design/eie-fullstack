@@ -1,14 +1,11 @@
 import Link from "next/link";
 import { fetchAPI } from "@/lib/api";
 import { getStrapiMedia } from "@/lib/strapi-media";
-
 export default async function ProductsPage() {
-  const industries = await fetchAPI("/industries?populate=*");
-
+  const industries = await fetchAPI("/industries?populate=*&sort=name:asc");
   return (
     <div style={{ padding: "40px" }}>
       <h1 style={{ fontSize: "32px", marginBottom: "20px" }}>Industries</h1>
-
       <style>{`
         .card {
           transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
@@ -31,7 +28,6 @@ export default async function ProductsPage() {
           to { opacity: 1; transform: translateY(0); }
         }
       `}</style>
-
       <div
         style={{
           display: "grid",
@@ -82,7 +78,6 @@ export default async function ProductsPage() {
                 <div style={{ color: "#999" }}>No Image</div>
               )}
             </div>
-
             <h2 style={{ fontSize: "20px", marginTop: "15px" }}>{item.name}</h2>
           </Link>
         ))}

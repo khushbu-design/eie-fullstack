@@ -3,7 +3,6 @@
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
 }
-
 .category-card {
   display: block;
   background: white;
@@ -15,13 +14,11 @@
   transition: 0.3s ease;
   text-align: center;
 }
-
 .category-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
   border-color: #d60000;
 }
-
 .category-image-wrapper {
   width: 110px;
   height: 110px;
@@ -31,40 +28,34 @@
   overflow: hidden;
   background: #f8f9fa;
 }
-
 .category-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;           /* ← મુખ્ય ફેરફાર: full fill + crop */
+  object-fit: cover; /* ← મુખ્ય ફેરફાર: full fill + crop */
   object-position: center;
   transition: transform 0.4s ease;
 }
-
 .category-card:hover .category-image {
   transform: scale(1.12);
 }
-
 .no-image {
   color: #999;
   font-size: 14px;
   text-align: center;
   padding: 10px;
 }
-
 .cat-title {
   font-size: 20px;
   font-weight: 600;
   color: #d60000;
   margin-bottom: 10px;
 }
-
 .cat-desc {
   color: #444;
   font-size: 15px;
   margin-top: 8px;
   font-weight: 500;
 }
-
 .cat-desc strong {
   color: #d60000;
   font-size: 16px;

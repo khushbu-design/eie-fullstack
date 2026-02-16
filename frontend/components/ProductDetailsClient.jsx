@@ -1,16 +1,12 @@
 'use client';
-
 import { BlocksRenderer } from "@strapi/blocks-react-renderer";
 import Link from "next/link";
 import { useCompare } from "@/context/CompareContext";
 import { getStrapiMedia } from "@/lib/strapi-media";
 import "./style.css";
-
 export default function ProductDetailsClient({ product, base, industryId, categoryId }) {
   const { addToCompare, compareList } = useCompare();
-
   const isAdded = compareList?.some((p) => p.id === product.id);
-
   const handleCompareToggle = () => {
     addToCompare({
       id: product.id,
@@ -20,9 +16,7 @@ export default function ProductDetailsClient({ product, base, industryId, catego
       specifications: product.specification || [],
     });
   };
-
   const mainImage = getStrapiMedia(product.image?.url) || "/placeholder.jpg";
-
   return (
     <div className="product-wrapper">
       <div className="top-section">
@@ -34,18 +28,14 @@ export default function ProductDetailsClient({ product, base, industryId, catego
             loading="lazy"
           />
         </div>
-
         <div className="details-box">
           <h1 className="product-title">{product.name}</h1>
-
           {product.model_number && (
             <div className="model-number">
               Model Number : <strong>{product.model_number}</strong>
             </div>
           )}
-
           <p className="short-desc">{product.short_description || ""}</p>
-
           <div className="btn-group">
             {product.catalog_pdf?.url ? (
               <a
@@ -70,11 +60,9 @@ export default function ProductDetailsClient({ product, base, industryId, catego
                 PDF Coming Soon...
               </div>
             )}
-
             <Link href="/contact" className="btn primary">
               Instant Quote
             </Link>
-
             <button
               onClick={handleCompareToggle}
               className={`btn outline ${isAdded ? "active" : ""}`}
@@ -84,22 +72,18 @@ export default function ProductDetailsClient({ product, base, industryId, catego
           </div>
         </div>
       </div>
-
       {product.variants && product.variants.length > 0 && (
         <div className="variants-section-final">
           <h2 className="variants-title-final">Variants</h2>
           <div className="variants-grid-final">
             {product.variants.map((variant) => {
               const isVariantAdded = compareList.some((p) => p.id === variant.id);
-
               const variantImage = getStrapiMedia(variant.image?.url) || mainImage;
-
               return (
                 <div key={variant.id} className="variant-card-final">
                   <div className="variant-name-final">
                     {variant.name || variant.model_number || "Variant"}
                   </div>
-
                   {variant.image?.url ? (
                     <img
                       src={variantImage}
@@ -117,7 +101,6 @@ export default function ProductDetailsClient({ product, base, industryId, catego
                   ) : (
                     <div className="no-img">Coming Soon...</div>
                   )}
-
                   <div className="variant-buttons-final">
                     {variant.slug ? (
                       <Link
@@ -131,7 +114,6 @@ export default function ProductDetailsClient({ product, base, industryId, catego
                         No Details Available
                       </button>
                     )}
-
                     <button
                       onClick={() =>
                         addToCompare({
@@ -146,7 +128,6 @@ export default function ProductDetailsClient({ product, base, industryId, catego
                     >
                       {isVariantAdded ? "Remove from Compare" : "Add to Compare"}
                     </button>
-
                     <Link href="/contact" className="btn maroon">
                       Instant Quote
                     </Link>
@@ -157,20 +138,15 @@ export default function ProductDetailsClient({ product, base, industryId, catego
           </div>
         </div>
       )}
-
       <div className="tabs-container">
         <input type="radio" id="tab1" name="tab" defaultChecked />
         <label htmlFor="tab1" className="tab-btn">Details</label>
-
         <input type="radio" id="tab2" name="tab" />
         <label htmlFor="tab2" className="tab-btn">Technical Specifications</label>
-
         <input type="radio" id="tab3" name="tab" />
         <label htmlFor="tab3" className="tab-btn">Accessories</label>
-
         <input type="radio" id="tab4" name="tab" />
         <label htmlFor="tab4" className="tab-btn">Spares</label>
-
         {/* Tab 1: Details */}
         <div className="tab-content">
           <div className="rich-text-content">
@@ -181,7 +157,6 @@ export default function ProductDetailsClient({ product, base, industryId, catego
             )}
           </div>
         </div>
-
         {/* Tab 2: Specifications */}
         <div className="tab-content">
           <div className="spec-box">
@@ -199,7 +174,6 @@ export default function ProductDetailsClient({ product, base, industryId, catego
             )}
           </div>
         </div>
-
         {/* Tab 3: Accessories */}
         <div className="tab-content">
           <div className="accessory-grid">
@@ -229,7 +203,6 @@ export default function ProductDetailsClient({ product, base, industryId, catego
             )}
           </div>
         </div>
-
         {/* Tab 4: Spares */}
         <div className="tab-content">
           <div className="accessory-grid">
