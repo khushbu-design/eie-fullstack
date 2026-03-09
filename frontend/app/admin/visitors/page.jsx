@@ -6,13 +6,17 @@ export default function VisitorsAdminPage() {
   const [password, setPassword] = useState('');
   const [count, setCount] = useState(null);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const correctPassword = 'eie2025';
 
   const fetchCount = async () => {
+    setLoading(true);
+    setError('');
+
     try {
-      const base = process.env.NEXT_PUBLIC_STRAPI_URL 
+      const base = process.env.NEXT_PUBLIC_STRAPI_URL
         ? process.env.NEXT_PUBLIC_STRAPI_URL.replace(/\/api\/?$/, '')
-        : 'https://popular-boot-8befa4f005.strapiapp.com';
+        : 'https://optimistic-friends-ed5888f6c2.strapiapp.com'; // ← your current Strapi
 
       const url = `${base}/api/visitor-count`;
 
@@ -23,12 +27,18 @@ export default function VisitorsAdminPage() {
       if (!res.ok) {
         const text = await res.text();
         console.error('Admin fetch failed:', res.status, text);
-        setError(`Error ${res.status}: ${text || 'Something went wrong!'}`);
+
+        if (res.status === 404) {
+          setError('Visitor count data not found in Strapi. Please create & publish a VisitorCount entry in the admin panel.');
+          setCount(0); // fallback so page doesn't stay broken
+        } else {
+          setError(`Server error ${res.status}: ${text || 'Unknown issue'}`);
+        }
         return;
       }
 
       const data = await res.json();
-      console.log('Admin fetch data:', data);
+      console.log('Admin fetch success:', data);
 
       let fetchedCount = 0;
       if (data.data?.attributes?.count !== undefined) {
@@ -40,16 +50,19 @@ export default function VisitorsAdminPage() {
       setCount(fetchedCount);
     } catch (err) {
       console.error('Admin network error:', err);
-      setError('Network or Strapi connection error!');
+      setError('Unable to connect to Strapi. Check your internet or Strapi status.');
+      setCount(0);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (password === correctPassword) {
+    if (password.trim() === correctPassword) {
       fetchCount();
     } else {
-      setError('Password is wrong!');
+      setError('Incorrect password!');
     }
   };
 
@@ -72,6 +85,7 @@ export default function VisitorsAdminPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-red-600 focus:outline-none text-lg"
                 required
+                disabled={loading}
               />
             </div>
 
@@ -79,9 +93,12 @@ export default function VisitorsAdminPage() {
 
             <button
               type="submit"
-              className="w-full bg-red-600 text-white py-3 rounded-lg font-bold text-lg hover:bg-red-700 transition"
+              disabled={loading}
+              className={`w-full bg-red-600 text-white py-3 rounded-lg font-bold text-lg transition ${
+                loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-red-700'
+              }`}
             >
-              View Count
+              {loading ? 'Loading...' : 'View Count'}
             </button>
           </form>
         ) : (
@@ -98,9 +115,9 @@ export default function VisitorsAdminPage() {
                 setPassword('');
                 setError('');
               }}
-              className="text-blue-600 underline text-lg"
+              className="text-blue-600 underline text-lg hover:text-blue-800"
             >
-              Logout
+              Logout / Check Again
             </button>
           </div>
         )}
