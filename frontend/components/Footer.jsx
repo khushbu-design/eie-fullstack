@@ -11,7 +11,6 @@ export default function Footer() {
       const timer = setTimeout(() => {
         setStatusMessage('');
       }, 5000); 
-
       return () => clearTimeout(timer);
     }
   }, [statusMessage]);
@@ -42,7 +41,6 @@ export default function Footer() {
         setStatusMessage('Thank you for subscribing! Confirmation email sent.');
         e.target.reset();
         
-        // Secondary Email API call
         fetch("/api/send-email", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -88,15 +86,26 @@ export default function Footer() {
       
       <div className="border-b border-gray-700 pb-6 mb-8">
         <div className="max-w-7xl mx-auto px-5 grid md:grid-cols-3 text-center md:text-left gap-6">
+          
+          {/* Updated Phone Numbers Section */}
           <div>
-            <p className="text-sm text-gray-300">📞 Call Us</p>
-            <a 
-              href="tel:7966211234" 
-              className="text-lg font-semibold hover:underline flex items-center justify-center md:justify-start gap-1"
-            >
-              079-66211234
-            </a>
+            <p className="text-sm text-gray-300 mb-1">📞 Call Us</p>
+            <div className="space-y-1">
+              <a 
+                href="tel:07966211234" 
+                className="text-lg font-semibold hover:underline flex items-center justify-center md:justify-start gap-2"
+              >
+                <strong>Domestic:</strong> 079-66211234
+              </a>
+              <a 
+                href="tel:+917966211234" 
+                className="text-lg font-semibold hover:underline flex items-center justify-center md:justify-start gap-2"
+              >
+                <strong>International:</strong> +91 7966211234
+              </a>
+            </div>
           </div>
+
           <div>
             <p className="text-sm text-gray-300">📩 Send Email</p>
             <a 
@@ -106,6 +115,7 @@ export default function Footer() {
               info@eieinstruments.com
             </a>
           </div>
+
           <div>
             <p className="text-sm text-gray-300">⏰ Working Hours</p>
             <p className="text-lg font-semibold">Mon to Sat — 9:00am to 6:00pm</p>

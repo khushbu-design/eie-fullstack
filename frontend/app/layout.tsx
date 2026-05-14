@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import Script from 'next/script';          // ← Yeh already chhe, theek chhe
 import { Inter } from "next/font/google";
 import "./globals.css";
+
 import Navbar from "@/components/Navbar";
 import InquiryButton from "@/components/InquiryButton";
 import Footer from "../components/Footer";
@@ -52,6 +54,7 @@ export default function RootLayout({
 
           <CompareBar />
 
+          {/* WhatsApp Button */}
           <a
             href="https://wa.me/916357075375"
             target="_blank"
@@ -64,6 +67,28 @@ export default function RootLayout({
             </svg>
           </a>
         </CompareProvider>
+
+        {/* ====================== Apollo.io Tracking Script ====================== */}
+        <Script
+          id="apollo-tracker"
+          strategy="afterInteractive"   // ← Best for tracking scripts
+          dangerouslySetInnerHTML={{
+            __html: `
+              function initApollo() {
+                var n = Math.random().toString(36).substring(7),
+                    o = document.createElement("script");
+                o.src = "https://assets.apollo.io/micro/website-tracker/tracker.iife.js?nocache=" + n;
+                o.async = true;
+                o.defer = true;
+                o.onload = function() {
+                  window.trackingFunctions.onLoad({ appId: "67065747dd607403e975f341" });
+                };
+                document.head.appendChild(o);
+              }
+              initApollo();
+            `,
+          }}
+        />
       </body>
     </html>
   );

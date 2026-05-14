@@ -83,9 +83,9 @@ export default async function SearchPage({ searchParams }) {
       {products.length === 0 && !error ? (
         <div className="text-center py-20">
           <div className="text-8xl mb-6">🔍</div>
-          <p className="text-2xl font-medium text-gray-700">Koi product nathi male</p>
-          <p className="text-lg text-gray-500 mt-4">
-            Try "furnace", "sieve", "marsh cone" or similar terms
+          <p className="text-2xl font-medium text-black-700">No Product Found!!</p>
+          <p className="text-lg text-black-500 mt-4">
+            We Will Back Soon With This Product!! Stay Connected!!.
           </p>
         </div>
       ) : (
