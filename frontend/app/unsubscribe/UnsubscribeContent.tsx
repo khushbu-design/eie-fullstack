@@ -9,8 +9,7 @@ export default function UnsubscribeContent() {
 
   const [status, setStatus] = useState<'processing' | 'success' | 'error'>('processing');
   const [message, setMessage] = useState('');
-  
-  // આ useRef રિક્વેસ્ટને બે વાર રન થતા અટકાવશે (Strict Mode માં જરૂરી છે)
+
   const hasProcessed = useRef(false);
 
   useEffect(() => {
@@ -20,14 +19,12 @@ export default function UnsubscribeContent() {
       return;
     }
 
-    // જો પ્રોસેસ થઈ ગઈ હોય તો ફરી ન કરવું
     if (hasProcessed.current) return;
 
     const unsubscribe = async () => {
       try {
         hasProcessed.current = true;
-        
-        // 1. સબસ્ક્રાઇબરને શોધો (Email Filter દ્વારા)
+
         const findRes = await fetch(
           `${process.env.NEXT_PUBLIC_STRAPI_URL}/newsletter-subscribers?filters[email][$eq]=${encodeURIComponent(email)}`
         );
@@ -44,10 +41,8 @@ export default function UnsubscribeContent() {
           return;
         }
 
-        const documentId = findData.data[0].id; // Strapi ID
+        const documentId = findData.data[0].id;
 
-        // 2. સબસ્ક્રાઇબરને ડિલીટ કરો
-        // નોંધ: Strapi Settings > Roles > Public માં 'newsletter-subscriber' ની DELETE પરમિશન હોવી જરૂરી છે.
         const deleteRes = await fetch(
           `${process.env.NEXT_PUBLIC_STRAPI_URL}/newsletter-subscribers/${documentId}`,
           { 
@@ -59,11 +54,9 @@ export default function UnsubscribeContent() {
         );
 
         if (!deleteRes.ok) {
-          // જો અહીં એરર આવે તો સમજવું કે Strapi માં DELETE પરમિશન બંધ છે
           throw new Error('Unsubscription failed on server');
         }
 
-        // 3. એડમિનને જાણ કરવા માટે ઈમેલ મોકલો
         await fetch("/api/send-email", {
           method: "POST",
           headers: { "Content-Type": "application/json" },

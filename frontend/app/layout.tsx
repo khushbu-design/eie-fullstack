@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import Script from 'next/script';          // ← Yeh already chhe, theek chhe
+import Script from 'next/script';
 import { Inter } from "next/font/google";
 import "./globals.css";
 
 import Navbar from "@/components/Navbar";
 import InquiryButton from "@/components/InquiryButton";
 import Footer from "../components/Footer";
+import Chatbot from '@/components/Chatbot';
 import { CompareProvider } from '@/context/CompareContext';
 import CompareBar from '@/components/CompareBar';
 import VisitorTracker from '@/components/VisitorTracker';
@@ -13,7 +14,7 @@ import VisitorTracker from '@/components/VisitorTracker';
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-sans',          
+  variable: '--font-sans',
   preload: true,
   weight: ['400', '500', '600', '700'],
 });
@@ -26,7 +27,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "EIE Instruments Pvt Ltd",
     description: "Leading manufacturer of testing instruments for Civil, Pharma, Petroleum, Tiles, Paper & more",
-    url: "eieinstruments.co.in", 
+    url: "https://eieinstruments.com",
     siteName: "EIE Instruments",
     type: "website",
   },
@@ -48,18 +49,22 @@ export default function RootLayout({
             {children}
           </main>
 
+          {/* Chatbot */}
+          <Chatbot />
+
+          {/* Inquiry Button */}
           <InquiryButton />
 
           <Footer />
 
           <CompareBar />
 
-          {/* WhatsApp Button */}
+          {/* WhatsApp Button - Updated Position & z-index */}
           <a
-            href="https://wa.me/916357075375"
+            href="https://wa.me/919227230010"
             target="_blank"
             rel="noopener noreferrer"
-            className="fixed right-5 bottom-5 z-50 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl flex items-center justify-center transition-all hover:scale-110 hover:shadow-xl"
+            className="fixed right-6 bottom-5 z-[9997] bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl flex items-center justify-center transition-all hover:scale-110 hover:shadow-xl"
             aria-label="Chat on WhatsApp"
           >
             <svg className="w-7 h-7" viewBox="0 0 24 24" fill="currentColor">
@@ -68,10 +73,10 @@ export default function RootLayout({
           </a>
         </CompareProvider>
 
-        {/* ====================== Apollo.io Tracking Script ====================== */}
+        {/* Apollo.io Tracking Script */}
         <Script
           id="apollo-tracker"
-          strategy="afterInteractive"   // ← Best for tracking scripts
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               function initApollo() {

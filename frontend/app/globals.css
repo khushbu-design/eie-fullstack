@@ -181,3 +181,11 @@
     }
   }
 }
+.floating-btn {
+  transition: all 0.3s ease;
+}
+
+.floating-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}

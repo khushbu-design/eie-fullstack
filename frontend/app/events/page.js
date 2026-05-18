@@ -30,6 +30,14 @@ const latestEvents = [
       "💡👉 Looking for reliable service support for your testing equipment? Connect with us today!",
     images: ["/events/event12.jpeg"],
   },
+  {
+    id:2,
+    title: "World of Concrete - 2026",
+    description: "EIE Instruments Pvt. Ltd. cordially invites you to visit us at India’s only Concrete B2B trade show – World of Concrete India 2026. Join us at Hall 4, Booth F78, Bombay Exhibition Centre, Mumbai on 3‑5 June 2026. Explore our world-class laboratory instruments and innovations firsthand!",
+    date: "3-5 June, 2026",
+    location: "Hall 4, Booth F78, Bombay Exhibition Centre, Mumbai",
+    images: ["/events/event13.png"],
+  },
 ];
 
 const previousEvents = [
