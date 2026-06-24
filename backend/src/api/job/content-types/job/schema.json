@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "jobs",
+  "info": {
+    "singularName": "job",
+    "pluralName": "jobs",
+    "displayName": "job"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "text",
+      "required": true
+    },
+    "description": {
+      "type": "blocks",
+      "required": true
+    },
+    "email": {
+      "type": "json",
+      "required": true
+    },
+    "Website": {
+      "type": "string",
+      "default": "eieinstruments.co.in",
+      "required": true
+    },
+    "additionDetails": {
+      "type": "json",
+      "required": true
+    }
+  }
+}
