@@ -143,8 +143,7 @@ const item = {
 export default function ClientelePage() {
   return (
     <div className="px-4 sm:px-8 md:px-16 lg:px-24 py-16 bg-gradient-to-b from-gray-50 to-white antialiased">
-      
-      {/* Client List Header */}
+
       <div className="text-center mb-16">
         <h2 className="text-4xl md:text-5xl font-black text-red-800 tracking-tight mb-4">
           Our Valuable Clients
@@ -152,7 +151,6 @@ export default function ClientelePage() {
         <div className="h-1 w-20 bg-red-600 mx-auto rounded-full"></div>
       </div>
 
-      {/* Grid Client Logos */}
       <motion.div
         initial="hidden"
         animate="visible"
@@ -181,7 +179,6 @@ export default function ClientelePage() {
         ))}
       </motion.div>
 
-      {/* Testimonials Header */}
       <div className="text-center mb-16">
         <h2 className="text-4xl md:text-5xl font-black text-red-800 tracking-tight mb-4">
           Client Testimonials
@@ -189,7 +186,6 @@ export default function ClientelePage() {
         <div className="h-1 w-20 bg-red-600 mx-auto rounded-full"></div>
       </div>
 
-      {/* Testimonials Cards Grid */}
       <motion.div
         initial="hidden"
         animate="visible"
@@ -202,7 +198,7 @@ export default function ClientelePage() {
             variants={item}
             className="group relative bg-white rounded-3xl border border-gray-100 shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col"
           >
-            {/* ડાબી બાજુની લાલ લાઇન - સર્ટિફિકેટ સહિત બધામાં સરખી કરી દીધી */}
+
             <div className="absolute left-0 top-0 h-full w-1.5 bg-red-700 rounded-l-3xl z-10"></div>
 
             {test.isCertificate ? (
@@ -225,7 +221,6 @@ export default function ClientelePage() {
                 </a>
 
                 <div className="text-center mt-2">
-                  {/* ગ્રીન બેજ સેટ કર્યો (તમે ઈમેજ image_be0b06.png માં બતાવ્યો છે તેવો જ લુક) */}
                   <div className="inline-flex items-center gap-1.5 bg-[#e2f7e6] text-[#007a37] text-xs font-bold px-5 py-1.5 rounded-full mb-3 shadow-sm border border-[#c1f0cb]">
                     ⭐ 4.8 / 5.0 - Excellent Rating
                   </div>

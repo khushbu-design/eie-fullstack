@@ -44,7 +44,6 @@ const industries = [
 export default function IndustryServices() {
   return (
     <section className="px-10 md:px-20 py-20">
-      {/* Heading Section */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}

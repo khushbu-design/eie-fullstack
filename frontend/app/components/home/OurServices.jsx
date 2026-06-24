@@ -21,7 +21,6 @@ const services = [
 export default function OurServices() {
   return (
     <section className="px-10 md:px-20 py-20 bg-gray-50">
-      {/* Heading */}
       <motion.h2
         initial={{ opacity: 0, y: 25 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -31,7 +30,6 @@ export default function OurServices() {
         Our Services
       </motion.h2>
 
-      {/* Service Boxes */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
         {services.map((service, index) => (
           <motion.div
@@ -41,7 +39,6 @@ export default function OurServices() {
             transition={{ duration: 0.6, delay: index * 0.15 }}
             className="bg-white border rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300"
           >
-            {/* Clickable Image */}
             <a href={service.link}>
               <Image
                 src={service.img}
@@ -52,7 +49,6 @@ export default function OurServices() {
               />
             </a>
 
-            {/* Content */}
             <div className="p-8">
               <h3 className="text-2xl font-bold text-red-800 mb-4">
                 {service.title}

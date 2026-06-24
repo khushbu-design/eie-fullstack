@@ -31,7 +31,6 @@ export default async function SearchPage({ searchParams }) {
 
   const strapiQuery = new URLSearchParams();
 
-  // ✅ Only Name and Model Number ma search
   strapiQuery.append('filters[$or][0][name][$containsi]', query);
   strapiQuery.append('filters[$or][1][model_number][$containsi]', query);
 
@@ -44,7 +43,7 @@ export default async function SearchPage({ searchParams }) {
 
   strapiQuery.append('publicationState', 'live');
   strapiQuery.append('pagination[limit]', '50');
-  strapiQuery.append('sort', 'name:asc');   // ← Alphabetical rakhyo che (search ma best lage)
+  strapiQuery.append('sort', 'name:asc');
 
   const queryString = strapiQuery.toString();
 

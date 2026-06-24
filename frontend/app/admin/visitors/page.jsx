@@ -16,7 +16,7 @@ export default function VisitorsAdminPage() {
     try {
       const base = process.env.NEXT_PUBLIC_STRAPI_URL
         ? process.env.NEXT_PUBLIC_STRAPI_URL.replace(/\/api\/?$/, '')
-        : 'https://optimistic-friends-ed5888f6c2.strapiapp.com'; // ← your current Strapi
+        : 'https://optimistic-friends-ed5888f6c2.strapiapp.com'; 
 
       const url = `${base}/api/visitor-count`;
 

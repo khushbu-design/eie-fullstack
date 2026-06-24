@@ -209,8 +209,7 @@ export default function Chatbot() {
       if (lowerMsg.includes('yes') || lowerMsg.includes('haa') || lowerMsg.includes('ha') || lowerMsg.includes('yeah')) {
         setMessages(prev => [...prev, {
           type: 'bot',
-          // Broken ગુજરાતી ટેક્સ્ટ ફિક્સ કર્યો
-          text: "તમારી ઇન્ક્વાયરી માટે info@eieinstruments.com પર મેઇલ કરો અથવા 9227230010 પર સંપર્ક કરો."
+          text: "Place your inquiry on info@eieinstruments.com or contact us on 9227230010"
         }]);
       }
       

@@ -73,7 +73,6 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-b from-gray-50 via-white to-gray-100 flex flex-col items-center py-10 space-y-20">
-      {/* CONTACT DETAILS */}
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -117,7 +116,6 @@ export default function ContactPage() {
         </motion.div>
       </motion.div>
 
-      {/* OFFICE & PLANT ADDRESSES */}
       <div className="w-full max-w-6xl p-6">
         <h2 className="text-4xl font-bold text-center text-red-600 mb-12">Office & Plant Addresses</h2>
         <motion.div
@@ -151,7 +149,6 @@ export default function ContactPage() {
         </motion.div>
       </div>
 
-      {/* TEAM CONTACTS */}
       <div className="w-full max-w-6xl p-6">
         <h2 className="text-4xl font-bold text-center text-red-600 mb-12">Team Contacts</h2>
         {teamSections.map((section, idx) => (
@@ -198,7 +195,6 @@ export default function ContactPage() {
         ))}
       </div>
 
-      {/* PRODUCT INQUIRY FORM */}
       <motion.div
         className="w-full max-w-6xl bg-white/80 backdrop-blur-md shadow-lg rounded-3xl p-8 border border-gray-200"
         initial={{ opacity: 0, y: 50 }}

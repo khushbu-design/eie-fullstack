@@ -84,8 +84,7 @@ export default function BannerSlider() {
 
   return (
     <div className="relative w-full h-[65vh] xs:h-[70vh] sm:h-[75vh] md:h-[85vh] lg:h-[95vh] min-h-[580px] overflow-hidden group">
-      
-      {/* ડાબો એરો */}
+
       <button
         onClick={goToPrev}
         className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-30 bg-black/40 hover:bg-black/70 text-white w-9 h-9 sm:w-11 sm:h-11 rounded-full flex items-center justify-center text-xl sm:text-3xl transition-all opacity-100 sm:opacity-0 sm:group-hover:opacity-100 hover:scale-110"
@@ -93,7 +92,6 @@ export default function BannerSlider() {
         ←
       </button>
 
-      {/* જમણો એરો */}
       <button
         onClick={goToNext}
         className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-30 bg-black/40 hover:bg-black/70 text-white w-9 h-9 sm:w-11 sm:h-11 rounded-full flex items-center justify-center text-xl sm:text-3xl transition-all opacity-100 sm:opacity-0 sm:group-hover:opacity-100 hover:scale-110"
@@ -103,7 +101,6 @@ export default function BannerSlider() {
 
       {isCompanyHighlights ? (
         <div className="relative w-full h-full flex items-center justify-center">
-          {/* બેકગ્રાઉન્ડ ઈમેજ બ્રાઈટનેસ વધારી (brightness-[0.9] અને blur હટાવી દીધું જેથી ચોખ્ખું દેખાય) */}
           <Image
             src={current.bg}
             alt="EIE Instruments Strengths"
@@ -116,10 +113,8 @@ export default function BannerSlider() {
             blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAErgJ7J4l7bwAAAABJRU5ErkJggg=="
           />
 
-          {/* બેકગ્રાઉન્ડ કાળો પડદો એકદમ આછો (લાઈટ) કરી દીધો */}
           <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/30 to-black/40" />
 
-          {/* કન્ટેન્ટ બોક્સ - વિઝિબિલિટી વધારવા માટે હળવું ગ્લાસ લુક બેકગ્રાઉન્ડ આપ્યું */}
           <div className="relative z-20 w-full h-full flex flex-col justify-center px-6 sm:px-10 lg:px-16 max-w-7xl mx-auto py-6 sm:py-10">
             <div className="w-full text-white bg-black/30 backdrop-blur-[2px] p-6 sm:p-10 rounded-2xl border border-white/10 shadow-2xl">
               <motion.h2
@@ -131,7 +126,6 @@ export default function BannerSlider() {
                 Why Choose EIE Instruments?
               </motion.h2>
 
-              {/* ગ્રીડ લેઆઉટ */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-4 sm:gap-y-6 md:gap-y-7 text-sm md:text-base font-medium leading-relaxed max-h-[360px] sm:max-h-none overflow-y-auto sm:overflow-visible pr-2 sm:pr-0">
                 {[
                   "ISO 9001:2015 Certified Company",
@@ -152,7 +146,6 @@ export default function BannerSlider() {
                     transition={{ duration: 0.6, delay: idx * 0.03 }}
                     className="flex items-start gap-3 sm:gap-4 bg-black/20 p-3 rounded-xl sm:bg-transparent sm:p-0 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]"
                   >
-                    {/* મોટો અને સ્પષ્ટ ગ્લોઇંગ લાલ બુલેટ પોઇન્ટ */}
                     <span className="w-3 h-3 rounded-full bg-red-500 mt-1.5 flex-shrink-0 shadow-[0_0_10px_#ef4444]" />
                     
                     <p className="flex-1 text-white text-[14px] sm:text-[15px] md:text-[16px] font-semibold tracking-wide drop-shadow-md">

@@ -158,7 +158,6 @@ export default function DownloadsPage() {
                   {item.name}
                 </h3>
 
-                {/* Buttons - View in middle, Download below */}
                 <div className="mt-auto space-y-4">
                   <a
                     href={item.pdfUrl}

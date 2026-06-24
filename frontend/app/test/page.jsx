@@ -9,7 +9,7 @@ export default async function TestPage() {
 
       {data.data.map((item) => (
         <div key={item.id} style={{ marginBottom: "40px" }}>
-          {/* ICON BOX */}
+
           <div
             style={{
               width: "120px",

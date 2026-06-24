@@ -57,7 +57,6 @@ export default function Timeline() {
     <section className="py-20 bg-white relative overflow-hidden font-sans">
       <div className="max-w-6xl mx-auto px-6">
         
-        {/* Section Title */}
         <div className="text-center mb-24">
           <motion.h2 
             initial={{ opacity: 0, y: -20 }}
@@ -70,7 +69,6 @@ export default function Timeline() {
           <div className="w-20 h-1 bg-[#800000] mx-auto mt-4 rounded-full" />
         </div>
 
-        {/* Vertical Timeline */}
         <div className="relative max-w-4xl mx-auto mb-32">
           <div className="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-[4px] bg-gray-200 rounded-full z-0" />
 
@@ -121,7 +119,6 @@ export default function Timeline() {
           })}
         </div>
 
-        {/* ==================== GLOBAL FOOTPRINT ==================== */}
         <motion.div 
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -137,14 +134,12 @@ export default function Timeline() {
             </p>
           </div>
 
-          {/* Map Section with Maroon Color Filter Effect */}
           <div className="w-full max-w-5xl mx-auto bg-gray-50 p-6 md:p-12 rounded-3xl border border-gray-200 shadow-sm overflow-hidden">
             <img 
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/World_map_-_low_resolution.svg/1280px-World_map_-_low_resolution.svg.png" 
               alt="EIE Instruments Global Footprint"
               className="w-full h-auto rounded-2xl"
               style={{
-                // આ ફિલ્ટર પ્યોર બ્લેક ઇમેજને બ્રાન્ડના મરૂન કલર (#800000) માં કન્વર્ટ કરશે
                 filter: "invert(11%) sepia(87%) saturate(5412%) hue-rotate(349deg) brightness(81%) contrast(111%)"
               }}
             />

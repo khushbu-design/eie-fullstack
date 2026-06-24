@@ -38,11 +38,10 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* ЁЯТ╗ Laptop & Desktop Global 85% Zoom Effect */
   @media (min-width: 1024px) {
     body {
-      zoom: 0.85; /* ркЖркЦрк╛ рккрлЗркЬркирлЗ рк▓рлЗрккркЯрлЛркк/ркбрлЗрк╕рлНркХркЯрлЛркк рккрк░ ркХркорлНрккрлЗркХрлНркЯ рк▓рлБркХ ркЖрккрк╢рлЗ */
-      -moz-transform: scale(0.85); /* Firefox рк╕рккрлЛрк░рлНркЯ ркорк╛ркЯрлЗ */
+      zoom: 0.85; 
+      -moz-transform: scale(0.85); 
       -moz-transform-origin: top center;
     }
   }

@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
-// Animate on Scroll Component
 const AnimateOnScroll = ({ children, delay = 0, className = "" }) => {
   const [isVisible, setIsVisible] = useState(false);
   const domRef = useRef(null);
@@ -18,7 +17,7 @@ const AnimateOnScroll = ({ children, delay = 0, className = "" }) => {
           }
         });
       },
-      { threshold: 0.05 } // Trigger faster
+      { threshold: 0.05 }
     );
     if (domRef.current) observer.observe(domRef.current);
     return () => {
@@ -39,7 +38,6 @@ const AnimateOnScroll = ({ children, delay = 0, className = "" }) => {
   );
 };
 
-// Fixed Clickable Image Thumbnail
 const ClickableImageThumbnail = ({
   src,
   alt,
@@ -79,7 +77,6 @@ export default function CalibrationValidationPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-zinc-50 via-white to-zinc-100 text-zinc-900 font-sans antialiased">
 
-      {/* Page Title */}
       <section className="pt-16 pb-20 text-center bg-gradient-to-b from-white via-red-50/30 to-zinc-50">
         <AnimateOnScroll delay={0}>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-red-700 tracking-tight mb-6 drop-shadow-sm">
@@ -88,11 +85,9 @@ export default function CalibrationValidationPage() {
         </AnimateOnScroll>
       </section>
 
-      {/* VALIDATION SERVICES */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            {/* Left: Image */}
             <div className="w-full">
               <AnimateOnScroll delay={100}>
                 <ClickableImageThumbnail
@@ -105,7 +100,6 @@ export default function CalibrationValidationPage() {
               </AnimateOnScroll>
             </div>
 
-            {/* Right: Text */}
             <div className="space-y-6 text-lg leading-7 text-zinc-700">
               <AnimateOnScroll delay={200}>
                 <h2 className="text-4xl md:text-5xl font-bold text-red-800 border-l-8 border-red-200 pl-6 uppercase">
@@ -139,7 +133,6 @@ export default function CalibrationValidationPage() {
             </div>
           </div>
 
-          {/* Instruments List */}
           <div className="mt-12">
             <AnimateOnScroll delay={450}>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -171,7 +164,6 @@ export default function CalibrationValidationPage() {
             </AnimateOnScroll>
           </div>
 
-          {/* Validation Documents */}
           <div className="mt-12">
             <AnimateOnScroll delay={500}>
               <h3 className="text-2xl font-bold text-red-700 mb-6 border-b border-red-200 pb-2">
@@ -204,7 +196,6 @@ export default function CalibrationValidationPage() {
         </div>
       </section>
 
-      {/* WHY CHOOSE EIE */}
       <section className="py-16 bg-zinc-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <AnimateOnScroll delay={100}>
@@ -246,7 +237,6 @@ export default function CalibrationValidationPage() {
         </div>
       </section>
 
-      {/* CALIBRATION SERVICES */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -281,7 +271,6 @@ export default function CalibrationValidationPage() {
         </div>
       </section>
 
-      {/* CALIBRATION SCOPE GRID */}
       <section className="py-20 bg-zinc-100">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <AnimateOnScroll delay={100}>
@@ -359,7 +348,6 @@ export default function CalibrationValidationPage() {
         </div>
       </section>
 
-      {/* NABL CERTIFICATE - RESIZED */}
       <section className="py-16 bg-white text-center">
         <div className="max-w-4xl mx-auto px-6">
           <AnimateOnScroll delay={100}>
@@ -385,7 +373,6 @@ export default function CalibrationValidationPage() {
         </div>
       </section>
 
-      {/* CATALOG - RESIZED */}
       <section className="py-16 bg-zinc-50 text-center">
         <div className="max-w-4xl mx-auto px-6">
           <AnimateOnScroll delay={100}>

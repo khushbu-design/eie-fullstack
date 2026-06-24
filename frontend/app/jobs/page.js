@@ -66,7 +66,6 @@ export default function JobPage() {
     fetchJobs();
   }, [STRAPI_URL]);
 
-  // Strapi Rich Text Blocks ને મરૂન હેડિંગ્સ સાથે રેન્ડર કરવાનું ફંક્શન
   const renderDescription = (blocks) => {
     if (!blocks || !Array.isArray(blocks) || blocks.length === 0) {
       return <p className="text-gray-500 italic">Description coming soon...</p>;
@@ -83,7 +82,6 @@ export default function JobPage() {
         });
       };
 
-      // 1. મરૂન હેડિંગ્સ (Maroon Color Setup)
       if (block.type === "heading") {
         const HeadingTag = `h${block.level || 3}`; 
         const headingClasses = {
@@ -102,7 +100,6 @@ export default function JobPage() {
         );
       }
 
-      // 2. પેરેગ્રાફ સેટિંગ્સ
       if (block.type === "paragraph") {
         return (
           <p key={index} className="mb-4 text-gray-700 leading-relaxed text-base antialiased">
@@ -111,7 +108,6 @@ export default function JobPage() {
         );
       }
 
-      // 3. લિસ્ટ સેટિંગ્સ (Bullet points)
       if (block.type === "list") {
         const ListTag = block.format === "ordered" ? "ol" : "ul";
         const listClass = block.format === "ordered" 
@@ -148,7 +144,6 @@ export default function JobPage() {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 antialiased py-12">
       <div className="px-4 max-w-5xl mx-auto">
         
-        {/* Header Section */}
         <div className="text-center mb-14">
           <h1 className="text-4xl sm:text-5xl font-black text-red-800 mt-4 mb-4 tracking-tight">We're Hiring!</h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">EIE Instruments is always looking for talented individuals to join our dynamic team.</p>
@@ -165,19 +160,16 @@ export default function JobPage() {
                 key={job.id}
                 className="bg-white rounded-2xl shadow-md border border-gray-100 p-6 sm:p-10 hover:shadow-xl transition-shadow duration-300 ease-in-out relative overflow-hidden"
               >
-                {/* Top decorative bar */}
                 <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-red-700 to-red-900"></div>
 
                 <h2 className="text-2xl sm:text-3xl font-extrabold text-red-800 mb-6 pb-4 border-b border-gray-100">
                   {job.title}
                 </h2> 
 
-                {/* Job Description Block */}
                 <section className="prose max-w-none mb-10">
                   {renderDescription(job.description)}
                 </section>
 
-                {/* Additional Information Box (ડાબી બાજુ વ્યવસ્થિત ગોઠવણી) */}
                 {Object.keys(job.additionDetails).length > 0 && (
                   <section className="mb-8 bg-gradient-to-r from-red-50/60 to-red-50/20 p-6 rounded-xl border border-red-100/70">
                     <h3 className="text-lg font-bold text-red-900 mb-4 tracking-tight">Additional Information</h3>
@@ -194,7 +186,6 @@ export default function JobPage() {
                   </section>
                 )}
 
-                {/* Contact Section (ડાબી બાજુ) */}
                 <section className="mb-8 bg-gray-50/80 p-6 rounded-xl border border-gray-200/60">
                   <h3 className="text-lg font-bold text-gray-800 mb-2">Contact us to apply</h3>
                   <p className="text-gray-600 text-sm leading-relaxed">
@@ -211,7 +202,6 @@ export default function JobPage() {
                   </p>
                 </section>
 
-                {/* Apply Button */}
                 <div className="pt-2">
                   <button
                     onClick={() => applyNow(job.title)}
