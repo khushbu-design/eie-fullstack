@@ -134,7 +134,7 @@ export default function EventsPage() {
       transition={{ duration: 0.5, delay: idx * 0.1 }}
       className="bg-white border border-gray-100 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden"
     >
-      {/* Images */}
+
       <div className={`grid ${event.images.length > 1 ? "grid-cols-2 gap-3" : "grid-cols-1"} p-4`}>
         {event.images.map((img, i) => (
           <div
@@ -152,7 +152,6 @@ export default function EventsPage() {
         ))}
       </div>
 
-      {/* Content */}
       <div className="p-6 pt-2">
         <h3 className="text-2xl font-bold text-gray-900 leading-tight">
           {event.title}

@@ -11,13 +11,17 @@ export default function Chatbot() {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [userName, setUserName] = useState(''); 
+
+  const [chatState, setChatState] = useState('IDLE');
+  const [currentProducts, setCurrentProducts] = useState([]);
+
   const chatEndRef = useRef(null);
 
   const defaultMessage = [
     { type: 'bot', text: 'Hello! 👋 I am EIE Assistant. Which instrument are you looking for?' }
   ];
 
-  // 1. પેજ લોડ લોજિક (સેશન સ્ટોરેજ)
+  // 1. Load initial session data safely on component mount
   useEffect(() => {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('eie_chat_messages');
@@ -27,6 +31,7 @@ export default function Chatbot() {
       const savedMessages = sessionStorage.getItem('eie_chat_messages');
       const savedName = sessionStorage.getItem('eie_chat_username');
       const savedIsOpen = sessionStorage.getItem('eie_chat_isopen');
+      const savedState = sessionStorage.getItem('eie_chat_state');
 
       if (savedMessages) {
         try {
@@ -37,10 +42,11 @@ export default function Chatbot() {
       }
       if (savedName) setUserName(savedName);
       if (savedIsOpen === 'true') setIsOpen(true);
+      if (savedState) setChatState(savedState);
     }
   }, []);
 
-  // સેશન સેવિંગ
+  // 2. Sync messages to SessionStorage
   useEffect(() => {
     if (typeof window !== 'undefined') {
       if (messages.length > 1) {
@@ -51,6 +57,7 @@ export default function Chatbot() {
     }
   }, [messages]);
 
+  // 3. Sync Username to SessionStorage
   useEffect(() => {
     if (typeof window !== 'undefined') {
       if (userName) {
@@ -61,16 +68,25 @@ export default function Chatbot() {
     }
   }, [userName]);
 
-  // ચેટ ક્લીનર ફંક્શન
+  // 4. Sync ChatState to SessionStorage
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('eie_chat_state', chatState);
+    }
+  }, [chatState]);
+
   const handleClearChat = (e) => {
     if (e) e.stopPropagation();
     if (typeof window !== 'undefined') {
       sessionStorage.removeItem('eie_chat_messages');
       sessionStorage.removeItem('eie_chat_username');
+      sessionStorage.removeItem('eie_chat_state');
       sessionStorage.setItem('eie_chat_isopen', 'true');
     }
     setMessages(defaultMessage);
     setUserName('');
+    setChatState('IDLE');
+    setCurrentProducts([]);
   };
 
   const toggleChat = () => {
@@ -89,14 +105,12 @@ export default function Chatbot() {
     scrollToBottom();
   }, [messages]);
 
-  // 🌟 સુધારેલું Strapi Search API ફંક્શન
   const searchProduct = async (cleanKeywords) => {
     if (!cleanKeywords || cleanKeywords.length === 0) return [];
     try {
       let baseUrl = process.env.NEXT_PUBLIC_STRAPI_URL || 'https://optimistic-friends-ed5888f6c2.strapiapp.com/api';
       baseUrl = baseUrl.endsWith('/api') ? `${baseUrl}/products` : `${baseUrl}/api/products`;
 
-      // સચોટ અને સ્માર્ટ સર્ચ માટે ચેઈન ફિલ્ટર
       let filterQuery = '';
       cleanKeywords.forEach((word, index) => {
         if (word && word.trim().length > 0) {
@@ -105,7 +119,7 @@ export default function Chatbot() {
       });
 
       const url = `${baseUrl}?populate=*${filterQuery}`;
-      console.log("Fetching from Strapi:", url); // ડિબગ કરવા માટે બ્રાઉઝર કન્સોલમાં યુઆરએલ દેખાશે
+      console.log("Fetching from Strapi:", url);
 
       const res = await fetch(url, { method: 'GET', headers: { 'Content-Type': 'application/json' } });
       if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
@@ -123,33 +137,28 @@ export default function Chatbot() {
     return match ? match[1] : null;
   };
 
-  // 🌟 પાવરફુલ કીવર્ડ ફિલ્ટર (બધા સ્ટોપ-વર્ડ્સને ૧૦૦% સાફ કરશે)
   const getCleanKeywords = (text) => {
     let cleanText = text.toLowerCase();
     
-    // પહેલા નામ અને બેઝિક ગ્રીટીંગ્સ કાઢી નાખો
     cleanText = cleanText.replace(/(?:hello|hi|hey|good\s+morning|good\s+afternoon)/gi, '');
     cleanText = cleanText.replace(/(?:my\s+name\s+is|i\s+am)\s+([a-zA-Z]+)/gi, '');
-    
-    // લાંબા વાક્યોને ક્લીન કરવા માટે રેજીક્સ (Regex) નો સાચો ઉપયોગ
+
     const filterRegex = /(?:i\s+want\s+to\s+know\s+about|i\s+want\s+to\s+know\s+abou|i\s+want\s+to\s+know|i\s+want\s+details\s+for|i\s+want\s+details|i\s+want\s+require|i\s+need\s+details|need\s+to\s+know\s+about|want\s+details\s+of|looking\s+for|details\s+about|give\s+me|show\s+me|require|details|please|about|know|find|need|want|tell)/gi;
     
     cleanText = cleanText.replace(filterRegex, ' ');
 
-    // વધારાના નાના આર્ટીકલ્સ અને પ્રિપોઝીશન દૂર કરો
     const extraWords = ["the", "and", "for", "with", "an", "of", "to", "in|is"];
     extraWords.forEach(word => {
       cleanText = cleanText.replace(new RegExp(`\\b${word}\\b`, 'gi'), ' ');
     });
 
-    // સ્પેશિયલ કેરેક્ટર્સ હટાવો
     const words = cleanText
       .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?"']/g, "")
       .trim()
       .split(/\s+/)
-      .filter(w => w.length > 1); // ફક્ત ૧ અક્ષરથી મોટા શબ્દો રાખશે (જેમ કે ctm, oven)
+      .filter(w => w.length > 1); 
 
-    console.log("Cleaned Clean Keywords Target:", words); // ડિબગ લોગ
+    console.log("Cleaned Clean Keywords Target:", words); 
     return words;
   };
 
@@ -181,6 +190,58 @@ export default function Chatbot() {
       return;
     }
 
+    if (chatState === 'AWAITING_SIZE') {
+      const botGreeting = currentName 
+        ? `Hello ${currentName}, below is your required instrument details:` 
+        : "I found matching instrument(s) for your requirement:";
+
+      setMessages(prev => [
+        ...prev, 
+        { type: 'bot', text: botGreeting, products: currentProducts },
+        { type: 'bot', text: "Do you want quotation?" }
+      ]);
+      setChatState('AWAITING_QUOTATION_CONFIRM');
+      setLoading(false);
+      return;
+    }
+
+    if (chatState === 'AWAITING_QUOTATION_CONFIRM') {
+      if (lowerMsg.includes('yes') || lowerMsg.includes('haa') || lowerMsg.includes('ha') || lowerMsg.includes('yeah')) {
+        setMessages(prev => [...prev, {
+          type: 'bot',
+          // Broken ગુજરાતી ટેક્સ્ટ ફિક્સ કર્યો
+          text: "તમારી ઇન્ક્વાયરી માટે info@eieinstruments.com પર મેઇલ કરો અથવા 9227230010 પર સંપર્ક કરો."
+        }]);
+      }
+      
+      setTimeout(() => {
+        setMessages(prev => [...prev, {
+          type: 'bot',
+          text: "Would you like to discuss technical details with our technical expert? I can share the contact number if required. (Yes/No)"
+        }]);
+        setChatState('AWAITING_TECHNICAL_CONFIRM');
+      }, 800);
+      
+      setLoading(false);
+      return;
+    }
+
+    if (chatState === 'AWAITING_TECHNICAL_CONFIRM') {
+      if (lowerMsg.includes('yes') || lowerMsg.includes('haa') || lowerMsg.includes('ha') || lowerMsg.includes('yeah')) {
+        setMessages(prev => [...prev, {
+          type: 'bot',
+          text: "Here are the contact details for our technical experts: Dhara Sharma: +91 6357075370, Darshil Prajapati: +91 9773012266, Bhumika Sonvane: +91 6357075373. They will assist you with your requirements."
+        }]);
+      } else {
+        setMessages(prev => [...prev, {
+          type: 'bot',
+          text: "Thank you! Let me know if you need anything else."
+        }]);
+      }
+      setChatState('IDLE');
+      setLoading(false);
+      return;
+    }
     const cleanKeywords = getCleanKeywords(userMsg);
 
     if (cleanKeywords.length === 0 && detectedName) {
@@ -206,24 +267,42 @@ export default function Chatbot() {
     const products = await searchProduct(cleanKeywords);
 
     if (products.length > 0) {
-      const botGreeting = currentName 
-        ? `Hello ${currentName}, below is your required instrument details:` 
-        : "I found matching instrument(s) for your requirement:";
+      const firstProdAttrs = products[0].attributes || products[0];
+      const hasVariants = firstProdAttrs.has_variants || firstProdAttrs.variants?.length > 0 || products.length > 1;
 
-      setMessages(prev => [...prev, {
-        type: 'bot',
-        text: botGreeting,
-        products: products
-      }]);
+      if (hasVariants) {
+        setMessages(prev => [...prev, {
+          type: 'bot',
+          text: "Which size you required??"
+        }]);
+        setCurrentProducts(products); 
+        setChatState('AWAITING_SIZE');
+      } else {
+        const botGreeting = currentName 
+          ? `Hello ${currentName}, below is your required instrument details:` 
+          : "I found matching instrument(s) for your requirement:";
+
+        setMessages(prev => [
+          ...prev, 
+          { type: 'bot', text: botGreeting, products: products },
+          { type: 'bot', text: "Do you want quotation?" }
+        ]);
+        setChatState('AWAITING_QUOTATION_CONFIRM');
+      }
     } else {
       const fallbackText = currentName
         ? `Hello ${currentName}, I couldn't find those exact details right now. Let me connect you with our technical expert team!`
         : "I couldn't find that exact instrument. Would you like me to connect you with our team?";
       
-      setMessages(prev => [...prev, {
-        type: 'bot',
-        text: fallbackText
-      }]);
+      setMessages(prev => [...prev, { type: 'bot', text: fallbackText }]);
+      
+      setTimeout(() => {
+        setMessages(prev => [...prev, {
+          type: 'bot',
+          text: "Would you like to discuss technical details with our technical expert? I can share the contact number if required. (Yes/No)"
+        }]);
+        setChatState('AWAITING_TECHNICAL_CONFIRM');
+      }, 800);
     }
 
     setLoading(false);
@@ -240,8 +319,7 @@ export default function Chatbot() {
 
       {isOpen && (
         <div className="fixed bottom-32 right-6 w-[380px] sm:w-[400px] bg-white rounded-2xl shadow-2xl z-50 flex flex-col h-[540px] border border-gray-100 overflow-hidden">
-          
-          {/* Header */}
+
           <div className="bg-gradient-to-r from-red-600 to-red-700 text-white p-4 flex justify-between items-center shadow-sm">
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 bg-white rounded-full flex items-center justify-center text-red-600 font-extrabold">E</div>
@@ -254,7 +332,6 @@ export default function Chatbot() {
               </div>
             </div>
             
-            {/* Header Right Side Buttons */}
             <div className="flex items-center gap-2.5">
               <button 
                 onClick={(e) => handleClearChat(e)}
@@ -266,17 +343,16 @@ export default function Chatbot() {
             </div>
           </div>
 
-          {/* Messages Window */}
           <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50/70">
             {messages.map((msg, i) => (
-              <div key={i} className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
+              <div key={`msg-${i}`} className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
                 {msg.type === 'bot' ? (
                   <div className="max-w-[88%] w-full">
                     <div className="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-gray-100 text-sm text-gray-800 leading-relaxed">
                       {msg.text}
                     </div>
 
-                    {msg.products && msg.products.map(product => {
+                    {msg.products && msg.products.map((product, pIdx) => {
                       const attrs = product.attributes || product;
                       const industryId = attrs.industry?.id || "all";
                       const categoryId = attrs.category?.id || "all";
@@ -285,7 +361,7 @@ export default function Chatbot() {
                       const targetUrl = `/products/${industryId}/${categoryId}/${slug}`;
 
                       return (
-                        <div key={product.id} className="mt-3 bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100">
+                        <div key={`prod-${product.id || pIdx}`} className="mt-3 bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100">
                           {imageUrl && (
                             <div className="relative w-full h-36 bg-gray-100/50 border-b border-gray-100">
                               <Image
@@ -344,7 +420,6 @@ export default function Chatbot() {
             <div ref={chatEndRef} />
           </div>
 
-          {/* Footer Area */}
           <div className="p-3 bg-white border-t border-gray-100">
             <div className="flex gap-2">
               <input

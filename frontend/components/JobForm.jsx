@@ -97,7 +97,7 @@ export default function JobForm({ jobTitle, close }) {
       const reader = new FileReader();
       reader.readAsDataURL(resumeFile);
       await new Promise((resolve) => (reader.onload = resolve));
-      resumeBase64 = reader.result; // full data:url
+      resumeBase64 = reader.result;
       resumeFilename = resumeFile.name;
     }
 
@@ -105,55 +105,53 @@ export default function JobForm({ jobTitle, close }) {
 <h2>New Job Application Received</h2>
 
 <h3>Personal Information</h3>
-<b>Full Name (First, Middle, Last):</b> ${form.fullName}<br>
+<b>Full Name:</b> ${form.fullName}<br>
 <b>Date of Birth:</b> ${form.dob}<br>
 <b>Gender:</b> ${form.gender}<br>
 <b>Marital Status:</b> ${form.maritalStatus}<br>
-<b>Do You Own a Vehicle?:</b> ${form.vehicle}<br>
-<b>Do You Have a Driving License?:</b> ${form.drivingLicense}<br>
-<b>Do You Have a Passport?:</b> ${form.passport}<br>
-<b>Passport Number (if applicable):</b> ${form.passportNumber || "N/A"}<br>
-<b>Contact Number:</b> ${form.phone}<br>
-<b>Email Address:</b> ${form.email}<br>
+<b>Vehicle:</b> ${form.vehicle}<br>
+<b>Driving License:</b> ${form.drivingLicense}<br>
+<b>Passport:</b> ${form.passport}<br>
+<b>Passport Number:</b> ${form.passportNumber || "N/A"}<br>
+<b>Phone:</b> ${form.phone}<br>
+<b>Email:</b> ${form.email}<br>
 <b>Current Address:</b> ${form.currentAddress}<br>
-<b>Permanent Address (if different):</b> ${form.permanentAddress || "Same as current"}<br><br>
+<b>Permanent Address:</b> ${form.permanentAddress || "Same as current"}<br><br>
 
 <h3>Job Information</h3>
-<b>Job Title/Position You’re Applying For:</b> ${form.jobTitle}<br>
+<b>Job Title:</b> ${form.jobTitle}<br>
 <b>Desired Salary:</b> ${form.desiredSalary}<br>
-<b>Available Start Date:</b> ${form.startDate}<br>
-<b>Preferred Work Schedule:</b> ${form.workSchedule}<br><br>
+<b>Start Date:</b> ${form.startDate}<br>
+<b>Work Schedule:</b> ${form.workSchedule}<br><br>
 
 <h3>Employment History</h3>
-<b>Employer Name(s):</b> ${form.employerNames}<br>
-<b>Job Title(s):</b> ${form.jobTitles}<br>
-<b>Duration of Employment (Start – End Date):</b> ${form.employmentDuration}<br>
-<b>Job Responsibilities:</b> ${form.jobResponsibilities}<br>
-<b>Supervisor’s Name and Contact:</b> ${form.supervisorInfo}<br>
+<b>Employers:</b> ${form.employerNames}<br>
+<b>Job Titles:</b> ${form.jobTitles}<br>
+<b>Duration:</b> ${form.employmentDuration}<br>
+<b>Responsibilities:</b> ${form.jobResponsibilities}<br>
+<b>Supervisor:</b> ${form.supervisorInfo}<br>
 <b>Reason for Leaving:</b> ${form.reasonForLeaving}<br>
-<b>Total Years of Industry Experience (Also mention industries):</b> ${form.industryExperience}<br>
-<b>Total Years of Experience in Manufacturing Industry:</b> ${form.manufacturingExperience}<br>
-<b>Have You Worked in Steel / Fabrication / Metal Industries? If Yes, Mention Names:</b> ${form.steelFabricationExperience}<br>
-<b>Experienced in Laboratory Testing Instruments Industry? If Yes, Mention Names:</b> ${form.labTestingExperience}<br><br>
+<b>Industry Experience:</b> ${form.industryExperience}<br>
+<b>Manufacturing Experience:</b> ${form.manufacturingExperience}<br>
+<b>Steel/Fabrication:</b> ${form.steelFabricationExperience}<br>
+<b>Lab Testing:</b> ${form.labTestingExperience}<br><br>
 
-<h3>Skills and Qualifications</h3>
-<b>List of Technical and Soft Skills Relevant to the Job:</b> ${form.skills}<br>
-<b>Certifications or Licenses:</b> ${form.certifications}<br>
-<b>Languages Spoken or Written:</b> ${getLanguagesText()}<br><br>
+<h3>Skills & Languages</h3>
+<b>Skills:</b> ${form.skills}<br>
+<b>Certifications:</b> ${form.certifications}<br>
+<b>Languages:</b> ${getLanguagesText()}<br><br>
 
 <h3>References</h3>
-<b>Reference 1 – Name, Designation, Contact Number, Email:</b> ${form.reference1 || "Not provided"}<br>
-<b>Reference 2 – Name, Designation, Contact Number, Email:</b> ${form.reference2 || "Not provided"}<br>
-<b>Reporting To (Previous/Current Manager):</b> ${form.reportingTo}<br><br>
+<b>Reference 1:</b> ${form.reference1 || "N/A"}<br>
+<b>Reference 2:</b> ${form.reference2 || "N/A"}<br>
+<b>Reporting To:</b> ${form.reportingTo}<br><br>
 
-<h3>Additional Information</h3>
-<b>Are You Authorized to Work in India?:</b> ${form.workAuthorization}<br>
-<b>Have You Ever Been Convicted of a Criminal Offense?:</b> ${form.criminalConviction}<br>
-<b>Are You Willing to Relocate or Travel for Work?:</b> ${form.relocateTravel}<br>
-<b>Date of Submission:</b> ${form.submissionDate}<br>
-<b>Declaration:</b> ${form.declaration ? "I confirm that the information I provide is valid and legal" : "Not accepted"}<br><br>
-
-<b>Resume:</b> ${resumeFilename ? `${resumeFilename} (attached)` : "Not uploaded"}<br>
+<h3>Additional</h3>
+<b>Work Authorization:</b> ${form.workAuthorization}<br>
+<b>Criminal Conviction:</b> ${form.criminalConviction}<br>
+<b>Willing to Relocate/Travel:</b> ${form.relocateTravel}<br>
+<b>Declaration:</b> ${form.declaration ? "Accepted" : "Not Accepted"}<br>
+<b>Resume:</b> ${resumeFilename ? resumeFilename + " (attached)" : "Not uploaded"}
     `.trim();
 
     try {
@@ -170,8 +168,8 @@ export default function JobForm({ jobTitle, close }) {
       });
 
       if (res.ok) {
-        alert("Application submitted successfully!");
-        close();
+        const successMsg = encodeURIComponent("Your job application has been successfully submitted. We will contact you soon.");
+        window.location.href = `/success?message=${successMsg}`;
       } else {
         const data = await res.json();
         alert("Failed to submit: " + (data.error || "Please try again later"));
@@ -192,11 +190,10 @@ export default function JobForm({ jobTitle, close }) {
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-8">
-
+          {/* Personal Information Section */}
           <div>
             <h3 className="text-2xl font-semibold text-gray-800 mb-4">Personal Information</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
               <div className="md:col-span-2">
                 <label className="block font-medium mb-1">Full Name (First, Middle, Last) *</label>
                 <input type="text" className="w-full px-4 py-2 border rounded-lg" name="fullName" onChange={update} required />
@@ -272,11 +269,12 @@ export default function JobForm({ jobTitle, close }) {
             </div>
           </div>
 
+          {/* Job Information */}
           <div>
             <h3 className="text-2xl font-semibold text-gray-800 mb-4">Job Information</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block font-medium mb-1">Job Title/Position You’re Applying For *</label>
+                <label className="block font-medium mb-1">Job Title/Position *</label>
                 <input type="text" className="w-full px-4 py-2 border rounded-lg bg-gray-100" value={jobTitle} readOnly />
               </div>
 
@@ -300,30 +298,32 @@ export default function JobForm({ jobTitle, close }) {
             </div>
           </div>
 
+          {/* Employment History */}
           <div>
             <h3 className="text-2xl font-semibold text-gray-800 mb-4">Employment History</h3>
             <div className="space-y-6">
               <textarea rows="3" className="w-full px-4 py-2 border rounded-lg" placeholder="Employer Name(s) *" name="employerNames" onChange={update} required></textarea>
               <textarea rows="3" className="w-full px-4 py-2 border rounded-lg" placeholder="Job Title(s) *" name="jobTitles" onChange={update} required></textarea>
-              <textarea rows="3" className="w-full px-4 py-2 border rounded-lg" placeholder="Duration of Employment (Start – End Date) *" name="employmentDuration" onChange={update} required></textarea>
+              <textarea rows="3" className="w-full px-4 py-2 border rounded-lg" placeholder="Duration of Employment *" name="employmentDuration" onChange={update} required></textarea>
               <textarea rows="4" className="w-full px-4 py-2 border rounded-lg" placeholder="Job Responsibilities *" name="jobResponsibilities" onChange={update} required></textarea>
               <textarea rows="3" className="w-full px-4 py-2 border rounded-lg" placeholder="Supervisor’s Name and Contact *" name="supervisorInfo" onChange={update} required></textarea>
               <textarea rows="3" className="w-full px-4 py-2 border rounded-lg" placeholder="Reason for Leaving *" name="reasonForLeaving" onChange={update} required></textarea>
-              <textarea rows="3" className="w-full px-4 py-2 border rounded-lg" placeholder="Total Years of Industry Experience (Also mention industries) *" name="industryExperience" onChange={update} required></textarea>
-              <input type="text" className="w-full px-4 py-2 border rounded-lg" placeholder="Total Years of Experience in Manufacturing Industry *" name="manufacturingExperience" onChange={update} required />
-              <textarea rows="3" className="w-full px-4 py-2 border rounded-lg" placeholder="Have You Worked in Steel / Fabrication / Metal Industries? If Yes, Mention Names *" name="steelFabricationExperience" onChange={update} required></textarea>
-              <textarea rows="3" className="w-full px-4 py-2 border rounded-lg" placeholder="Experienced in Laboratory Testing Instruments Industry? If Yes, Mention Names *" name="labTestingExperience" onChange={update} required></textarea>
+              <textarea rows="3" className="w-full px-4 py-2 border rounded-lg" placeholder="Industry Experience *" name="industryExperience" onChange={update} required></textarea>
+              <input type="text" className="w-full px-4 py-2 border rounded-lg" placeholder="Manufacturing Experience *" name="manufacturingExperience" onChange={update} required />
+              <textarea rows="3" className="w-full px-4 py-2 border rounded-lg" placeholder="Steel / Fabrication Experience *" name="steelFabricationExperience" onChange={update} required></textarea>
+              <textarea rows="3" className="w-full px-4 py-2 border rounded-lg" placeholder="Lab Testing Instruments Experience *" name="labTestingExperience" onChange={update} required></textarea>
             </div>
           </div>
 
+          {/* Skills */}
           <div>
             <h3 className="text-2xl font-semibold text-gray-800 mb-4">Skills and Qualifications</h3>
             <div className="space-y-6">
-              <textarea rows="4" className="w-full px-4 py-2 border rounded-lg" placeholder="List of Technical and Soft Skills Relevant to the Job *" name="skills" onChange={update} required></textarea>
-              <textarea rows="3" className="w-full px-4 py-2 border rounded-lg" placeholder="Certifications or Licenses *" name="certifications" onChange={update} required></textarea>
+              <textarea rows="4" className="w-full px-4 py-2 border rounded-lg" placeholder="Technical & Soft Skills *" name="skills" onChange={update} required></textarea>
+              <textarea rows="3" className="w-full px-4 py-2 border rounded-lg" placeholder="Certifications *" name="certifications" onChange={update} required></textarea>
 
               <div>
-                <label className="block font-medium mb-3">Languages Spoken or Written *</label>
+                <label className="block font-medium mb-3">Languages *</label>
                 <table className="w-full border border-gray-300">
                   <thead className="bg-gray-50">
                     <tr>
@@ -351,52 +351,50 @@ export default function JobForm({ jobTitle, close }) {
             </div>
           </div>
 
+          {/* References & Additional */}
           <div>
-            <h3 className="text-2xl font-semibold text-gray-800 mb-4">References</h3>
+            <h3 className="text-2xl font-semibold text-gray-800 mb-4">References & Additional Information</h3>
             <div className="space-y-6">
-              <textarea rows="3" className="w-full px-4 py-2 border rounded-lg" placeholder="Reference 1 – Name, Designation, Contact Number, Email" name="reference1" onChange={update}></textarea>
-              <textarea rows="3" className="w-full px-4 py-2 border rounded-lg" placeholder="Reference 2 – Name, Designation, Contact Number, Email" name="reference2" onChange={update}></textarea>
-              <input type="text" className="w-full px-4 py-2 border rounded-lg" placeholder="Reporting To (Previous/Current Manager) *" name="reportingTo" onChange={update} required />
-            </div>
-          </div>
+              <textarea rows="3" className="w-full px-4 py-2 border rounded-lg" placeholder="Reference 1" name="reference1" onChange={update}></textarea>
+              <textarea rows="3" className="w-full px-4 py-2 border rounded-lg" placeholder="Reference 2" name="reference2" onChange={update}></textarea>
+              <input type="text" className="w-full px-4 py-2 border rounded-lg" placeholder="Reporting To *" name="reportingTo" onChange={update} required />
 
-          <div>
-            <h3 className="text-2xl font-semibold text-gray-800 mb-4">Additional Information</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
-              {[
-                { name: "workAuthorization", label: "Are You Authorized to Work in India?" },
-                { name: "criminalConviction", label: "Have You Ever Been Convicted of a Criminal Offense?" },
-                { name: "relocateTravel", label: "Are You Willing to Relocate or Travel for Work?" },
-              ].map((item) => (
-                <div key={item.name}>
-                  <label className="block font-medium mb-2">{item.label} *</label>
-                  <div className="flex gap-8">
-                    <label className="flex items-center gap-2"><input type="radio" name={item.name} value="Yes" onChange={update} required /> Yes</label>
-                    <label className="flex items-center gap-2"><input type="radio" name={item.name} value="No" onChange={update} /> No</label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {[
+                  { name: "workAuthorization", label: "Authorized to Work in India?" },
+                  { name: "criminalConviction", label: "Criminal Conviction?" },
+                  { name: "relocateTravel", label: "Willing to Relocate/Travel?" },
+                ].map((item) => (
+                  <div key={item.name}>
+                    <label className="block font-medium mb-2">{item.label} *</label>
+                    <div className="flex gap-8">
+                      <label className="flex items-center gap-2"><input type="radio" name={item.name} value="Yes" onChange={update} required /> Yes</label>
+                      <label className="flex items-center gap-2"><input type="radio" name={item.name} value="No" onChange={update} /> No</label>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
 
               <div>
-                <label className="block font-medium mb-2">Date of Submission *</label>
+                <label className="block font-medium mb-2">Submission Date *</label>
                 <input type="date" className="w-full px-4 py-2 border rounded-lg" name="submissionDate" onChange={update} required />
               </div>
-            </div>
 
-            <div className="mb-6">
-              <label className="block font-medium mb-2">Upload Resume (PDF) *</label>
-              <input type="file" accept=".pdf" className="w-full" onChange={(e) => setResumeFile(e.target.files[0])} required />
-            </div>
+              <div>
+                <label className="block font-medium mb-2">Upload Resume (PDF) *</label>
+                <input type="file" accept=".pdf" className="w-full" onChange={(e) => setResumeFile(e.target.files[0])} required />
+              </div>
 
-            <div className="mb-8">
-              <label className="flex items-start gap-3 text-base">
-                <input type="checkbox" name="declaration" onChange={update} required className="mt-1" />
-                <span>I confirm that the information I provide is valid and legal *</span>
-              </label>
+              <div>
+                <label className="flex items-start gap-3">
+                  <input type="checkbox" name="declaration" onChange={update} required className="mt-1" />
+                  <span>I confirm that all information provided is correct and legal *</span>
+                </label>
+              </div>
             </div>
           </div>
 
-          <div className="flex justify-center gap-6">
+          <div className="flex justify-center gap-6 pt-6">
             <button
               type="submit"
               disabled={loading}

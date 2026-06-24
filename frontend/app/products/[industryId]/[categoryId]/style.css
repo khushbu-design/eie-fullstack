@@ -12,7 +12,6 @@
   margin-bottom: 50px;
 }
 
-/* View Toggle */
 .view-toggle {
   display: flex;
   justify-content: flex-end;
@@ -40,7 +39,6 @@
   border-color: #d60000;
 }
 
-/* Grid/List Container */
 .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -53,7 +51,6 @@
   gap: 24px;
 }
 
-/* Product Card - Common */
 .product-card {
   background: white;
   border: 1px solid #eee;
@@ -71,7 +68,6 @@
   border-color: #d60000;
 }
 
-/* Image Wrapper */
 .product-image-wrapper {
   width: 100%;
   height: 260px;
@@ -80,7 +76,7 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  margin-bottom: 0; /* image ની નીચે extra space ન આવે */
+  margin-bottom: 0;
 }
 
 .product-image {
@@ -95,7 +91,6 @@
   transform: scale(1.06);
 }
 
-/* List View Adjustments */
 .product-card.list {
   display: flex;
   flex-direction: row;
@@ -118,35 +113,30 @@
   padding: 0;
 }
 
-/* Product Info */
 .product-info {
-  padding: 12px 20px 20px; /* ઉપરનું space ઓછું */
+  padding: 12px 20px 20px;
   text-align: center;
 }
 
-/* Product Name */
 .product-name {
   font-size: 20px;
   font-weight: 600;
   color: #c00000;
-  margin: 0 0 10px 0; /* ઉપર margin 0 → તરત શરૂ થાય */
+  margin: 0 0 10px 0; 
   line-height: 1.3;
   padding: 0;
 }
-
 .product-name-link {
   text-decoration: none;
   color: inherit;
   display: block;
   transition: all 0.25s ease;
 }
-
 .product-name-link:hover {
   color: #d60000;
   text-decoration: underline;
 }
 
-/* Description */
 .product-desc {
   font-size: 15px;
   color: #444;
@@ -156,7 +146,6 @@
   padding: 0 8px;
 }
 
-/* No Image */
 .no-image {
   width: 100%;
   height: 100%;
@@ -171,7 +160,6 @@
   padding: 20px;
 }
 
-/* Animation */
 @keyframes fadeInUp {
   from {
     opacity: 0;

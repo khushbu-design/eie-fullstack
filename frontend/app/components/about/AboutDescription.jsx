@@ -137,7 +137,6 @@ export default function AboutDescription() {
         The Group has interest in manufacturing, marketing and Calibration of Scientific Instruments and Testing Equipment's for various applications. Professional marketing set up, strong commitment to after sales support, With experience of over 40+ years and Strong team of over 250+ professionals, in understanding and meeting our customer's requirements and sustained emphasis on customer satisfaction, has built a loyal base of customers in different segments of industry, Research and Education field throughout the country.
       </motion.p>
 
-      {/* Glimpses Carousel - Added below original text */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -198,7 +197,6 @@ export default function AboutDescription() {
         </div>
       </motion.div>
 
-      {/* Modal */}
       {selectedIndex !== null && (
         <ImageModal
           src={facilities[selectedIndex]}

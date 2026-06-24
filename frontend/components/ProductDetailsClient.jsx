@@ -147,7 +147,7 @@ export default function ProductDetailsClient({ product, base, industryId, catego
         <label htmlFor="tab3" className="tab-btn">Accessories</label>
         <input type="radio" id="tab4" name="tab" />
         <label htmlFor="tab4" className="tab-btn">Spares</label>
-        {/* Tab 1: Details */}
+
         <div className="tab-content">
           <div className="rich-text-content">
             {product.long_description ? (
@@ -157,7 +157,7 @@ export default function ProductDetailsClient({ product, base, industryId, catego
             )}
           </div>
         </div>
-        {/* Tab 2: Specifications */}
+
         <div className="tab-content">
           <div className="spec-box">
             {product.specification && product.specification.length > 0 ? (
@@ -174,7 +174,7 @@ export default function ProductDetailsClient({ product, base, industryId, catego
             )}
           </div>
         </div>
-        {/* Tab 3: Accessories */}
+
         <div className="tab-content">
           <div className="accessory-grid">
             {product.accessories && product.accessories.length > 0 ? (
@@ -203,7 +203,7 @@ export default function ProductDetailsClient({ product, base, industryId, catego
             )}
           </div>
         </div>
-        {/* Tab 4: Spares */}
+
         <div className="tab-content">
           <div className="accessory-grid">
             {product.spares && product.spares.length > 0 ? (

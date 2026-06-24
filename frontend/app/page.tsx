@@ -5,11 +5,14 @@ import OurServices from "./components/home/OurServices";
 import Stats from "./components/home/Stats";
 import Testimonials from "./components/home/Testimonials";
 import ClientsCarousel from "./components/home/ClientsCarousel";
+import ServiceNetwork from "./components/home/ServiceNetwork";
 
 export default function Home() {
   return (
     <div>
       <BannerSlider />
+
+      <ServiceNetwork />
       
       <WorldClass />
       

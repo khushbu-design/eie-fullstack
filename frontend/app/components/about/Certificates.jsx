@@ -73,7 +73,6 @@ export default function Certificates() {
               </div>
             </motion.a>
 
-            {/* Certificate Name Below */}
             <div className="p-4 text-center border-t border-gray-200">
               <h3 className="text-base md:text-lg font-semibold text-red-700 group-hover:text-red-800 transition-colors">
                 {cert.name}

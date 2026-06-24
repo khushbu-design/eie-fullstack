@@ -92,120 +92,173 @@ const clients = [
 
 const testimonials = [
   {
+    name: "Atul Limited",
+    logo: "/testimonials/atul-certificate.png",
+    text: "Your average score is 4.8 with Excellent rating.",
+    isCertificate: true,
+  },
+  {
+    name: "Alfa Corpuscles Pvt Ltd",
+    logo: "/testimonials/alfa-corpuscles.png",
+    text: "We sincerely appreciate the support provided by Mr. Parvesh Patel and his team. We faced an issue with our Stability Chamber, but their prompt guidance and technical expertise helped us resolve it quickly. Their professionalism and commitment to customer satisfaction were truly commendable. Thank you for the excellent service.",
+  },
+  {
     name: "Hindustan Colas Ltd. - Vadodara",
     logo: "/testimonials/hindustan-colas.png",
-    text:
-      "EIE Instruments has successfully executed all the orders and we found their services prompt, efficient and satisfactory. Their instruments are of good quality and better standards.",
+    text: "EIE Instruments has successfully executed all the orders and we found their services prompt, efficient and satisfactory. Their instruments are of good quality and better standards.",
   },
   {
     name: "Material Testing House (India) Ltd.",
     logo: "/testimonials/mth.png",
-    text:
-      "The features and performance of 2000kN capacity fully automatic Compression Testing Machine provided by EIE instruments is Excellent.",
+    text: "The features and performance of 2000kN capacity fully automatic Compression Testing Machine provided by EIE instruments is Excellent.",
   },
   {
     name: "Intertek India Pvt. Ltd. (Kutch)",
     logo: "/testimonials/intertek.png",
-    text:
-      "We received all laboratory instruments in good condition by EIE Instruments own transportation service. We really appreciate EIE service for Timely delivery and also appreciate its nice & innovative design of laboratory testing equipments. They have overcome our all expectations !!",
+    text: "We received all laboratory instruments in good condition by EIE Instruments own transportation service. They have overcome our all expectations !!",
   },
   {
     name: "Shree Digvijay Cement Co. Ltd.",
     logo: "/testimonials/digvijay.png",
-    text:
-      "We have evaluated your performance and as per the evaluation report, the rating observed is excellent. We wish to convey our thanks and request you to keep the same performance standard in future as well.",
+    text: "We have evaluated your performance and as per the evaluation report, the rating observed is excellent.",
   },
   {
     name: "JMC Projects (India) Ltd. - Ahmedabad - H.O",
     logo: "/testimonials/jmc.png",
-    text:
-      "EIE Instruments offered excellent after sales services to our maintenance need and the supplied Laboratory Equipments also exhibited up-to-the mark performance.",
+    text: "EIE Instruments offered excellent after sales services to our maintenance need and the supplied Laboratory Equipments also exhibited up-to-the mark performance.",
   },
   {
     name: "Shapoorji Pallonji & Co. Ltd. - Ahmedabad",
     logo: "/testimonials/shapoorji.png",
-    text:
-      "We have evaluated your performance and as per the evaluation report, the rating observed is excellent. We wish to convey our thanks and request you to keep the same performance standard in future as well.",
+    text: "We have evaluated your performance and as per the evaluation report, the rating observed is excellent.",
   },
 ];
 
-const container = { visible: { transition: { staggerChildren: 0.08 } } };
+const container = { visible: { transition: { staggerChildren: 0.02 } } };
 const item = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0 },
+  hidden: { opacity: 0, y: 15 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.3, ease: "easeOut" } },
 };
 
 export default function ClientelePage() {
   return (
-    <div className="px-6 md:px-20 py-24 bg-white">
+    <div className="px-4 sm:px-8 md:px-16 lg:px-24 py-16 bg-gradient-to-b from-gray-50 to-white antialiased">
+      
+      {/* Client List Header */}
+      <div className="text-center mb-16">
+        <h2 className="text-4xl md:text-5xl font-black text-red-800 tracking-tight mb-4">
+          Our Valuable Clients
+        </h2>
+        <div className="h-1 w-20 bg-red-600 mx-auto rounded-full"></div>
+      </div>
 
-      {/* TITLE */}
-      <h2 className="text-4xl font-bold text-center text-red-700 mb-16">
-        Our Valuable Clients
-      </h2>
-
-      {/* CLIENT LOGO GRID */}
+      {/* Grid Client Logos */}
       <motion.div
         initial="hidden"
         animate="visible"
         variants={container}
-        className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-10"
+        className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 mb-28"
       >
         {clients.map((client, idx) => (
           <motion.div
             key={idx}
             variants={item}
-            className="relative group bg-white p-4 rounded-xl border shadow-sm hover:shadow-lg transition"
+            className="group relative bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-red-200 transition-all duration-300 flex flex-col items-center justify-center overflow-hidden h-36"
           >
-            <div className="relative w-full h-20 flex items-center justify-center">
-              <Image src={client.logo} alt={client.name} fill className="object-contain" />
+            <div className="relative w-full h-16 flex items-center justify-center transform group-hover:scale-95 group-hover:-translate-y-2 transition-all duration-300">
+              <Image 
+                src={client.logo} 
+                alt={client.name} 
+                fill 
+                className="object-contain" 
+              />
             </div>
-
-            <div className="absolute inset-0 bg-black/70 text-white opacity-0 group-hover:opacity-100 flex items-center justify-center text-center p-4 text-sm font-medium transition rounded-xl">
+            
+            <div className="absolute inset-x-0 bottom-0 bg-red-950/95 text-white text-[11px] font-semibold p-2 text-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 max-h-full overflow-y-auto flex items-center justify-center whitespace-normal leading-tight">
               {client.name}
             </div>
           </motion.div>
         ))}
       </motion.div>
 
-      {/* SPACING */}
-      <div className="my-24"></div>
+      {/* Testimonials Header */}
+      <div className="text-center mb-16">
+        <h2 className="text-4xl md:text-5xl font-black text-red-800 tracking-tight mb-4">
+          Client Testimonials
+        </h2>
+        <div className="h-1 w-20 bg-red-600 mx-auto rounded-full"></div>
+      </div>
 
-      {/* TESTIMONIAL TITLE */}
-      <h2 className="text-4xl font-bold text-center text-red-700 mb-16">
-        Client Testimonials
-      </h2>
-
-      {/* TESTIMONIAL GRID */}
+      {/* Testimonials Cards Grid */}
       <motion.div
         initial="hidden"
         animate="visible"
         variants={container}
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
       >
         {testimonials.map((test, idx) => (
           <motion.div
             key={idx}
             variants={item}
-            className="bg-white rounded-2xl border shadow p-8 relative"
+            className="group relative bg-white rounded-3xl border border-gray-100 shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col"
           >
+            {/* ડાબી બાજુની લાલ લાઇન - સર્ટિફિકેટ સહિત બધામાં સરખી કરી દીધી */}
+            <div className="absolute left-0 top-0 h-full w-1.5 bg-red-700 rounded-l-3xl z-10"></div>
 
-            <div className="absolute left-0 top-0 h-full w-2 bg-red-600 rounded-l-2xl"></div>
+            {test.isCertificate ? (
+              <div className="flex-1 p-6 flex flex-col justify-between">
+                <a 
+                  href={test.logo} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex justify-center mb-5 cursor-zoom-in group-hover:scale-[1.02] transition-transform duration-300"
+                >
+                  <div className="relative w-full max-w-[260px] mx-auto border-2 border-gray-100 rounded-xl overflow-hidden shadow-md bg-white p-1">
+                    <Image
+                      src={test.logo}
+                      alt="Atul Limited Supplier Performance Certificate"
+                      width={400}
+                      height={500}
+                      className="w-full h-auto object-contain rounded-lg"
+                    />
+                  </div>
+                </a>
 
-            {/* LOGO */}
-            <div className="relative w-24 h-24 mx-auto mb-4">
-              <Image src={test.logo} alt={test.name} fill className="object-contain" />
-            </div>
+                <div className="text-center mt-2">
+                  {/* ગ્રીન બેજ સેટ કર્યો (તમે ઈમેજ image_be0b06.png માં બતાવ્યો છે તેવો જ લુક) */}
+                  <div className="inline-flex items-center gap-1.5 bg-[#e2f7e6] text-[#007a37] text-xs font-bold px-5 py-1.5 rounded-full mb-3 shadow-sm border border-[#c1f0cb]">
+                    ⭐ 4.8 / 5.0 - Excellent Rating
+                  </div>
+                  <h3 className="text-lg font-bold text-red-900">{test.name}</h3>
+                  <p className="text-xs text-gray-500 mt-0.5">Supplier Performance Certificate</p>
+                </div>
+              </div>
+            ) : (
+              <div className="flex-1 p-8 flex flex-col">
+                <div className="flex justify-center mb-5">
+                  <div className="relative w-20 h-20 rounded-2xl bg-gray-50 p-2 border border-gray-100 flex items-center justify-center shadow-inner">
+                    <Image 
+                      src={test.logo} 
+                      alt={test.name} 
+                      fill 
+                      className="object-contain p-2" 
+                    />
+                  </div>
+                </div>
 
-            {/* TITLE */}
-            <h3 className="text-center font-semibold text-lg text-red-700 mb-3">
-              {test.name}
-            </h3>
+                <h3 className="text-center font-bold text-base text-red-900 mb-4 px-2 leading-snug">
+                  {test.name}
+                </h3>
 
-            {/* DESCRIPTION */}
-            <p className="text-gray-700 text-sm leading-relaxed text-center">
-              {test.text}
-            </p>
+                <div className="relative flex-1">
+                  <span className="absolute -top-4 -left-2 text-4xl text-red-200 font-serif select-none">“</span>
+                  <p className="text-gray-600 text-sm leading-relaxed text-center italic relative z-10 px-3 pb-4">
+                    {test.text}
+                  </p>
+                  <span className="absolute -bottom-6 right-0 text-4xl text-red-200 font-serif select-none">”</span>
+                </div>
+              </div>
+            )}
           </motion.div>
         ))}
       </motion.div>

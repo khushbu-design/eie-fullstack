@@ -3,13 +3,27 @@ import { useState } from "react";
 
 export default function InquiryPopup({ onClose }) {
   const [form, setForm] = useState({
-    name: "", org: "", designation: "", city: "", gst: "", email: "", mobile: "", landline: "", requirements: "", message: "", file: null,
+    name: "",
+    org: "",
+    designation: "",
+    city: "",
+    gst: "",
+    email: "",
+    mobile: "",
+    landline: "",
+    requirements: "",
+    message: "",
+    file: null,
   });
+
   const [loading, setLoading] = useState(false);
 
   const change = (e) => {
     const { name, value, files } = e.target;
-    setForm({ ...form, [name]: files ? files[0] : value });
+    setForm({ 
+      ...form, 
+      [name]: files ? files[0] : value 
+    });
   };
 
   const submit = async (e) => {
@@ -17,19 +31,32 @@ export default function InquiryPopup({ onClose }) {
     setLoading(true);
 
     const formData = new FormData();
-    Object.keys(form).forEach((key) => formData.append(key, form[key]));
+    
+    Object.keys(form).forEach((key) => {
+      if (form[key] !== null && form[key] !== "") {
+        formData.append(key, form[key]);
+      }
+    });
+    
     formData.append("to", "info@eieinstruments.com");
 
     try {
-      const res = await fetch("/api/send-email", { method: "POST", body: formData });
-      if (res.ok) {
-        alert("Inquiry submitted successfully!");
-        onClose();
+      const res = await fetch("/api/send-email", {
+        method: "POST",
+        body: formData,
+      });
+
+      const result = await res.json();
+
+      if (result.success) {
+        const successMsg = encodeURIComponent("Your inquiry has been submitted successfully! Thank you for contacting us.");
+        window.location.href = `/success?message=${successMsg}`;
       } else {
-        alert("Failed to submit. Please try again.");
+        alert("Failed to submit inquiry. Please try again.");
       }
     } catch (err) {
-      alert("Network error. Please check your connection.");
+      console.error(err);
+      alert("Network error. Please check your connection and try again.");
     } finally {
       setLoading(false);
     }
@@ -37,27 +64,145 @@ export default function InquiryPopup({ onClose }) {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex justify-center items-center p-5 z-50">
-      <div className="bg-white w-full max-w-2xl p-6 rounded-xl shadow-xl">
-        <div className="flex justify-between">
-          <h2 className="text-xl font-semibold text-gray-800">Inquiry Form</h2>
-          <button onClick={onClose} className="text-xl">✖</button>
+      <div className="bg-white w-full max-w-2xl p-8 rounded-2xl shadow-2xl max-h-[90vh] overflow-y-auto">
+        
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-semibold text-red-600">Product Inquiry Form</h2>
+          <button 
+            onClick={onClose} 
+            className="text-3xl text-gray-500 hover:text-gray-700 transition"
+          >
+            ✕
+          </button>
         </div>
 
-        <form onSubmit={submit} className="grid grid-cols-2 gap-4 mt-4">
-          <input required name="name" placeholder="Person Name*" onChange={change} className="border border-gray-300 p-2 bg-gray-100" />
-          <input required name="org" placeholder="Organization Name*" onChange={change} className="border border-gray-300 p-2 bg-gray-100" />
-          <input required name="designation" placeholder="Designation*" onChange={change} className="border border-gray-300 p-2 bg-gray-100" />
-          <input required name="city" placeholder="City*" onChange={change} className="border border-gray-300 p-2 bg-gray-100" />
-          <input name="gst" placeholder="GST Number" onChange={change} className="border border-gray-300 p-2 bg-gray-100" />
-          <input required type="email" name="email" placeholder="Email*" onChange={change} className="border border-gray-300 p-2 bg-gray-100" />
-          <input name="mobile" placeholder="Mobile Number" onChange={change} className="border border-gray-300 p-2 bg-gray-100" />
-          <input name="landline" placeholder="Landline Number" onChange={change} className="border border-gray-300 p-2 bg-gray-100" />
-          <textarea required name="requirements" placeholder="Requirements*" onChange={change} className="col-span-2 border border-gray-300 p-2 bg-gray-100" />
-          <textarea name="message" placeholder="Message (optional)" onChange={change} className="col-span-2 border border-gray-300 p-2 bg-gray-100" />
-          <input type="file" name="file" onChange={change} className="col-span-2 border border-gray-300 p-2 bg-gray-100" />
+        <form onSubmit={submit} className="grid grid-cols-1 md:grid-cols-2 gap-5">
           
-          <button disabled={loading} className="col-span-2 bg-red-600 text-white p-3 rounded-lg hover:bg-red-700 disabled:bg-red-400 transition-colors">
-            {loading ? "Submitting..." : "Submit Inquiry"}
+          <div className="md:col-span-2">
+            <label className="block font-medium mb-1">Person Name <span className="text-red-500">*</span></label>
+            <input 
+              required 
+              name="name" 
+              placeholder="Enter your full name" 
+              onChange={change} 
+              className="w-full border border-gray-300 p-3 rounded-xl focus:ring-2 focus:ring-red-500 outline-none" 
+            />
+          </div>
+
+          <div>
+            <label className="block font-medium mb-1">Organization Name <span className="text-red-500">*</span></label>
+            <input 
+              required 
+              name="org" 
+              placeholder="Company / Institute" 
+              onChange={change} 
+              className="w-full border border-gray-300 p-3 rounded-xl focus:ring-2 focus:ring-red-500 outline-none" 
+            />
+          </div>
+
+          <div>
+            <label className="block font-medium mb-1">Designation</label>
+            <input 
+              name="designation" 
+              placeholder="Your position" 
+              onChange={change} 
+              className="w-full border border-gray-300 p-3 rounded-xl focus:ring-2 focus:ring-red-500 outline-none" 
+            />
+          </div>
+
+          <div>
+            <label className="block font-medium mb-1">City</label>
+            <input 
+              name="city" 
+              placeholder="Your city" 
+              onChange={change} 
+              className="w-full border border-gray-300 p-3 rounded-xl focus:ring-2 focus:ring-red-500 outline-none" 
+            />
+          </div>
+
+          <div>
+            <label className="block font-medium mb-1">GST Number</label>
+            <input 
+              name="gst" 
+              placeholder="GSTIN (if applicable)" 
+              onChange={change} 
+              className="w-full border border-gray-300 p-3 rounded-xl focus:ring-2 focus:ring-red-500 outline-none" 
+            />
+          </div>
+
+          <div>
+            <label className="block font-medium mb-1">Email Address <span className="text-red-500">*</span></label>
+            <input 
+              required 
+              type="email" 
+              name="email" 
+              placeholder="your@email.com" 
+              onChange={change} 
+              className="w-full border border-gray-300 p-3 rounded-xl focus:ring-2 focus:ring-red-500 outline-none" 
+            />
+          </div>
+
+          <div>
+            <label className="block font-medium mb-1">Mobile Number</label>
+            <input 
+              name="mobile" 
+              type="tel" 
+              placeholder="Your mobile number" 
+              onChange={change} 
+              className="w-full border border-gray-300 p-3 rounded-xl focus:ring-2 focus:ring-red-500 outline-none" 
+            />
+          </div>
+
+          <div>
+            <label className="block font-medium mb-1">Landline Number</label>
+            <input 
+              name="landline" 
+              type="tel" 
+              placeholder="Landline (optional)" 
+              onChange={change} 
+              className="w-full border border-gray-300 p-3 rounded-xl focus:ring-2 focus:ring-red-500 outline-none" 
+            />
+          </div>
+
+          <div className="md:col-span-2">
+            <label className="block font-medium mb-1">Requirements <span className="text-red-500">*</span></label>
+            <textarea 
+              required 
+              name="requirements" 
+              rows="4"
+              placeholder="Please describe your requirements in detail..." 
+              onChange={change} 
+              className="w-full border border-gray-300 p-3 rounded-xl focus:ring-2 focus:ring-red-500 outline-none resize-none"
+            ></textarea>
+          </div>
+
+          <div className="md:col-span-2">
+            <label className="block font-medium mb-1">Additional Message</label>
+            <textarea 
+              name="message" 
+              rows="3"
+              placeholder="Any other message or details..." 
+              onChange={change} 
+              className="w-full border border-gray-300 p-3 rounded-xl focus:ring-2 focus:ring-red-500 outline-none resize-none"
+            ></textarea>
+          </div>
+
+          <div className="md:col-span-2">
+            <label className="block font-medium mb-1">Upload File / List (optional)</label>
+            <input 
+              type="file" 
+              name="file" 
+              onChange={change} 
+              className="w-full border border-gray-300 p-3 rounded-xl focus:ring-2 focus:ring-red-500 outline-none" 
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="md:col-span-2 bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white font-semibold py-4 rounded-2xl text-lg transition-all mt-4"
+          >
+            {loading ? "Submitting Inquiry..." : "Submit Inquiry"}
           </button>
         </form>
       </div>

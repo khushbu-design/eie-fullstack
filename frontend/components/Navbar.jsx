@@ -47,10 +47,9 @@ export default function Navbar() {
 
   return (
     <div className="w-full sticky top-0 z-50 bg-white shadow-md">
-      {/* ==================== TOP BAR ==================== */}
+
       <div className="bg-red-700 text-white flex flex-col sm:flex-row justify-between items-center px-4 py-3 sm:px-6 gap-4 text-sm">
         
-        {/* Phone Numbers */}
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-6">
           <a href="tel:07966211234" className="flex items-center gap-2 hover:underline">
             📞 <strong>Domestic:</strong> 079-66211234
@@ -60,7 +59,6 @@ export default function Navbar() {
           </a>
         </div>
 
-        {/* Search */}
         <form onSubmit={handleSearch} className="relative w-full sm:w-80 max-w-md">
           <input
             ref={searchInputRef}
@@ -73,20 +71,17 @@ export default function Navbar() {
           </button>
         </form>
 
-        {/* Email */}
         <a href="mailto:info@eieinstruments.com" className="flex items-center gap-1.5 hover:underline">
           ✉ info@eieinstruments.com
         </a>
       </div>
 
-      {/* ==================== MAIN NAVBAR ==================== */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link href="/">
             <img src="/logo.png" alt="EIE Instruments" className="h-10 sm:h-12 cursor-pointer" />
           </Link>
 
-          {/* Desktop Menu */}
           <ul className="hidden lg:flex items-center gap-6 xl:gap-8 font-medium text-gray-800">
             <li className="relative dropdown-container">
               <div className="flex items-center gap-1">
@@ -144,7 +139,6 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* ==================== MOBILE MENU ==================== */}
       {isMobileMenuOpen && (
         <motion.div
           initial={{ opacity: 0, height: 0 }}

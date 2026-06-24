@@ -15,7 +15,7 @@ export default function ProductListClient({ products, industryId, categoryId }) 
           onClick={() => setView('grid')}
           title="Box/Grid View"
         >
-          {/* Grid icon - 4 squares */}
+
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <rect x="3" y="3" width="7" height="7" />
             <rect x="14" y="3" width="7" height="7" />
@@ -29,7 +29,7 @@ export default function ProductListClient({ products, industryId, categoryId }) 
           onClick={() => setView('list')}
           title="List View"
         >
-          {/* List icon - 3 horizontal lines */}
+
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <line x1="8" y1="6" x2="21" y2="6" />
             <line x1="8" y1="12" x2="21" y2="12" />

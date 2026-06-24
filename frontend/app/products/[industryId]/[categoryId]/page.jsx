@@ -15,7 +15,7 @@ export default async function CategoryProducts({ params }) {
     "populate[0]": "image",
     "populate[1]": "catalog_pdf",
     "populate[2]": "specification",
-    "sort": "name:asc",
+    "sort": "createdAt:asc",
   }).toString();
   const products = await fetchAPI(`/products?${query}`);
   return (

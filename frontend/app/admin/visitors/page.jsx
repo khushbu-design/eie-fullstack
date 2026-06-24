@@ -30,7 +30,7 @@ export default function VisitorsAdminPage() {
 
         if (res.status === 404) {
           setError('Visitor count data not found in Strapi. Please create & publish a VisitorCount entry in the admin panel.');
-          setCount(0); // fallback so page doesn't stay broken
+          setCount(0);
         } else {
           setError(`Server error ${res.status}: ${text || 'Unknown issue'}`);
         }

@@ -48,20 +48,16 @@ export default function RootLayout({
             <VisitorTracker />
             {children}
           </main>
-
-          {/* Chatbot */}
           <Chatbot />
 
-          {/* Inquiry Button */}
           <InquiryButton />
 
           <Footer />
 
           <CompareBar />
 
-          {/* WhatsApp Button - Updated Position & z-index */}
           <a
-            href="https://wa.me/919227230010"
+            href="https://wa.me/916357075375"
             target="_blank"
             rel="noopener noreferrer"
             className="fixed right-6 bottom-5 z-[9997] bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl flex items-center justify-center transition-all hover:scale-110 hover:shadow-xl"
@@ -73,7 +69,6 @@ export default function RootLayout({
           </a>
         </CompareProvider>
 
-        {/* Apollo.io Tracking Script */}
         <Script
           id="apollo-tracker"
           strategy="afterInteractive"

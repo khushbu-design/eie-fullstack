@@ -14,7 +14,6 @@ export default function VisitorTracker() {
 
         console.log('VisitorTracker - Trying to fetch:', url);
 
-        // GET current count
         const getRes = await fetch(url, { cache: 'no-store' });
 
         let currentCount = 0;
@@ -36,13 +35,12 @@ export default function VisitorTracker() {
             console.warn('VisitorCount single-type has no published entry yet. Starting from 0.');
           } else {
             console.error('Other GET error - skipping increment');
-            return; // don't try PUT if GET fails badly
+            return; 
           }
         }
 
         console.log('Current count:', currentCount);
 
-        // PUT to increment
         const updateRes = await fetch(url, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },

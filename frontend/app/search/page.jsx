@@ -31,9 +31,9 @@ export default async function SearchPage({ searchParams }) {
 
   const strapiQuery = new URLSearchParams();
 
+  // ✅ Only Name and Model Number ma search
   strapiQuery.append('filters[$or][0][name][$containsi]', query);
-  strapiQuery.append('filters[$or][1][short_description][$containsi]', query);
-  strapiQuery.append('filters[$or][2][model_number][$containsi]', query);
+  strapiQuery.append('filters[$or][1][model_number][$containsi]', query);
 
   strapiQuery.append('fields', 'name,slug,short_description,model_number');
 
@@ -44,7 +44,7 @@ export default async function SearchPage({ searchParams }) {
 
   strapiQuery.append('publicationState', 'live');
   strapiQuery.append('pagination[limit]', '50');
-  strapiQuery.append('sort', 'name:asc');
+  strapiQuery.append('sort', 'name:asc');   // ← Alphabetical rakhyo che (search ma best lage)
 
   const queryString = strapiQuery.toString();
 
@@ -58,9 +58,6 @@ export default async function SearchPage({ searchParams }) {
     products = res.data || [];
 
     console.log('✅ Products found:', products.length);
-    if (products.length > 0) {
-      console.log('First product:', JSON.stringify(products[0], null, 2));
-    }
   } catch (err) {
     console.error('❌ API Error:', err);
     error = 'Products load karva ma problem aavi – thodi var pachi try karo.';
@@ -91,7 +88,6 @@ export default async function SearchPage({ searchParams }) {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {products.map((item, index) => {
-            // Strapi v5 style - attributes direct che
             const p = item || {};
 
             const name = p.name || `Product #${item.id || index + 1}`;
@@ -99,7 +95,7 @@ export default async function SearchPage({ searchParams }) {
             const shortDesc = p.short_description || 'No description available';
             const modelNumber = p.model_number || 'N/A';
 
-            const firstCat = p.categories?.[0] || {}; // v5 ma data array nathi, direct array aave
+            const firstCat = p.categories?.[0] || {};
             const industry = firstCat.industry || {};
 
             const industrySlug = industry.slug || 'products';
@@ -135,6 +131,12 @@ export default async function SearchPage({ searchParams }) {
                   <h3 className="text-lg md:text-xl font-semibold text-gray-900 group-hover:text-red-600 line-clamp-2 min-h-[3rem]">
                     {name}
                   </h3>
+
+                  {modelNumber !== 'N/A' && (
+                    <p className="text-sm text-red-600 font-medium mt-1">
+                      Model: {modelNumber}
+                    </p>
+                  )}
 
                   <p className="text-sm md:text-base text-gray-600 mt-3 line-clamp-4 flex-grow">
                     {shortDesc}

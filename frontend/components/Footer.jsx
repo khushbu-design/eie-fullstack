@@ -87,7 +87,6 @@ export default function Footer() {
       <div className="border-b border-gray-700 pb-6 mb-8">
         <div className="max-w-7xl mx-auto px-5 grid md:grid-cols-3 text-center md:text-left gap-6">
           
-          {/* Updated Phone Numbers Section */}
           <div>
             <p className="text-sm text-gray-300 mb-1">📞 Call Us</p>
             <div className="space-y-1">
