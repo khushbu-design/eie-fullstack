@@ -6,6 +6,9 @@ import ImageModal from "@/app/components/ImageModal";
 
 export default function CertificatesPage() {
   const [modalImg, setModalImg] = useState(null);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     AOS.init({
@@ -13,73 +16,92 @@ export default function CertificatesPage() {
       duration: 700,
       easing: "ease-out-cubic",
     });
+    
+    fetchCertificates();
   }, []);
 
-  const categories = [
-    {
-      title: "Legal Documents",
-      items: [
-        { label: "Factory Licence", img: "/certificates/factory-licence.jpg" },
-        { label: "GST Certificate", img: "/certificates/gst.jpg" },
-        { label: "Membership Certificate", img: "/certificates/membership.jpg" },
-        { label: "Certificate of Incorporation", img: "/certificates/Certificate of Incorporation.png" },
-        { label: "Import Export Certificate", img: "/certificates/Import Export Certificate.png" },
-      ],
-    },
+  const fetchCertificates = async () => {
+    try {
+      setError(null);
+      const res = await fetch(
+        "http://localhost:1337/api/certificates?populate=image&sort=order:asc",
+        {
+          cache: "no-store",
+          next: { revalidate: 0 },
+        }
+      );
 
-    {
-      title: "Quality Certification",
-      items: [
-        { label: "Quality Policy", img: "/certificates/quality.jpg" },
-        { label: "Aggregates", img: "/certificates/aggregates.jpg" },
-        { label: "GMP", img: "/certificates/GMP.jpg" },
-        { label: "CE - CTM", img: "/certificates/CE - CTM.jpg" },
-        { label: "ISO - 13485", img: "/certificates/ISO - 13485.jpg" },
-        { label: "ISO 9001:2015", img: "/certificates/ISO.png" },
-        { label: "ISI - Slump Test", img: "/certificates/slump-test.jpg" },
-        { label: "CE - Hot Air Oven", img: "/certificates/hot-air-oven.jpg" },
-        { label: "CE - Humidity Chamber", img: "/certificates/humidity-chamber.jpg" },
-        { label: "CE - Paper Tube Tester", img: "/certificates/papaer-tube.jpg" },
-        { label: "ISI - Cylindrical Measures", img: "/certificates/cylindrical.jpg" },
-        { label: "ISI - Pycnometer", img: "/certificates/pycnometer.jpg" },
-        { label: "ISI - Vicat Needle", img: "/certificates/vicat-needle.jpg" },
-        { label: "ISI - Air Permeability", img: "/certificates/air-permeability.jpg" },
-        { label: "Brookfield Authorization", img: "/certificates/brookfield.jpg" },
-        { label: "ZED Gold Certificate", img: "/certificates/zed-gold.jpg" },
-        { label: "ZED Bronze Certificate", img: "/certificates/zed-bronze.jpg" },
-        { label: "ISI - Flakiness Gauge", img: "/certificates/flakiness-gauge.jpg" },
-        { label: "ISI - Bulk Density", img: "/certificates/bulk-density.jpg" },
-      ],
-    },
+      if (!res.ok) {
+        throw new Error(`HTTP Error: ${res.status}`);
+      }
 
-    {
-      title: "Performance Certification",
-      items: [
-        { label: "GST Certificate of Appreciation", img: "/certificates/gst-appreciation.jpg" },
-        { label: "Customer Feedback", img: "/certificates/customer.jpg" },
-        { label: "Member Certificate", img: "/certificates/member-certificate.jpg" },
-      ],
-    },
+      const json = await res.json();
 
-    {
-      title: "Calibration Certification",
-      items: [
-        { label: "NABL Certificate", img: "/certificates/accreditation.jpg" },
-        { label: "NPL Calibration Certificate", img: "/certificates/calibration.jpg" },
-      ],
-    },
-  ];
+      // Group certificates by category
+      const grouped = json.data.reduce((acc, item) => {
+        const cat = item.category || "Other";
+        if (!acc[cat]) acc[cat] = [];
+
+        acc[cat].push({
+          label: item.label,
+          img: item.image?.url 
+            ? `http://localhost:1337${item.image.url}` 
+            : "/placeholder.jpg",
+        });
+        return acc;
+      }, {});
+
+      // Convert to array format
+      const formattedCategories = Object.entries(grouped).map(([title, items]) => ({
+        title,
+        items: items.sort((a, b) => a.label.localeCompare(b.label)), // Alphabetical order
+      }));
+
+      setCategories(formattedCategories);
+    } catch (err) {
+      console.error("Fetch Error:", err);
+      setError("Strapi server sathe connect nathi thayu. Strapi running che ke nahi check karo.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center py-32">
+        <p className="text-xl text-gray-600">Loading Certificates...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-32">
+        <p className="text-red-600 text-lg">{error}</p>
+        <button 
+          onClick={fetchCertificates}
+          className="mt-4 px-6 py-3 bg-[#800000] text-white rounded-lg hover:bg-[#600000]"
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="p-10 space-y-16 max-w-7xl mx-auto">
-
       <h1 className="text-4xl font-bold text-center text-[#800000] tracking-wide mb-10">
         Certificates
       </h1>
 
+      {categories.length === 0 && (
+        <p className="text-center text-gray-500 text-xl py-10">
+          No certificates found. Strapi ma data add karo.
+        </p>
+      )}
+
       {categories.map((cat, i) => (
         <div key={i}>
-
           <h2
             className="text-2xl font-semibold text-center mb-8 text-[#800000] tracking-wide"
             data-aos="fade-down"
@@ -96,10 +118,8 @@ export default function CertificatesPage() {
                 className="cursor-pointer group"
                 onClick={() => setModalImg(item.img)}
               >
-
                 <div className="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300">
-
-                  <div className="w-full h-56 flex items-center justify-center bg-white">
+                  <div className="w-full h-56 flex items-center justify-center bg-white p-4">
                     <img
                       src={item.img}
                       alt={item.label}
