@@ -15,40 +15,58 @@ const timelineData = [
     color: "bg-gray-700",
   },
   {
+    year: "2000",
+    title: "New Administrative Office",
+    description: "Shifted to a new administrative office of 1500 square feet.",
+    color: "bg-[#800000]",
+  },
+  {
+    year: "2002",
+    title: "New Production Unit",
+    description: "Shifted to a 4500 square feet production unit.",
+    color: "bg-gray-700",
+  },
+  {
     year: "2004",
     title: "EIE Instruments Pvt Ltd Incorporated",
     description: "EIE Instruments Private Limited was incorporated.",
     color: "bg-[#800000]",
   },
   {
+    year: "2008",
+    title: "New Factory",
+    description: "Shifted to a new factory measuring 27000 square feet.",
+    color: "bg-gray-700",
+  },
+  {
     year: "2012",
     title: "Stress Management Seminar",
     description: "Stress Management Seminar Held at EIE Kathawada premises on 14.07.2012 to contribute spiritually & ethically towards employees growth & success.",
-    color: "bg-gray-700",
+    color: "bg-[#800000]",
   },
   {
     year: "2014",
     title: "NABL Accredited Lab",
     description: "NABL accredited Calibration Lab was established.",
-    color: "bg-[#800000]",
+    color: "bg-gray-700",
   },
   {
     year: "2020",
     title: "New Corporate HQ",
     description: "Corporate headquarter moved to spacious 6000 sq.ft. office premises at BVR EK Complex, Near Gujarat College.",
-    color: "bg-gray-700",
+    color: "bg-[#800000]",
   },
   {
     year: "2023",
     title: "New Manufacturing Unit",
     description: "New Manufacturing Unit inaugurated at Kubadthal over plot area of 11000 sq.yards.",
-    color: "bg-[#800000]",
+    color: "bg-gray-700",
   },
   {
     year: "2024",
     title: "NABL Calibration Laboratory Relocated",
     description: "NABL Calibration Laboratory moved from Kathwada Premises to more spacious Kubadthal factory premises.",
-    color: "bg-gray-700",
+    color: "bg-[#800000]",
   },
 ];
 

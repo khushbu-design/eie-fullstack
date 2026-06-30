@@ -8,7 +8,7 @@ const certificates = [
     name: "Certificate of Incorporation",
   },
   {
-    src: "/certificates/ISO.png",
+    src: "/certificates/ISO 90012015-Bureau Veritas_page-0001.jpg",
     name: "ISO 9001:2015 Certification",
   },
   {
