@@ -72,11 +72,12 @@ const timelineData = [
 
 export default function Timeline() {
   return (
-    <section className="py-20 bg-white relative overflow-hidden font-sans">
+    <section className="py-20 bg-white relative overflow-hidden font-sans" aria-labelledby="timeline-heading">
       <div className="max-w-6xl mx-auto px-6">
         
         <div className="text-center mb-24">
           <motion.h2 
+            id="timeline-heading"
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -110,7 +111,7 @@ export default function Timeline() {
                     <span className="inline-block md:hidden bg-[#800000] text-white text-xs font-bold px-3 py-1 rounded-full mb-3">
                       {item.year}
                     </span>
-                    <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-[#800000] transition-colors">
+                    <h3 className="text-xl font-bold text-gray-900 mb-3">
                       {item.title}
                     </h3>
                     <p className="text-gray-600 text-sm md:text-base leading-relaxed">

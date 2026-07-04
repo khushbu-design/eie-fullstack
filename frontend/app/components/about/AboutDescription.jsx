@@ -10,16 +10,6 @@ const facilities = [
   "/images/manufacture-4.jpg",
   "/images/manufacture-5.jpg",
   "/images/manufacture-6.jpg",
-  "/images/manufacture-7.jpg",
-  "/images/manufacture-8.jpg",
-  "/images/manufacture-9.jpg",
-  "/images/manufacture-10.jpg",
-  "/images/manufacture-11.jpg",
-  "/images/manufacture-12.jpg",
-  "/images/manufacture-13.jpg",
-  "/images/manufacture-14.jpg",
-  "/images/manufacture-15.jpg",
-  "/images/manufacture-16.jpg",
 ];
 
 const duplicated = [...facilities, ...facilities, ...facilities];

@@ -6,12 +6,7 @@ import { getStrapiMedia } from '@/lib/strapi-media';
 export const metadata = {
   title: 'Search Products | EIE Instruments',
   description: 'Search for lab testing equipment, instruments by name, model or keyword.',
-};
-
-export const viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 1,
+  keywords: ['search products', 'lab testing instruments', 'material testing', 'EIE Instruments'],
 };
 
 export default async function SearchPage({ searchParams }) {

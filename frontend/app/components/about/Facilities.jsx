@@ -3,8 +3,9 @@ import { motion } from "framer-motion";
 
 export default function Facilities() {
   return (
-    <section className="px-10 md:px-20 py-16 bg-gray-50">
+    <section className="px-10 md:px-20 py-16 bg-gray-50" aria-labelledby="facilities-heading">
       <motion.h2
+        id="facilities-heading"
         className="text-3xl md:text-4xl font-bold text-red-800 mb-8"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -37,7 +38,8 @@ export default function Facilities() {
         <a
           href="https://www.youtube.com/watch?v=j95YjkmtxGA"
           target="_blank"
-          className="text-red-600 underline"
+          rel="noopener noreferrer"
+          className="text-red-600 underline hover:text-red-700"
         >
           Watch Video
         </a>
@@ -48,7 +50,8 @@ export default function Facilities() {
         <a
           href="https://www.youtube.com/watch?v=RH4zg9hRmLw"
           target="_blank"
-          className="text-red-600 underline"
+          rel="noopener noreferrer"
+          className="text-red-600 underline hover:text-red-700"
         >
           Watch Video
         </a>

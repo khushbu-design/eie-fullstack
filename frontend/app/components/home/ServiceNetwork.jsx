@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 export default function ServiceNetwork() {
   return (
-    <section className="py-16 bg-white">
+    <section className="py-16 bg-white" aria-labelledby="service-network-heading">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         
         <motion.div
@@ -15,7 +15,7 @@ export default function ServiceNetwork() {
         >
           <Image
             src="/events/event12.jpeg" 
-            alt="EIE Instruments Nationwide Service Network"
+            alt="EIE Instruments Pan-India Service Network Expansion"
             width={1400}
             height={700}
             className="w-full h-auto object-cover"
@@ -25,6 +25,7 @@ export default function ServiceNetwork() {
 
         <div className="max-w-4xl mx-auto text-center lg:text-left">
           <motion.h2
+            id="service-network-heading"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -49,7 +50,7 @@ export default function ServiceNetwork() {
             </p>
 
             <h3 className="text-2xl font-semibold text-red-600 mt-10 mb-4">⚙️ What This Means for You:</h3>
-            <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 text-lg">
+            <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 text-lg list-none">
               <li>✔️ Faster Response Time</li>
               <li>✔️ On-Site Installation & Commissioning</li>
               <li>✔️ AMC & Calibration Support</li>

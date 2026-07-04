@@ -23,8 +23,9 @@ const testimonials = [
 
 export default function Testimonials() {
   return (
-    <section className="py-24 bg-gray-50 px-8 md:px-20">
+    <section className="py-24 bg-gray-50 px-8 md:px-20" aria-labelledby="testimonials-heading">
       <motion.h2
+        id="testimonials-heading"
         className="text-4xl font-bold text-center text-red-600 mb-16"
         initial={{ opacity: 0, y: 25 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -43,10 +44,10 @@ export default function Testimonials() {
             className="bg-white p-10 border border-gray-200 shadow-sm rounded-2xl hover:shadow-md transition"
           >
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-16 h-16 relative">
+              <div className="w-16 h-16 relative flex-shrink-0">
                 <Image
                   src={item.logo}
-                  alt={item.name}
+                  alt={`${item.name} Logo`}
                   fill
                   className="object-contain"
                 />
@@ -59,7 +60,9 @@ export default function Testimonials() {
               </div>
             </div>
 
-            <p className="text-gray-700 leading-relaxed">{item.feedback}</p>
+            <blockquote className="text-gray-700 leading-relaxed italic">
+              “{item.feedback}”
+            </blockquote>
           </motion.div>
         ))}
       </div>

@@ -22,8 +22,9 @@ export default function ClientsCarousel() {
   const sliderRef = useRef(null);
 
   return (
-    <section className="py-24 bg-white px-6 md:px-20">
+    <section className="py-24 bg-white px-6 md:px-20" aria-labelledby="clients-heading">
       <motion.h2
+        id="clients-heading"
         initial={{ opacity: 0, y: 25 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -32,6 +33,10 @@ export default function ClientsCarousel() {
         Our Valuable Clients
       </motion.h2>
 
+      <p className="text-center text-lg text-gray-600 max-w-2xl mx-auto mb-12">
+        Trusted by leading organizations across India and globally for high-quality laboratory testing instruments since 1977
+      </p>
+
       <div className="relative overflow-hidden">
         <motion.div
           ref={sliderRef}
@@ -39,7 +44,7 @@ export default function ClientsCarousel() {
           initial={{ x: 0 }}
           animate={{ x: ["0%", "-100%"] }}
           transition={{
-            duration: 60,      
+            duration: 55,
             ease: "linear",
             repeat: Infinity,
           }}
@@ -52,7 +57,7 @@ export default function ClientsCarousel() {
               <div className="relative w-full h-full">
                 <Image
                   src={src}
-                  alt="client logo"
+                  alt={`Client logo ${idx + 1}`}
                   fill
                   className="object-contain"
                   sizes="(max-width: 768px) 200px, 240px"
@@ -69,7 +74,7 @@ export default function ClientsCarousel() {
           href="/clientele"
           className="bg-red-600 text-white px-8 py-4 rounded-xl text-lg font-semibold shadow hover:bg-red-700 transition hover:scale-105"
         >
-          View Our Clients
+          View Our Clients →
         </a>
       </div>
     </section>

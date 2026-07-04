@@ -9,24 +9,28 @@ const statsData = [
     label: "Employees",
     value: 300,
     icon: <Users size={40} />,
+    suffix: "+",
   },
   {
     id: 2,
-    label: "Projects",
+    label: "Projects Completed",
     value: 1000,
     icon: <ClipboardCheck size={40} />,
+    suffix: "+",
   },
   {
     id: 3,
-    label: "Years Experience",
+    label: "Years of Experience",
     value: 49,
     icon: <Timer size={40} />,
+    suffix: "+",
   },
   {
     id: 4,
-    label: "Customers",
+    label: "Happy Customers",
     value: 10000,
     icon: <UserCheck className="w-10 h-10 text-red-700" />,
+    suffix: "+",
   },
 ];
 
@@ -53,8 +57,9 @@ export default function Stats() {
   }, []);
 
   return (
-    <section className="py-24 bg-white px-10 md:px-20">
+    <section className="py-24 bg-white px-10 md:px-20" aria-labelledby="achievements-heading">
       <motion.h2
+        id="achievements-heading"
         initial={{ opacity: 0, y: 25 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -73,10 +78,14 @@ export default function Stats() {
             className="flex flex-col items-center text-center bg-gray-50 border border-gray-200 rounded-2xl shadow-sm py-10 px-6 hover:shadow-md transition"
           >
             <div className="text-red-600 mb-4">{item.icon}</div>
-            <p className="text-4xl font-bold text-gray-900 mb-2">
-              {counts[index]}+
+            
+            <p className="text-4xl font-bold text-gray-900 mb-3">   {/* ← Original size restored */}
+              {counts[index]}{item.suffix}
             </p>
-            <p className="text-gray-600 text-lg">{item.label}</p>
+            
+            <p className="text-gray-600 text-lg font-medium">
+              {item.label}
+            </p>
           </motion.div>
         ))}
       </div>

@@ -20,16 +20,47 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "EIE Instruments Pvt Ltd",
-  description: "Leading manufacturer of testing instruments for Civil, Pharma, Petroleum, Tiles, Paper & Packaging industries and more.",
-  viewport: 'width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover',
-
+  title: {
+    default: "EIE Instruments Pvt Ltd | Laboratory Testing Equipment Manufacturers",
+    template: "%s | EIE Instruments",
+  },
+  description: "Since 1977, EIE Instruments is a leading manufacturer of high-quality laboratory testing equipment for Civil Engineering, Pharmaceutical, Tiles & Ceramics, Petroleum, Paper & Packaging industries. Pan-India service & NABL accredited calibration lab.",
+  
+  keywords: [
+    "laboratory testing instruments", "civil engineering testing equipment", 
+    "material testing machines", "pharmaceutical testing instruments", 
+    "calibration services", "NABL accredited lab", "EIE Instruments", 
+    "testing equipment manufacturers India"
+  ],
+  
+  authors: [{ name: "EIE Instruments Pvt Ltd" }],
+  creator: "EIE Instruments Pvt Ltd",
+  
   openGraph: {
-    title: "EIE Instruments Pvt Ltd",
-    description: "Leading manufacturer of testing instruments for Civil, Pharma, Petroleum, Tiles, Paper & more",
-    url: "https://eieinstruments.com",
+    title: "EIE Instruments Pvt Ltd - Laboratory Testing Equipment Since 1977",
+    description: "Premium testing instruments for Civil, Pharma, Petroleum, Tiles, Paper industries with Pan-India service support.",
+    url: "https://eieinstruments.co.in",
     siteName: "EIE Instruments",
+    images: [
+      {
+        url: "/og-image.jpg", // Recommended: Add a good OG image
+        width: 1200,
+        height: 630,
+        alt: "EIE Instruments Laboratory Testing Equipment",
+      },
+    ],
+    locale: "en_IN",
     type: "website",
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+    },
   },
 };
 
@@ -48,14 +79,13 @@ export default function RootLayout({
             <VisitorTracker />
             {children}
           </main>
+
           <Chatbot />
-
           <InquiryButton />
-
           <Footer />
-
           <CompareBar />
 
+          {/* WhatsApp Button */}
           <a
             href="https://wa.me/916357075375"
             target="_blank"
@@ -68,6 +98,40 @@ export default function RootLayout({
             </svg>
           </a>
         </CompareProvider>
+
+        {/* Organization Schema (Important for GEO + SEO) */}
+        <Script
+          id="organization-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "EIE Instruments Pvt Ltd",
+              "url": "https://eieinstruments.co.in",
+              "logo": "https://eieinstruments.co.in/logo.png",
+              "description": "Leading manufacturer of laboratory testing instruments since 1977",
+              "foundingDate": "1977",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "A-1301 BVR Ek, Opp. Hotel Inder Residency",
+                "addressLocality": "Ahmedabad",
+                "addressRegion": "Gujarat",
+                "postalCode": "380006",
+                "addressCountry": "IN"
+              },
+              "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": "+91-9227230010",
+                "contactType": "customer service",
+                "email": "info@eieinstruments.com"
+              },
+              "sameAs": [
+                "https://www.linkedin.com/company/eie-instruments-pvt-ltd"
+              ]
+            })
+          }}
+        />
 
         <Script
           id="apollo-tracker"

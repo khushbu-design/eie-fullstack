@@ -1,4 +1,6 @@
-"use client";
+// app/contact/page.js
+'use client';
+
 import { useState } from "react";
 import { motion } from "framer-motion";
 
@@ -72,122 +74,88 @@ export default function ContactPage() {
   ];
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-b from-gray-50 via-white to-gray-100 flex flex-col items-center py-10 space-y-20">
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.7 }}
-        className="w-full max-w-6xl bg-white/80 backdrop-blur-md shadow-lg rounded-3xl p-8 border border-gray-200"
-      >
-        <h2 className="text-3xl font-bold text-red-600 mb-6 text-center">Contact Us</h2>
-        <p className="text-black mb-4 leading-relaxed text-center">
-          We’re here to help! Reach out to us for any product inquiries, technical questions, or service support.
-        </p>
-        <div className="space-y-4 text-black text-center">
-          <div>
-            <strong>Factory Address:</strong>
-            <p>Survey No. 1098, Nr. Mahakali Temple, Opp. Primary School, Village Kubadthal, Tal : Daskroi, Ahmedabad Gujarat - 382430</p>
-          </div>
-          <div>
-            <strong>Phone:</strong>
-            <a href="tel:+917935208300" className="text-black hover:underline">
-              079-35208300
-            </a>
-          </div>
-          <div>
-            <strong>Email:</strong>
-            <a href="mailto:info@eieinstruments.com" className="text-black hover:underline">
-              info@eieinstruments.com
-            </a>
-          </div>
-        </div>
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-100 py-12">
+      {/* Contact Hero */}
+      <div className="max-w-6xl mx-auto px-6 mb-16">
         <motion.div
-          className="mt-6 rounded-2xl overflow-hidden shadow-md border h-64"
-          whileHover={{ scale: 1.02 }}
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="bg-white rounded-3xl shadow-2xl p-10 border border-gray-100 text-center"
+        >
+          <h1 className="text-5xl font-bold text-red-600 mb-6">Contact Us</h1>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            We’re here to help! Reach out to us for any product inquiries, technical questions, or service support.
+          </p>
+        </motion.div>
+      </div>
+
+      {/* Google Map */}
+      <div className="max-w-6xl mx-auto px-6 mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="rounded-3xl overflow-hidden shadow-2xl border border-gray-200"
         >
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3674.3575163576464!2d72.7545427!3d23.0280062!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e7d9cf5031f19%3A0x9144811f403672c6!2sEIE%20Instruments%20Private%20Limited%20-%20Kubadthal!5e0!3m2!1sen!2sin"
             width="100%"
-            height="100%"
+            height="450"
             loading="lazy"
-            className="rounded-2xl"
+            className="w-full"
           ></iframe>
-        </motion.div>
-      </motion.div>
-
-      <div className="w-full max-w-6xl p-6">
-        <h2 className="text-4xl font-bold text-center text-red-600 mb-12">Office & Plant Addresses</h2>
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6"
-        >
-          {officeAddresses.map((office, idx) => (
-            <motion.div
-              key={idx}
-              className="border p-6 rounded-2xl bg-gray-50 shadow-sm hover:shadow-lg hover:scale-105 transition transform"
-            >
-              <p className="font-semibold mb-2 text-black">{office.title}</p>
-              <p className="text-black mb-2">{office.address}</p>
-              <p className="text-black">
-                📧{" "}
-                <a href={`mailto:${office.email}`} className="text-black hover:underline">
-                  {office.email}
-                </a>
-              </p>
-              <p className="text-black">
-                📞{" "}
-                <a href={`tel:${office.phone.replace(/\D/g, '')}`} className="text-black hover:underline">
-                  {office.phone}
-                </a>
-              </p>
-            </motion.div>
-          ))}
         </motion.div>
       </div>
 
-      <div className="w-full max-w-6xl p-6">
+      {/* Office Addresses */}
+      <div className="max-w-6xl mx-auto px-6 mb-20">
+        <h2 className="text-4xl font-bold text-center text-red-600 mb-12">Office & Plant Addresses</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {officeAddresses.map((office, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="bg-white border border-gray-200 rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all"
+            >
+              <h3 className="font-semibold text-xl text-red-700 mb-4">{office.title}</h3>
+              <p className="text-gray-600 leading-relaxed mb-6">{office.address}</p>
+              <div className="space-y-3">
+                <a href={`mailto:${office.email}`} className="block text-red-600 hover:underline">📧 {office.email}</a>
+                <a href={`tel:${office.phone}`} className="block text-red-600 hover:underline">📞 {office.phone}</a>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      {/* Team Contacts */}
+      <div className="max-w-6xl mx-auto px-6 mb-20">
         <h2 className="text-4xl font-bold text-center text-red-600 mb-12">Team Contacts</h2>
         {teamSections.map((section, idx) => (
           <motion.div
             key={idx}
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: idx * 0.2 }}
-            className="mb-12"
+            transition={{ delay: idx * 0.1 }}
+            className="mb-16"
           >
-            <h3 className="text-2xl font-semibold text-center text-black mb-6">{section.title}</h3>
+            <h3 className="text-2xl font-semibold text-center mb-8 text-gray-800">{section.title}</h3>
             <div className={`grid grid-cols-1 md:grid-cols-${section.cols} gap-6`}>
               {section.members.map((p, i) => (
                 <motion.div
                   key={i}
-                  className="border p-5 rounded-2xl bg-gray-50 shadow-sm hover:shadow-lg hover:scale-105 transition transform"
+                  className="bg-white border border-gray-200 rounded-3xl p-7 shadow-sm hover:shadow-xl transition-all"
                 >
-                  <p className="font-semibold text-black">{p.name}</p>
-                  <p className="text-black">
-                    📧{" "}
-                    <a href={`mailto:${p.email}`} className="text-black hover:underline">
-                      {p.email}
-                    </a>
-                  </p>
-                  <p className="text-black">
-                    📞{" "}
-                    <a href={`tel:${p.phone1.replace(/\D/g, '')}`} className="text-black hover:underline">
-                      {p.phone1}
-                    </a>
-                  </p>
-                  {p.phone2 && (
-                    <p className="text-black">
-                      📞{" "}
-                      <a href={`tel:${p.phone2.replace(/\D/g, '')}`} className="text-black hover:underline">
-                        {p.phone2}
-                      </a>
-                    </p>
-                  )}
+                  <p className="font-semibold text-lg mb-4">{p.name}</p>
+                  <div className="space-y-3 text-gray-700">
+                    <a href={`mailto:${p.email}`} className="block hover:text-red-600">📧 {p.email}</a>
+                    <a href={`tel:${p.phone1}`} className="block hover:text-red-600">📞 {p.phone1}</a>
+                    {p.phone2 && <a href={`tel:${p.phone2}`} className="block hover:text-red-600">📞 {p.phone2}</a>}
+                  </div>
                 </motion.div>
               ))}
             </div>
@@ -195,106 +163,114 @@ export default function ContactPage() {
         ))}
       </div>
 
-      <motion.div
-        className="w-full max-w-6xl bg-white/80 backdrop-blur-md shadow-lg rounded-3xl p-8 border border-gray-200"
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.7 }}
-      >
-        <h2 className="text-3xl font-bold text-red-600 mb-6 text-center">Place Your Product Inquiry Here</h2>
-
-        <form
-          onSubmit={async (e) => {
-            e.preventDefault();
-            setLoading(true);
-            setSubmitStatus("");
-
-            const formData = new FormData(e.target);
-            formData.append("to", "info@eieinstruments.com");
-
-            try {
-              const res = await fetch("/api/send-email", {
-                method: "POST",
-                body: formData,
-              });
-
-              const result = await res.json();
-
-              if (result.success) {
-                setSubmitStatus("Your inquiry has been sent successfully!");
-                e.target.reset();
-              } else {
-                setSubmitStatus("Failed to send inquiry. Please try again later.");
-              }
-            } catch (error) {
-              setSubmitStatus("Network error. Please check your connection.");
-            }
-
-            setLoading(false);
-          }}
-          className="space-y-5 text-black"
+      {/* Inquiry Form */}
+      <div className="max-w-4xl mx-auto px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="bg-white rounded-3xl shadow-2xl p-10 border border-gray-100"
         >
-          <div>
-            <label className="block font-medium mb-1">Person Name</label>
-            <input name="name" type="text" required className="w-full p-3 rounded-2xl border focus:ring-2 focus:ring-red-500 outline-none transition" placeholder="Enter your name" />
-          </div>
-          <div>
-            <label className="block font-medium mb-1">Organization Name</label>
-            <input name="org" type="text" required className="w-full p-3 rounded-2xl border focus:ring-2 focus:ring-red-500 outline-none transition" placeholder="Organization Name" />
-          </div>
-          <div>
-            <label className="block font-medium mb-1">Designation</label>
-            <input name="designation" type="text" className="w-full p-3 rounded-2xl border focus:ring-2 focus:ring-red-500 outline-none transition" placeholder="Designation" />
-          </div>
-          <div>
-            <label className="block font-medium mb-1">City</label>
-            <input name="city" type="text" className="w-full p-3 rounded-2xl border focus:ring-2 focus:ring-red-500 outline-none transition" placeholder="City" />
-          </div>
-          <div>
-            <label className="block font-medium mb-1">GST Number</label>
-            <input name="gst" type="text" className="w-full p-3 rounded-2xl border focus:ring-2 focus:ring-red-500 outline-none transition" placeholder="GST number" />
-          </div>
-          <div>
-            <label className="block font-medium mb-1">Email</label>
-            <input name="email" type="email" required className="w-full p-3 rounded-2xl border focus:ring-2 focus:ring-red-500 outline-none transition" placeholder="Enter your email" />
-          </div>
-          <div>
-            <label className="block font-medium mb-1">Mobile Number</label>
-            <input name="mobile" type="tel" className="w-full p-3 rounded-2xl border focus:ring-2 focus:ring-red-500 outline-none transition" placeholder="Enter your phone number" />
-          </div>
-          <div>
-            <label className="block font-medium mb-1">Landline Number</label>
-            <input name="landline" type="tel" className="w-full p-3 rounded-2xl border focus:ring-2 focus:ring-red-500 outline-none transition" placeholder="Enter your landline number" />
-          </div>
-          <div>
-            <label className="block font-medium mb-1">Requirements</label>
-            <textarea name="requirements" required className="w-full p-3 rounded-2xl border h-32 resize-none focus:ring-2 focus:ring-red-500 outline-none transition" placeholder="Write your requirements here"></textarea>
-          </div>
-          <div>
-            <label className="block font-medium mb-1">Message</label>
-            <textarea name="message" className="w-full p-3 rounded-2xl border h-32 resize-none focus:ring-2 focus:ring-red-500 outline-none transition" placeholder="Write your message here"></textarea>
-          </div>
-          <div>
-            <label className="block font-medium mb-1">Upload Your List</label>
-            <input name="file" type="file" className="w-full p-3 rounded-2xl border focus:ring-2 focus:ring-red-500 outline-none transition" />
-          </div>
+          <h2 className="text-4xl font-bold text-red-600 text-center mb-6">Place Your Product Inquiry Here</h2>
+          <p className="text-center text-gray-600 mb-8">We will get back to you shortly</p>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-red-600 hover:bg-red-700 disabled:bg-red-400 disabled:cursor-not-allowed text-white py-3 rounded-2xl text-lg font-semibold transition-all"
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault();
+              setLoading(true);
+              setSubmitStatus("");
+
+              const formData = new FormData(e.target);
+              formData.append("to", "info@eieinstruments.com");
+
+              try {
+                const res = await fetch("/api/send-email", {
+                  method: "POST",
+                  body: formData,
+                });
+
+                const result = await res.json();
+
+                if (result.success) {
+                  setSubmitStatus("Your inquiry has been sent successfully!");
+                  e.target.reset();
+                } else {
+                  setSubmitStatus("Failed to send inquiry. Please try again later.");
+                }
+              } catch (error) {
+                setSubmitStatus("Network error. Please check your connection.");
+              }
+
+              setLoading(false);
+            }}
+            className="space-y-6"
           >
-            {loading ? "Sending..." : "Send Message"}
-          </button>
-
-          {submitStatus && (
-            <div className={`p-3 rounded-xl text-center font-medium ${submitStatus.includes("success") ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
-              {submitStatus}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block font-medium mb-2">Person Name</label>
+                <input name="name" type="text" required className="w-full p-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-red-500 outline-none" placeholder="Enter your name" />
+              </div>
+              <div>
+                <label className="block font-medium mb-2">Organization Name</label>
+                <input name="org" type="text" required className="w-full p-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-red-500 outline-none" placeholder="Organization Name" />
+              </div>
+              <div>
+                <label className="block font-medium mb-2">Designation</label>
+                <input name="designation" type="text" className="w-full p-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-red-500 outline-none" placeholder="Designation" />
+              </div>
+              <div>
+                <label className="block font-medium mb-2">City</label>
+                <input name="city" type="text" className="w-full p-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-red-500 outline-none" placeholder="City" />
+              </div>
+              <div>
+                <label className="block font-medium mb-2">GST Number</label>
+                <input name="gst" type="text" className="w-full p-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-red-500 outline-none" placeholder="GST number" />
+              </div>
+              <div>
+                <label className="block font-medium mb-2">Email</label>
+                <input name="email" type="email" required className="w-full p-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-red-500 outline-none" placeholder="Enter your email" />
+              </div>
+              <div>
+                <label className="block font-medium mb-2">Mobile Number</label>
+                <input name="mobile" type="tel" className="w-full p-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-red-500 outline-none" placeholder="Enter your phone number" />
+              </div>
+              <div>
+                <label className="block font-medium mb-2">Landline Number</label>
+                <input name="landline" type="tel" className="w-full p-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-red-500 outline-none" placeholder="Enter your landline number" />
+              </div>
             </div>
-          )}
-        </form>
-      </motion.div>
+
+            <div>
+              <label className="block font-medium mb-2">Requirements</label>
+              <textarea name="requirements" required className="w-full p-4 border border-gray-300 rounded-3xl h-32 focus:ring-2 focus:ring-red-500 outline-none" placeholder="Write your requirements here"></textarea>
+            </div>
+
+            <div>
+              <label className="block font-medium mb-2">Message</label>
+              <textarea name="message" className="w-full p-4 border border-gray-300 rounded-3xl h-32 focus:ring-2 focus:ring-red-500 outline-none" placeholder="Write your message here"></textarea>
+            </div>
+
+            <div>
+              <label className="block font-medium mb-2">Upload Your List</label>
+              <input name="file" type="file" className="w-full p-4 border border-gray-300 rounded-3xl focus:ring-2 focus:ring-red-500 outline-none" />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white py-4 rounded-3xl text-lg font-semibold transition-all"
+            >
+              {loading ? "Sending..." : "Send Message"}
+            </button>
+
+            {submitStatus && (
+              <div className={`p-4 rounded-2xl text-center font-medium ${submitStatus.includes("success") ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
+                {submitStatus}
+              </div>
+            )}
+          </form>
+        </motion.div>
+      </div>
     </div>
   );
 }

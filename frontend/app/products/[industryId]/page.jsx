@@ -1,7 +1,28 @@
-import { fetchAPI } from "@/lib/api";
 import Link from "next/link";
+import { fetchAPI } from "@/lib/api";
 import { getStrapiMedia } from "@/lib/strapi-media";
 import "./style.css";
+
+export async function generateMetadata({ params }) {
+  const { industryId } = await params;
+  const industryRes = await fetchAPI(
+    `/industries?filters[slug][$eq]=${industryId}`
+  );
+
+  const industryName = industryRes.data?.[0]?.attributes?.name || industryId;
+
+  return {
+    title: `${industryName} | EIE Instruments`,
+    description: `Explore laboratory testing instruments and categories for ${industryName} industry.`,
+    keywords: [`${industryName} testing`, `${industryName} instruments`, "laboratory equipment", "EIE Instruments"],
+    openGraph: {
+      title: `${industryName} Testing Instruments`,
+      description: `Premium laboratory testing solutions for ${industryName} industry by EIE Instruments.`,
+      url: `https://eieinstruments.co.in/products/${industryId}`,
+    },
+  };
+}
+
 export default async function IndustryPage({ params }) {
   const { industryId } = await params;
   const industryRes = await fetchAPI(

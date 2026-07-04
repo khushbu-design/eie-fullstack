@@ -1,6 +1,29 @@
+import Link from "next/link";
 import { fetchAPI } from "@/lib/api";
 import ProductListClient from "@/components/ProductListClient";
 import "./style.css";
+
+export async function generateMetadata({ params }) {
+  const { industryId, categoryId } = await params;
+
+  const categoryRes = await fetchAPI(
+    `/categories?filters[slug][$eq]=${categoryId}&filters[industry][slug][$eq]=${industryId}`
+  );
+
+  const categoryName = categoryRes.data?.[0]?.attributes?.name || categoryId;
+
+  return {
+    title: `${categoryName} | EIE Instruments`,
+    description: `Explore high-quality laboratory testing instruments in ${categoryName} category.`,
+    keywords: [`${categoryName} testing`, `${categoryName} instruments`, "laboratory equipment", "EIE Instruments"],
+    openGraph: {
+      title: `${categoryName} Testing Instruments`,
+      description: `Premium testing solutions in ${categoryName} category by EIE Instruments.`,
+      url: `https://eieinstruments.co.in/products/${industryId}/${categoryId}`,
+    },
+  };
+}
+
 export default async function CategoryProducts({ params }) {
   const { industryId, categoryId } = await params;
   const categoryRes = await fetchAPI(

@@ -1,11 +1,24 @@
 import Link from "next/link";
 import { fetchAPI } from "@/lib/api";
 import { getStrapiMedia } from "@/lib/strapi-media";
+
+export const metadata = {
+  title: "Industries We Serve | EIE Instruments",
+  description: "Explore laboratory testing instruments for Civil Engineering, Pharmaceutical, Petroleum, Tiles & Ceramics, Paper & Packaging and more industries.",
+  keywords: ["laboratory instruments", "testing equipment", "civil engineering", "pharmaceutical testing", "petroleum testing", "EIE Instruments"],
+  openGraph: {
+    title: "Industries We Serve - EIE Instruments",
+    description: "Premium laboratory testing solutions for multiple industries across India and globally.",
+    url: "https://eieinstruments.co.in/products",
+  },
+};
+
 export default async function ProductsPage() {
   const industries = await fetchAPI("/industries?populate=*&sort=name:asc");
+
   return (
     <div style={{ padding: "40px" }}>
-      <h1 style={{ fontSize: "32px", marginBottom: "20px" }}>Industries</h1>
+      <h1 style={{ fontSize: "32px", marginBottom: "20px" }}>Industries We Serve</h1>
       <style>{`
         .card {
           transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;

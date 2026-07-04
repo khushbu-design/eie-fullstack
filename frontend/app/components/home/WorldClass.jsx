@@ -11,16 +11,6 @@ const facilities = [
   "/images/manufacture-4.jpg",
   "/images/manufacture-5.jpg",
   "/images/manufacture-6.jpg",
-  "/images/manufacture-7.jpg",
-  "/images/manufacture-8.jpg",
-  "/images/manufacture-9.jpg",
-  "/images/manufacture-10.jpg",
-  "/images/manufacture-11.jpg",
-  "/images/manufacture-12.jpg",
-  "/images/manufacture-13.jpg",
-  "/images/manufacture-14.jpg",
-  "/images/manufacture-15.jpg",
-  "/images/manufacture-16.jpg",
 ];
 
 const duplicated = [...facilities, ...facilities];
@@ -66,11 +56,10 @@ function ImageModal({ src, onClose, onPrev, onNext }) {
 
         <Image
           src={src}
-          alt="Full facility view"
+          alt="EIE Instruments Manufacturing Facility"
           fill
           quality={85}
           className="object-contain p-4 md:p-8"
-          priority={false} 
           placeholder="blur"
           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAErgJ7J4l7bwAAAABJRU5ErkJggg=="
         />
@@ -79,7 +68,7 @@ function ImageModal({ src, onClose, onPrev, onNext }) {
   );
 }
 
-export default function ManufacturingFacilities() {
+export default function WorldClass() {
   const [selectedIndex, setSelectedIndex] = useState(null);
 
   const openModal = (index) => setSelectedIndex(index);
@@ -98,9 +87,10 @@ export default function ManufacturingFacilities() {
   };
 
   return (
-    <section className="relative py-16 md:py-20 bg-white px-5 sm:px-10 lg:px-16 overflow-hidden">
+    <section className="relative py-16 md:py-20 bg-white px-5 sm:px-10 lg:px-16 overflow-hidden" aria-labelledby="worldclass-heading">
 
       <motion.h2
+        id="worldclass-heading"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
@@ -117,7 +107,7 @@ export default function ManufacturingFacilities() {
         viewport={{ once: true }}
         className="text-gray-700 text-base sm:text-lg leading-relaxed text-center max-w-4xl mx-auto mb-6 px-4"
       >
-        "Established in 1977, EIE Instruments designs, develops and manufactures a comprehensive range of laboratory testing products catering to various engineering and academic sectors, such as Material (Soil, Cement, Asphalt) Testing Laboratories, POY Industries, Textiles Industries, Tiles-Ceramic Industries, Cement & Concrete Industries, Healthcare Industries, Pharmaceutical & Microbiology laboratories, Hospital and Medical Colleges, Universities & research institutes."
+        Established in 1977, EIE Instruments designs, develops and manufactures a comprehensive range of laboratory testing products catering to various engineering and academic sectors, such as Material (Soil, Cement, Asphalt) Testing Laboratories, POY Industries, Textiles Industries, Tiles-Ceramic Industries, Cement & Concrete Industries, Healthcare Industries, Pharmaceutical & Microbiology laboratories, Hospital and Medical Colleges, Universities & research institutes.
       </motion.p>
 
       <div className="text-center mb-10">
@@ -153,7 +143,7 @@ export default function ManufacturingFacilities() {
           className="flex gap-4 sm:gap-6 md:gap-8 lg:gap-10"
           animate={{ x: ["0%", "-50%"] }} 
           transition={{
-            duration: 20,         
+            duration: 25,
             ease: "linear",
             repeat: Infinity,
           }}
@@ -165,20 +155,19 @@ export default function ManufacturingFacilities() {
               whileHover={{ scale: 1.04 }}
               transition={{ duration: 0.3 }}
               onClick={() => openModal(idx % facilities.length)}
-              viewport={{ once: true }}
             >
               <div className="rounded-2xl overflow-hidden shadow-lg border border-gray-200 hover:border-red-400 transition-all duration-300">
                 <Image
                   src={src}
-                  alt={`Manufacturing facility ${idx + 1}`}
+                  alt={`EIE Instruments Manufacturing Facility ${idx + 1}`}
                   width={500}
                   height={320}
-                  quality={78}                
+                  quality={78}
                   sizes="(max-width: 640px) 240px, (max-width: 768px) 280px, (max-width: 1024px) 340px, 420px"
                   className="w-full h-auto object-cover aspect-[5/3]"
                   placeholder="blur"
                   blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAErgJ7J4l7bwAAAABJRU5ErkJggg=="
-                  loading={idx < 6 ? "eager" : "lazy"} 
+                  loading={idx < 6 ? "eager" : "lazy"}
                 />
               </div>
             </motion.div>

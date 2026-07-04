@@ -13,15 +13,15 @@ const certificates = [
   },
   {
     src: "/certificates/CE Certificate of CTM.png",
-    name: "CE Certificate of CTM",
+    name: "CE Certificate - CTM",
   },
   {
     src: "/certificates/hot-air-oven.jpg",
-    name: "CE Certificate of Hot Air Oven",
+    name: "CE Certificate - Hot Air Oven",
   },
   {
     src: "/certificates/humidity-chamber.jpg",
-    name: "CE Certificate of Humidity Chamber",
+    name: "CE Certificate - Humidity Chamber",
   },
   {
     src: "/certificates/CE Certificate.png",
@@ -35,8 +35,9 @@ const certificates = [
 
 export default function Certificates() {
   return (
-    <section className="px-8 sm:px-12 md:px-20 py-16 md:py-20 bg-gray-50">
+    <section className="px-8 sm:px-12 md:px-20 py-16 md:py-20 bg-gray-50" aria-labelledby="certificates-heading">
       <motion.h2
+        id="certificates-heading"
         className="text-3xl md:text-4xl font-bold text-center text-red-700 mb-10 md:mb-14 tracking-wide"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -66,7 +67,7 @@ export default function Certificates() {
               <div className="relative aspect-[4/3] overflow-hidden bg-gray-100">
                 <Image
                   src={cert.src}
-                  alt={cert.name}
+                  alt={`${cert.name} - EIE Instruments`}
                   fill
                   className="object-contain p-6 group-hover:scale-105 transition-transform duration-500"
                 />
