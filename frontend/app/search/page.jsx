@@ -1,17 +1,24 @@
-import { fetchAPI } from '@/lib/api';
-import Link from 'next/link';
-import Image from 'next/image';
-import { getStrapiMedia } from '@/lib/strapi-media';
+import { fetchAPI } from "@/lib/api";
+import Link from "next/link";
+import Image from "next/image";
+import { getStrapiMedia } from "@/lib/strapi-media";
+import { toTitleCase } from "@/lib/utils";
 
 export const metadata = {
-  title: 'Search Products | EIE Instruments',
-  description: 'Search for lab testing equipment, instruments by name, model or keyword.',
-  keywords: ['search products', 'lab testing instruments', 'material testing', 'EIE Instruments'],
+  title: "Search Products | EIE Instruments",
+  description:
+    "Search for lab testing equipment, instruments by name, model or keyword.",
+  keywords: [
+    "search products",
+    "lab testing instruments",
+    "material testing",
+    "EIE Instruments",
+  ],
 };
 
 export default async function SearchPage({ searchParams }) {
   const params = await searchParams;
-  const query = params?.q?.trim() || '';
+  const query = params?.q?.trim() || "";
 
   if (!query) {
     return (
@@ -26,23 +33,18 @@ export default async function SearchPage({ searchParams }) {
 
   const strapiQuery = new URLSearchParams();
 
-  strapiQuery.append('filters[$or][0][name][$containsi]', query);
-  strapiQuery.append('filters[$or][1][model_number][$containsi]', query);
-
-  strapiQuery.append('fields', 'name,slug,short_description,model_number');
-
-  strapiQuery.append('populate[image][fields]', 'url');
-  strapiQuery.append('populate[0]', 'image');
-  strapiQuery.append('populate[1]', 'categories');
-  strapiQuery.append('populate[categories][populate][0]', 'industry');
-
-  strapiQuery.append('publicationState', 'live');
-  strapiQuery.append('pagination[limit]', '50');
-  strapiQuery.append('sort', 'name:asc');
+  strapiQuery.append("filters[$or][0][name][$containsi]", query);
+  strapiQuery.append("filters[$or][1][model_number][$containsi]", query);
+  strapiQuery.append("fields", "name,slug,short_description,model_number");
+  strapiQuery.append("populate[image][fields]", "url");
+  strapiQuery.append("populate[0]", "image");
+  strapiQuery.append("populate[1]", "categories");
+  strapiQuery.append("populate[categories][populate][0]", "industry");
+  strapiQuery.append("publicationState", "live");
+  strapiQuery.append("pagination[limit]", "50");
+  strapiQuery.append("sort", "name:asc");
 
   const queryString = strapiQuery.toString();
-
-  console.log('🔍 Strapi Query:', `/products?${queryString}`);
 
   let products = [];
   let error = null;
@@ -50,14 +52,12 @@ export default async function SearchPage({ searchParams }) {
   try {
     const res = await fetchAPI(`/products?${queryString}`);
     products = res.data || [];
-
-    console.log('✅ Products found:', products.length);
   } catch (err) {
-    console.error('❌ API Error:', err);
-    error = 'Products load karva ma problem aavi – thodi var pachi try karo.';
+    console.error("❌ API Error:", err);
+    error = "Products load karva ma problem aavi – thodi var pachi try karo.";
   }
 
-  const displayQuery = query.replace(/\s+/g, ' ').trim();
+  const displayQuery = query.replace(/\s+/g, " ").trim();
 
   return (
     <div className="py-20 max-w-7xl mx-auto px-6">
@@ -74,7 +74,9 @@ export default async function SearchPage({ searchParams }) {
       {products.length === 0 && !error ? (
         <div className="text-center py-20">
           <div className="text-8xl mb-6">🔍</div>
-          <p className="text-2xl font-medium text-black-700">No Product Found!!</p>
+          <p className="text-2xl font-medium text-black-700">
+            No Product Found!!
+          </p>
           <p className="text-lg text-black-500 mt-4">
             We Will Back Soon With This Product!! Stay Connected!!.
           </p>
@@ -84,24 +86,25 @@ export default async function SearchPage({ searchParams }) {
           {products.map((item, index) => {
             const p = item || {};
 
-            const name = p.name || `Product #${item.id || index + 1}`;
-            const slug = p.slug || '';
-            const shortDesc = p.short_description || 'No description available';
-            const modelNumber = p.model_number || 'N/A';
+            const name = toTitleCase(
+              p.name || `Product #${item.id || index + 1}`
+            );
+            const slug = p.slug || "";
+            const shortDesc =
+              p.short_description || "No description available";
+            const modelNumber = p.model_number || "N/A";
 
             const firstCat = p.categories?.[0] || {};
             const industry = firstCat.industry || {};
 
-            const industrySlug = industry.slug || 'products';
-            const categorySlug = firstCat.slug || 'uncategorized';
+            const industrySlug = industry.slug || "products";
+            const categorySlug = firstCat.slug || "uncategorized";
 
-            const href = slug ? `/products/${industrySlug}/${categorySlug}/${slug}` : '/products';
+            const href = slug
+              ? `/products/${industrySlug}/${categorySlug}/${slug}`
+              : "/products";
 
-            let imageUrl = '/placeholder.jpg';
-            const img = p.image;
-            if (img?.url) {
-              imageUrl = getStrapiMedia(img.url);
-            }
+            const imageUrl = getStrapiMedia(p.image?.url);
 
             return (
               <Link
@@ -109,12 +112,15 @@ export default async function SearchPage({ searchParams }) {
                 href={href}
                 className="group bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-md hover:shadow-2xl hover:border-red-500 transition-all duration-300 flex flex-col min-h-[420px]"
               >
-                <div className="relative aspect-[4/3] bg-gray-50">
+                <div className="relative h-[260px] bg-white border-b border-gray-100 p-5 flex items-center justify-center">
                   <Image
                     src={imageUrl}
                     alt={name}
-                    fill
-                    className="object-contain p-6 group-hover:scale-105 transition-transform duration-500"
+                    width={320}
+                    height={240}
+                    className="object-contain max-h-full w-auto group-hover:scale-105 transition-transform duration-500"
+                    quality={90}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     loading="lazy"
                     placeholder="blur"
                     blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAErgJ7J4l7bwAAAABJRU5ErkJggg=="
@@ -126,7 +132,7 @@ export default async function SearchPage({ searchParams }) {
                     {name}
                   </h3>
 
-                  {modelNumber !== 'N/A' && (
+                  {modelNumber !== "N/A" && (
                     <p className="text-sm text-red-600 font-medium mt-1">
                       Model: {modelNumber}
                     </p>

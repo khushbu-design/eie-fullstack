@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "visitor_logs",
+  "info": {
+    "singularName": "visitor-log",
+    "pluralName": "visitor-logs",
+    "displayName": "VisitorLog"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "page": {
+      "type": "string",
+      "required": true
+    },
+    "ip": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    },
+    "userAgent": {
+      "type": "string"
+    },
+    "referrer": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "datetime"
+    }
+  }
+}

@@ -546,6 +546,45 @@ export interface ApiIndustryIndustry extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiInquiryInquiry extends Struct.CollectionTypeSchema {
+  collectionName: 'inquiries';
+  info: {
+    displayName: 'Inquiry';
+    pluralName: 'inquiries';
+    singularName: 'inquiry';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    email: Schema.Attribute.Email;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::inquiry.inquiry'
+    > &
+      Schema.Attribute.Private;
+    message: Schema.Attribute.Text;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    organization: Schema.Attribute.String;
+    phone: Schema.Attribute.Integer;
+    product: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    source: Schema.Attribute.String;
+    type: Schema.Attribute.Enumeration<
+      ['Inquiry', 'Service', 'Job', 'Remarks', 'Complaint']
+    >;
+    update: Schema.Attribute.Enumeration<['New', 'Read', 'Replied']> &
+      Schema.Attribute.DefaultTo<'New'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiJobJob extends Struct.CollectionTypeSchema {
   collectionName: 'jobs';
   info: {
@@ -672,31 +711,37 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiVisitorCountVisitorCount extends Struct.SingleTypeSchema {
-  collectionName: 'visitor_counts';
+export interface ApiVisitorLogVisitorLog extends Struct.CollectionTypeSchema {
+  collectionName: 'visitor_logs';
   info: {
-    displayName: 'Visitor Count';
-    pluralName: 'visitor-counts';
-    singularName: 'visitor-count';
+    displayName: 'VisitorLog';
+    pluralName: 'visitor-logs';
+    singularName: 'visitor-log';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    count: Schema.Attribute.Integer;
+    city: Schema.Attribute.String;
+    country: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    ip: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
-      'api::visitor-count.visitor-count'
+      'api::visitor-log.visitor-log'
     > &
       Schema.Attribute.Private;
+    page: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
+    referrer: Schema.Attribute.String;
+    timestamp: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    userAgent: Schema.Attribute.String;
   };
 }
 
@@ -1214,10 +1259,11 @@ declare module '@strapi/strapi' {
       'api::category.category': ApiCategoryCategory;
       'api::certificate.certificate': ApiCertificateCertificate;
       'api::industry.industry': ApiIndustryIndustry;
+      'api::inquiry.inquiry': ApiInquiryInquiry;
       'api::job.job': ApiJobJob;
       'api::newsletter-subscriber.newsletter-subscriber': ApiNewsletterSubscriberNewsletterSubscriber;
       'api::product.product': ApiProductProduct;
-      'api::visitor-count.visitor-count': ApiVisitorCountVisitorCount;
+      'api::visitor-log.visitor-log': ApiVisitorLogVisitorLog;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

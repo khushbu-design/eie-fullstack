@@ -6,7 +6,6 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import InquiryButton from "@/components/InquiryButton";
 import Footer from "../components/Footer";
-import Chatbot from '@/components/Chatbot';
 import { CompareProvider } from '@/context/CompareContext';
 import CompareBar from '@/components/CompareBar';
 import VisitorTracker from '@/components/VisitorTracker';
@@ -79,8 +78,7 @@ export default function RootLayout({
             <VisitorTracker />
             {children}
           </main>
-
-          <Chatbot />
+          
           <InquiryButton />
           <Footer />
           <CompareBar />

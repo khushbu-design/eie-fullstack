@@ -8,13 +8,20 @@ export async function generateMetadata({ params }) {
   const industryRes = await fetchAPI(
     `/industries?filters[slug][$eq]=${industryId}`
   );
-
-  const industryName = industryRes.data?.[0]?.attributes?.name || industryId;
+  const industryName =
+    industryRes.data?.[0]?.attributes?.name ||
+    industryRes.data?.[0]?.name ||
+    industryId;
 
   return {
     title: `${industryName} | EIE Instruments`,
     description: `Explore laboratory testing instruments and categories for ${industryName} industry.`,
-    keywords: [`${industryName} testing`, `${industryName} instruments`, "laboratory equipment", "EIE Instruments"],
+    keywords: [
+      `${industryName} testing`,
+      `${industryName} instruments`,
+      "laboratory equipment",
+      "EIE Instruments",
+    ],
     openGraph: {
       title: `${industryName} Testing Instruments`,
       description: `Premium laboratory testing solutions for ${industryName} industry by EIE Instruments.`,
@@ -25,24 +32,25 @@ export async function generateMetadata({ params }) {
 
 export default async function IndustryPage({ params }) {
   const { industryId } = await params;
+
   const industryRes = await fetchAPI(
     `/industries?filters[slug][$eq]=${industryId}&populate=*`
   );
+
   if (!industryRes.data || industryRes.data.length === 0) {
     return <p className="text-center py-20 text-2xl">Industry not found</p>;
   }
+
   const industry = industryRes.data[0];
+
   const categoriesRes = await fetchAPI(
     `/categories?filters[industry][slug][$eq]=${industryId}&populate=*&sort=name:asc`
   );
+
   const categories = categoriesRes.data || [];
-  if (categories.length > 0) {
-    console.log("First category full data:", JSON.stringify(categories[0], null, 2));
-    console.log("Image path check:", categories[0]?.attributes?.image?.data?.attributes?.url);
-  }
+
   const categoriesWithCount = await Promise.all(
     categories.map(async (cat) => {
-      const catAttr = cat.attributes || cat;
       const countRes = await fetchAPI(
         `/products?filters[categories][id][$eq]=${cat.id}&publicationState=live`
       );
@@ -53,11 +61,13 @@ export default async function IndustryPage({ params }) {
       };
     })
   );
+
   return (
     <div style={{ padding: "40px" }}>
       <h1 style={{ fontSize: "32px", marginBottom: "30px", fontWeight: "600" }}>
         Categories in {industry.attributes?.name || industry.name}
       </h1>
+
       <div className="category-grid">
         {categoriesWithCount.length === 0 ? (
           <p className="text-center text-xl text-gray-600">
@@ -66,6 +76,7 @@ export default async function IndustryPage({ params }) {
         ) : (
           categoriesWithCount.map((cat) => {
             const catAttr = cat.attributes || cat;
+
             let imageUrl = null;
             if (catAttr.image?.data?.attributes?.url) {
               imageUrl = catAttr.image.data.attributes.url;
@@ -74,6 +85,7 @@ export default async function IndustryPage({ params }) {
             } else if (catAttr.image?.attributes?.url) {
               imageUrl = catAttr.image.attributes.url;
             }
+
             return (
               <Link
                 key={cat.id}
@@ -81,17 +93,17 @@ export default async function IndustryPage({ params }) {
                 className="category-card"
               >
                 <div className="category-image-wrapper">
-                  {imageUrl ? (
-                    <img
-                      src={getStrapiMedia(imageUrl)}
-                      alt={catAttr.name || "Category image"}
-                      className="category-image"
-                    />
-                  ) : (
-                    <div className="no-image">No Image</div>
-                  )}
+                  <img
+                    src={getStrapiMedia(imageUrl)}
+                    alt={catAttr.name || "Category image"}
+                    className="category-image"
+                  />
                 </div>
-                <h2 className="cat-title">{catAttr.name || "Unnamed Category"}</h2>
+
+                <h2 className="cat-title">
+                  {catAttr.name || "Unnamed Category"}
+                </h2>
+
                 <p className="cat-desc">
                   <strong>{cat.productCount}</strong>{" "}
                   {cat.productCount === 1 ? "Product" : "Products"} →

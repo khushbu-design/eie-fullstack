@@ -1,67 +1,93 @@
 'use client';
 
 import { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 
 export default function VisitorTracker() {
+  const pathname = usePathname();
+
   useEffect(() => {
-    const incrementVisitorCount = async () => {
+    // Admin page par count na vadharo
+    if (pathname?.startsWith('/admin')) return;
+
+    const trackVisitor = async () => {
       try {
         const base = process.env.NEXT_PUBLIC_STRAPI_URL
           ? process.env.NEXT_PUBLIC_STRAPI_URL.replace(/\/api\/?$/, '')
-          : 'https://optimistic-friends-ed5888f6c2.strapiapp.com'; // ← updated fallback
+          : 'https://optimistic-friends-ed5888f6c2.strapiapp.com';
 
-        const url = `${base}/api/visitor-count`;
+        // 1. Simple total count vadharo (old system)
+        try {
+          const countUrl = `${base}/api/visitor-count`;
+          const getRes = await fetch(countUrl, { cache: 'no-store' });
+          
+          if (getRes.ok) {
+            const data = await getRes.json();
+            let currentCount = 0;
+            if (data.data?.attributes?.count !== undefined) {
+              currentCount = data.data.attributes.count;
+            } else if (data.data?.count !== undefined) {
+              currentCount = data.data.count;
+            }
 
-        console.log('VisitorTracker - Trying to fetch:', url);
-
-        const getRes = await fetch(url, { cache: 'no-store' });
-
-        let currentCount = 0;
-
-        if (getRes.ok) {
-          const data = await getRes.json();
-          console.log('GET success - Raw data:', data);
-
-          if (data.data?.attributes?.count !== undefined) {
-            currentCount = data.data.attributes.count;
-          } else if (data.data?.count !== undefined) {
-            currentCount = data.data.count;
+            await fetch(countUrl, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                data: { count: currentCount + 1 },
+              }),
+            });
           }
-        } else {
-          const errorText = await getRes.text();
-          console.error('GET failed - Status:', getRes.status, 'Response:', errorText);
-
-          if (getRes.status === 404) {
-            console.warn('VisitorCount single-type has no published entry yet. Starting from 0.');
-          } else {
-            console.error('Other GET error - skipping increment');
-            return; 
-          }
+        } catch (err) {
+          console.log('Count update failed:', err);
         }
 
-        console.log('Current count:', currentCount);
+        // 2. Detailed VisitorLog entry banavo
+        const logUrl = `${base}/api/visitor-logs`;
 
-        const updateRes = await fetch(url, {
-          method: 'PUT',
+        // Simple IP + location (free API)
+        let ip = '';
+        let city = '';
+        let country = '';
+
+        try {
+          const geoRes = await fetch('https://ipapi.co/json/', { cache: 'no-store' });
+          if (geoRes.ok) {
+            const geo = await geoRes.json();
+            ip = geo.ip || '';
+            city = geo.city || '';
+            country = geo.country_name || '';
+          }
+        } catch (e) {
+          // Geo fail thay to blank rahse
+        }
+
+        await fetch(logUrl, {
+          method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            data: { count: currentCount + 1 },
+            data: {
+              page: pathname || '/',
+              ip: ip,
+              city: city,
+              country: country,
+              userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : '',
+              referrer: typeof document !== 'undefined' ? document.referrer : '',
+              timestamp: new Date().toISOString(),
+            },
           }),
         });
 
-        if (updateRes.ok) {
-          console.log('✅ Visitor count incremented to:', currentCount + 1);
-        } else {
-          const updateError = await updateRes.text();
-          console.error('PUT failed - Status:', updateRes.status, 'Response:', updateError);
-        }
+        console.log('Visitor logged:', pathname);
       } catch (error) {
-        console.error('VisitorTracker general error:', error);
+        console.error('VisitorTracker error:', error);
       }
     };
 
-    incrementVisitorCount();
-  }, []);
+    // Thodi der pachi track karo (page load pure thay pachi)
+    const timer = setTimeout(trackVisitor, 1500);
+    return () => clearTimeout(timer);
+  }, [pathname]);
 
   return null;
 }
