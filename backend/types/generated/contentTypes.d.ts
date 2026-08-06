@@ -711,6 +711,34 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiVisitorCountVisitorCount extends Struct.SingleTypeSchema {
+  collectionName: 'visitor_counts';
+  info: {
+    displayName: 'VisitorCount';
+    pluralName: 'visitor-counts';
+    singularName: 'visitor-count';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    count: Schema.Attribute.Integer;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::visitor-count.visitor-count'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiVisitorLogVisitorLog extends Struct.CollectionTypeSchema {
   collectionName: 'visitor_logs';
   info: {
@@ -1263,6 +1291,7 @@ declare module '@strapi/strapi' {
       'api::job.job': ApiJobJob;
       'api::newsletter-subscriber.newsletter-subscriber': ApiNewsletterSubscriberNewsletterSubscriber;
       'api::product.product': ApiProductProduct;
+      'api::visitor-count.visitor-count': ApiVisitorCountVisitorCount;
       'api::visitor-log.visitor-log': ApiVisitorLogVisitorLog;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
