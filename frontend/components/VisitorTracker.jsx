@@ -1,93 +1,67 @@
 'use client';
 
 import { useEffect } from 'react';
-import { usePathname } from 'next/navigation';
 
 export default function VisitorTracker() {
-  const pathname = usePathname();
-
   useEffect(() => {
-    // Admin page par count na vadharo
-    if (pathname?.startsWith('/admin')) return;
-
-    const trackVisitor = async () => {
+    const trackVisit = async () => {
       try {
+        if (sessionStorage.getItem('eie_visit_tracked')) {
+          return;
+        }
+
         const base = process.env.NEXT_PUBLIC_STRAPI_URL
           ? process.env.NEXT_PUBLIC_STRAPI_URL.replace(/\/api\/?$/, '')
           : 'https://optimistic-friends-ed5888f6c2.strapiapp.com';
 
-        // 1. Simple total count vadharo (old system)
-        try {
-          const countUrl = `${base}/api/visitor-count`;
-          const getRes = await fetch(countUrl, { cache: 'no-store' });
-          
-          if (getRes.ok) {
-            const data = await getRes.json();
-            let currentCount = 0;
-            if (data.data?.attributes?.count !== undefined) {
-              currentCount = data.data.attributes.count;
-            } else if (data.data?.count !== undefined) {
-              currentCount = data.data.count;
-            }
-
-            await fetch(countUrl, {
-              method: 'PUT',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                data: { count: currentCount + 1 },
-              }),
-            });
-          }
-        } catch (err) {
-          console.log('Count update failed:', err);
-        }
-
-        // 2. Detailed VisitorLog entry banavo
-        const logUrl = `${base}/api/visitor-logs`;
-
-        // Simple IP + location (free API)
-        let ip = '';
-        let city = '';
-        let country = '';
+        let city = 'Unknown';
+        let country = 'Unknown';
 
         try {
-          const geoRes = await fetch('https://ipapi.co/json/', { cache: 'no-store' });
+          const geoRes = await fetch('https://ipapi.co/json/');
           if (geoRes.ok) {
             const geo = await geoRes.json();
-            ip = geo.ip || '';
-            city = geo.city || '';
-            country = geo.country_name || '';
+            city = geo.city || 'Unknown';
+            country = geo.country_name || 'Unknown';
           }
-        } catch (e) {
-          // Geo fail thay to blank rahse
+        } catch (err) {
+          console.log('Location fetch failed');
         }
 
-        await fetch(logUrl, {
+        const payload = {
+          data: {
+            ip: 'hidden',
+            city: city,
+            country: country,
+            page: window.location.pathname + window.location.search,
+            referrer: document.referrer || 'Direct',
+            userAgent: navigator.userAgent.substring(0, 250),
+          },
+        };
+
+        const res = await fetch(`${base}/api/visitor-logs`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            data: {
-              page: pathname || '/',
-              ip: ip,
-              city: city,
-              country: country,
-              userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : '',
-              referrer: typeof document !== 'undefined' ? document.referrer : '',
-              timestamp: new Date().toISOString(),
-            },
-          }),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
         });
 
-        console.log('Visitor logged:', pathname);
+        if (res.ok) {
+          console.log('Visit tracked successfully');
+          sessionStorage.setItem('eie_visit_tracked', 'true');
+        } else {
+          const errorText = await res.text();
+          console.error('Visitor tracking failed:', res.status, errorText);
+        }
       } catch (error) {
         console.error('VisitorTracker error:', error);
       }
     };
 
-    // Thodi der pachi track karo (page load pure thay pachi)
-    const timer = setTimeout(trackVisitor, 1500);
+    const timer = setTimeout(trackVisit, 1500);
     return () => clearTimeout(timer);
-  }, [pathname]);
+  }, []);
 
   return null;
 }

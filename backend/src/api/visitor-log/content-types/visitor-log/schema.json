@@ -29,9 +29,6 @@
     },
     "referrer": {
       "type": "string"
-    },
-    "timestamp": {
-      "type": "datetime"
     }
   }
 }

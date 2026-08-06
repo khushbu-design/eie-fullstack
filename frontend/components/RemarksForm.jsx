@@ -21,6 +21,7 @@ export default function RemarksForm({ close }) {
     setLoading(true);
 
     try {
+      // 1. Email મોકલો
       const res = await fetch("/api/send-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -37,6 +38,29 @@ export default function RemarksForm({ close }) {
           `,
         }),
       });
+
+      // 2. Strapi માં સેવ કરો
+      try {
+        const base = process.env.NEXT_PUBLIC_STRAPI_URL
+          ? process.env.NEXT_PUBLIC_STRAPI_URL.replace(/\/api\/?$/, "")
+          : "https://optimistic-friends-ed5888f6c2.strapiapp.com";
+
+        await fetch(`${base}/api/submissions`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            data: {
+              type: "remarks",
+              email: form.email,
+              phone: form.phone,
+              status: "new",
+              data: form,
+            },
+          }),
+        });
+      } catch (strapiErr) {
+        console.error("Failed to save remarks to Strapi:", strapiErr);
+      }
 
       if (res.ok) {
         alert("Remarks Submitted Successfully!");
@@ -58,17 +82,53 @@ export default function RemarksForm({ close }) {
         <h2 className="text-2xl font-bold text-red-600 mb-4">Remarks Form</h2>
 
         <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4">
-          <input className="border p-2" placeholder="Full Name" name="fullName" onChange={update} required />
-          <input className="border p-2" placeholder="Email" name="email" onChange={update} required />
-          <input className="border p-2" placeholder="Phone" name="phone" onChange={update} required />
-          <textarea className="border p-2" placeholder="Remarks Details" name="remarksDetails" onChange={update} required />
-          <input className="border p-2" type="date" name="remarksDate" onChange={update} required />
-          <button className="bg-red-600 text-white p-2 rounded" disabled={loading}>
+          <input
+            className="border p-2"
+            placeholder="Full Name"
+            name="fullName"
+            onChange={update}
+            required
+          />
+          <input
+            className="border p-2"
+            placeholder="Email"
+            name="email"
+            onChange={update}
+            required
+          />
+          <input
+            className="border p-2"
+            placeholder="Phone"
+            name="phone"
+            onChange={update}
+            required
+          />
+          <textarea
+            className="border p-2"
+            placeholder="Remarks Details"
+            name="remarksDetails"
+            onChange={update}
+            required
+          />
+          <input
+            className="border p-2"
+            type="date"
+            name="remarksDate"
+            onChange={update}
+            required
+          />
+          <button
+            className="bg-red-600 text-white p-2 rounded"
+            disabled={loading}
+          >
             {loading ? "Submitting..." : "Submit Remarks"}
           </button>
         </form>
 
-        <button className="mt-4 bg-gray-700 text-white px-4 py-2 rounded" onClick={close}>
+        <button
+          className="mt-4 bg-gray-700 text-white px-4 py-2 rounded"
+          onClick={close}
+        >
           Close
         </button>
       </div>

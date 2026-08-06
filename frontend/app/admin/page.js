@@ -1,132 +1,128 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 
 export default function AdminDashboard() {
-  const [password, setPassword] = useState('');
   const [authenticated, setAuthenticated] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
+  const [visits, setVisits] = useState([]);
+  const [submissions, setSubmissions] = useState([]);
+  const [stats, setStats] = useState({
+    totalVisits: 0,
+    totalSubmissions: 0,
+    todayVisits: 0,
+  });
 
-  // Data states
-  const [totalVisitors, setTotalVisitors] = useState(0);
-  const [visitorLogs, setVisitorLogs] = useState([]);
-  const [inquiries, setInquiries] = useState([]);
-  const [lastUpdated, setLastUpdated] = useState('');
+  const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'EIE@Admin2026Strong';
 
-  const correctPassword = 'eie2025admin'; // Change this password
+  useEffect(() => {
+    if (typeof window !== 'undefined' && localStorage.getItem('eie_admin_auth') === 'true') {
+      setAuthenticated(true);
+      fetchAllData();
+    }
+  }, []);
 
-  const getBaseUrl = () => {
-    return process.env.NEXT_PUBLIC_STRAPI_URL
-      ? process.env.NEXT_PUBLIC_STRAPI_URL.replace(/\/api\/?$/, '')
-      : 'https://optimistic-friends-ed5888f6c2.strapiapp.com';
+  const handleLogin = (e) => {
+    e.preventDefault();
+    if (password.trim() === ADMIN_PASSWORD) {
+      setAuthenticated(true);
+      localStorage.setItem('eie_admin_auth', 'true');
+      setError('');
+      fetchAllData();
+    } else {
+      setError('Incorrect password');
+    }
   };
 
-  // Fetch all data
+  const handleLogout = () => {
+    localStorage.removeItem('eie_admin_auth');
+    setAuthenticated(false);
+    setPassword('');
+  };
+
   const fetchAllData = async () => {
     setLoading(true);
     setError('');
 
     try {
-      const base = getBaseUrl();
+      const base = process.env.NEXT_PUBLIC_STRAPI_URL
+        ? process.env.NEXT_PUBLIC_STRAPI_URL.replace(/\/api\/?$/, '')
+        : 'https://optimistic-friends-ed5888f6c2.strapiapp.com';
 
-      // 1. Total visitor count (old single type)
-      try {
-        const countRes = await fetch(`${base}/api/visitor-count`, { cache: 'no-store' });
-        if (countRes.ok) {
-          const countData = await countRes.json();
-          let count = 0;
-          if (countData.data?.attributes?.count !== undefined) {
-            count = countData.data.attributes.count;
-          } else if (countData.data?.count !== undefined) {
-            count = countData.data.count;
-          }
-          setTotalVisitors(count);
-        }
-      } catch (e) {
-        console.log('Count fetch failed');
-      }
+      // Fetch Visitor Logs
+      const visitRes = await fetch(
+        `${base}/api/visitor-logs?sort=visitedAt:desc&pagination[pageSize]=150`,
+        { cache: 'no-store' }
+      );
+      const visitData = await visitRes.json();
+      const visitList = visitData.data || [];
 
-      // 2. Visitor Logs (latest 50)
-      try {
-        const logsRes = await fetch(
-          `${base}/api/visitor-logs?sort=createdAt:desc&pagination[limit]=50`,
-          { cache: 'no-store' }
-        );
-        if (logsRes.ok) {
-          const logsData = await logsRes.json();
-          setVisitorLogs(logsData.data || []);
-        }
-      } catch (e) {
-        console.log('Visitor logs fetch failed');
-      }
+      // Fetch Submissions
+      const subRes = await fetch(
+        `${base}/api/submissions?sort=createdAt:desc&pagination[pageSize]=100`,
+        { cache: 'no-store' }
+      );
+      const subData = await subRes.json();
+      const subList = subData.data || [];
 
-      // 3. Inquiries (latest 50)
-      try {
-        const inqRes = await fetch(
-          `${base}/api/inquiries?sort=createdAt:desc&pagination[limit]=50`,
-          { cache: 'no-store' }
-        );
-        if (inqRes.ok) {
-          const inqData = await inqRes.json();
-          setInquiries(inqData.data || []);
-        }
-      } catch (e) {
-        console.log('Inquiries fetch failed');
-      }
+      // Calculate today's visits
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
 
-      setLastUpdated(new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }));
+      const todayCount = visitList.filter((v) => {
+        const attr = v.attributes || v;
+        const date = new Date(v.attributes?.createdAt || v.createdAt);
+        return date >= today;
+      }).length;
+
+      setVisits(visitList);
+      setSubmissions(subList);
+      setStats({
+        totalVisits: visitData.meta?.pagination?.total || visitList.length,
+        totalSubmissions: subData.meta?.pagination?.total || subList.length,
+        todayVisits: todayCount,
+      });
     } catch (err) {
       console.error(err);
-      setError('Failed to load data from Strapi');
+      setError('Failed to load data. Please check if Strapi is running.');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    if (password.trim() === correctPassword) {
-      setAuthenticated(true);
-      fetchAllData();
-    } else {
-      setError('Incorrect password!');
-    }
-  };
-
-  // ==================== LOGIN SCREEN ====================
+  // ========== LOGIN SCREEN ==========
   if (!authenticated) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center px-4">
-        <div className="bg-white p-10 rounded-3xl shadow-2xl max-w-md w-full text-center border border-gray-100">
-          <h1 className="text-3xl font-bold text-red-700 mb-1">EIE Admin</h1>
-          <p className="text-gray-500 mb-8">Dashboard Access</p>
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
+        <div className="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-md">
+          <h1 className="text-3xl font-bold text-red-700 text-center mb-2">
+            EIE Admin Dashboard
+          </h1>
+          <p className="text-center text-gray-500 mb-8">Authorized personnel only</p>
 
-          <form onSubmit={handleLogin} className="space-y-6">
+          <form onSubmit={handleLogin} className="space-y-5">
             <div>
-              <label className="block text-left font-medium mb-2 text-gray-700">Password</label>
+              <label className="block text-sm font-medium mb-1">Password</label>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-red-600 focus:outline-none text-lg"
+                className="w-full border-2 border-gray-300 rounded-xl px-4 py-3 focus:border-red-600 outline-none"
+                placeholder="Enter Admin Password"
                 required
-                autoFocus
-                placeholder="Enter admin password"
               />
             </div>
 
-            {error && (
-              <p className="text-red-600 font-medium bg-red-50 py-2 rounded-lg">{error}</p>
-            )}
+            {error && <p className="text-red-600 text-sm font-medium">{error}</p>}
 
             <button
               type="submit"
-              className="w-full bg-red-600 text-white py-3.5 rounded-xl font-bold text-lg hover:bg-red-700 transition shadow-lg"
+              className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl transition"
             >
-              Login to Dashboard
+              Login
             </button>
           </form>
         </div>
@@ -134,283 +130,166 @@ export default function AdminDashboard() {
     );
   }
 
-  // ==================== DASHBOARD ====================
+  // ========== DASHBOARD ==========
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-red-700">EIE Admin Dashboard</h1>
-            <p className="text-sm text-gray-500">Website Analytics & Management</p>
-          </div>
-          <div className="flex items-center gap-3">
-            <button
-              onClick={fetchAllData}
-              disabled={loading}
-              className="bg-blue-600 text-white px-5 py-2 rounded-xl text-sm font-medium hover:bg-blue-700 transition disabled:opacity-50"
-            >
-              {loading ? 'Refreshing...' : 'Refresh Data'}
-            </button>
-            <button
-              onClick={() => {
-                setAuthenticated(false);
-                setPassword('');
-              }}
-              className="bg-gray-800 text-white px-5 py-2 rounded-xl text-sm font-medium hover:bg-gray-900 transition"
-            >
-              Logout
-            </button>
-          </div>
+      <header className="bg-red-700 text-white px-6 py-4 flex justify-between items-center shadow-lg">
+        <div>
+          <h1 className="text-2xl font-bold">EIE Instruments – Admin</h1>
+          <p className="text-sm text-red-100">Visitor & Inquiry Dashboard</p>
         </div>
-      </div>
+        <div className="flex gap-3">
+          <button
+            onClick={fetchAllData}
+            className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg text-sm font-medium"
+          >
+            Refresh
+          </button>
+          <button
+            onClick={handleLogout}
+            className="bg-white text-red-700 px-5 py-2 rounded-lg font-semibold hover:bg-red-50"
+          >
+            Logout
+          </button>
+        </div>
+      </header>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-
+      <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Tabs */}
-        <div className="flex gap-2 mb-8 overflow-x-auto pb-2">
-          {['overview', 'visitors', 'inquiries', 'settings'].map((tab) => (
+        <div className="flex gap-3 mb-8 flex-wrap">
+          {[
+            { id: 'overview', label: 'Overview' },
+            { id: 'visits', label: 'Visitors' },
+            { id: 'inquiries', label: 'Inquiries / Forms' },
+          ].map((tab) => (
             <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`px-5 py-2.5 rounded-xl font-medium capitalize transition whitespace-nowrap ${
-                activeTab === tab
-                  ? 'bg-red-600 text-white shadow-md'
-                  : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50'
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`px-6 py-2.5 rounded-xl font-semibold transition ${
+                activeTab === tab.id
+                  ? 'bg-red-600 text-white shadow'
+                  : 'bg-white text-gray-700 hover:bg-gray-100'
               }`}
             >
-              {tab}
+              {tab.label}
             </button>
           ))}
         </div>
 
-        {/* ==================== OVERVIEW ==================== */}
-        {activeTab === 'overview' && (
-          <div className="space-y-8">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="bg-white rounded-2xl shadow-md p-6 border border-gray-100">
-                <p className="text-sm font-medium text-gray-500">Total Visitors</p>
-                <p className="text-4xl font-bold text-red-600 mt-2">
-                  {totalVisitors.toLocaleString()}
-                </p>
-                <p className="text-xs text-gray-400 mt-3">Updated: {lastUpdated || '—'}</p>
-              </div>
+        {loading && (
+          <div className="text-center py-20 text-xl text-gray-500">
+            Loading data...
+          </div>
+        )}
 
-              <div className="bg-white rounded-2xl shadow-md p-6 border border-gray-100">
-                <p className="text-sm font-medium text-gray-500">Visitor Logs</p>
-                <p className="text-4xl font-bold text-blue-600 mt-2">{visitorLogs.length}</p>
-                <p className="text-xs text-gray-400 mt-3">Latest 50 records</p>
-              </div>
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-xl mb-6">
+            {error}
+          </div>
+        )}
 
-              <div className="bg-white rounded-2xl shadow-md p-6 border border-gray-100">
-                <p className="text-sm font-medium text-gray-500">Total Inquiries</p>
-                <p className="text-4xl font-bold text-green-600 mt-2">{inquiries.length}</p>
-                <p className="text-xs text-gray-400 mt-3">All types</p>
-              </div>
-
-              <div className="bg-white rounded-2xl shadow-md p-6 border border-gray-100">
-                <p className="text-sm font-medium text-gray-500">New Inquiries</p>
-                <p className="text-4xl font-bold text-orange-600 mt-2">
-                  {inquiries.filter((i) => {
-                    const status = i.attributes?.update || i.update || i.attributes?.status || i.status;
-                    return status === 'New' || !status;
-                  }).length}
-                </p>
-                <p className="text-xs text-gray-400 mt-3">Need attention</p>
-              </div>
+        {/* Overview Tab */}
+        {!loading && activeTab === 'overview' && (
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div className="bg-white rounded-2xl shadow p-8 text-center border-t-4 border-red-600">
+              <p className="text-5xl font-bold text-red-600">{stats.totalVisits}</p>
+              <p className="text-gray-600 mt-2 font-medium">Total Visitors</p>
             </div>
-
-            <div className="bg-white rounded-2xl shadow-md p-6 border border-gray-100">
-              <h2 className="text-xl font-bold text-gray-800 mb-5">Quick Links</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <a
-                  href="https://optimistic-friends-ed5888f6c2.strapiapp.com/admin"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-red-600 text-white text-center py-3.5 rounded-xl font-medium hover:bg-red-700 transition"
-                >
-                  Open Strapi Admin
-                </a>
-                <a
-                  href="/"
-                  target="_blank"
-                  className="bg-gray-800 text-white text-center py-3.5 rounded-xl font-medium hover:bg-gray-900 transition"
-                >
-                  View Website
-                </a>
-                <a
-                  href="/contact"
-                  target="_blank"
-                  className="bg-blue-600 text-white text-center py-3.5 rounded-xl font-medium hover:bg-blue-700 transition"
-                >
-                  Contact Page
-                </a>
-              </div>
+            <div className="bg-white rounded-2xl shadow p-8 text-center border-t-4 border-blue-600">
+              <p className="text-5xl font-bold text-blue-600">{stats.todayVisits}</p>
+              <p className="text-gray-600 mt-2 font-medium">Today's Visitors</p>
+            </div>
+            <div className="bg-white rounded-2xl shadow p-8 text-center border-t-4 border-green-600">
+              <p className="text-5xl font-bold text-green-600">{stats.totalSubmissions}</p>
+              <p className="text-gray-600 mt-2 font-medium">Total Form Submissions</p>
             </div>
           </div>
         )}
 
-        {/* ==================== VISITORS TAB ==================== */}
-        {activeTab === 'visitors' && (
-          <div className="bg-white rounded-2xl shadow-md p-6 border border-gray-100">
-            <div className="flex justify-between items-center mb-6">
-              <div>
-                <h2 className="text-2xl font-bold text-gray-800">Visitor Logs</h2>
-                <p className="text-gray-500 text-sm">Latest {visitorLogs.length} visits</p>
-              </div>
-              <button
-                onClick={fetchAllData}
-                disabled={loading}
-                className="bg-red-600 text-white px-5 py-2 rounded-xl text-sm font-medium hover:bg-red-700 transition disabled:opacity-50"
-              >
-                Refresh
-              </button>
-            </div>
-
-            {visitorLogs.length === 0 ? (
-              <div className="text-center py-16 text-gray-500">
-                <p className="text-lg">No visitor logs found yet.</p>
-                <p className="text-sm mt-2">Visit any page on the website to generate logs.</p>
-              </div>
-            ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="bg-gray-50 text-left">
-                      <th className="px-4 py-3 font-semibold text-gray-700">Page</th>
-                      <th className="px-4 py-3 font-semibold text-gray-700">City</th>
-                      <th className="px-4 py-3 font-semibold text-gray-700">Country</th>
-                      <th className="px-4 py-3 font-semibold text-gray-700">IP</th>
-                      <th className="px-4 py-3 font-semibold text-gray-700">Time</th>
+        {/* Visits Tab */}
+        {!loading && activeTab === 'visits' && (
+          <div className="bg-white rounded-2xl shadow overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-sm">
+                <thead className="bg-red-50 text-gray-700">
+                  <tr>
+                    <th className="px-5 py-4 font-semibold">Time</th>
+                    <th className="px-5 py-4 font-semibold">City / Country</th>
+                    <th className="px-5 py-4 font-semibold">Page</th>
+                    <th className="px-5 py-4 font-semibold">Referrer</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {visits.length === 0 ? (
+                    <tr>
+                      <td colSpan={4} className="px-5 py-10 text-center text-gray-500">
+                        No visits yet
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-100">
-                    {visitorLogs.map((log, index) => {
-                      const attr = log.attributes || log;
+                  ) : (
+                    visits.map((v, i) => {
+                      const a = v.attributes || v;
                       return (
-                        <tr key={log.id || index} className="hover:bg-gray-50">
-                          <td className="px-4 py-3 font-medium text-gray-800">{attr.page || '—'}</td>
-                          <td className="px-4 py-3 text-gray-600">{attr.city || '—'}</td>
-                          <td className="px-4 py-3 text-gray-600">{attr.country || '—'}</td>
-                          <td className="px-4 py-3 text-gray-600">{attr.ip || '—'}</td>
-                          <td className="px-4 py-3 text-gray-500">
-                            {attr.timestamp
-                              ? new Date(attr.timestamp).toLocaleString('en-IN')
-                              : attr.createdAt
-                              ? new Date(attr.createdAt).toLocaleString('en-IN')
-                              : '—'}
+                        <tr key={i} className="border-t hover:bg-gray-50">
+                          <td className="px-5 py-3 whitespace-nowrap">
+                            {new Date(a.visitedAt || a.createdAt).toLocaleString('en-IN', {
+                              timeZone: 'Asia/Kolkata',
+                            })}
+                          </td>
+                          <td className="px-5 py-3">
+                            {a.city || '—'}, {a.country || '—'}
+                          </td>
+                          <td className="px-5 py-3 font-mono text-xs max-w-xs truncate">
+                            {a.page || '—'}
+                          </td>
+                          <td className="px-5 py-3 text-xs max-w-xs truncate">
+                            {a.referrer || 'Direct'}
                           </td>
                         </tr>
                       );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            )}
+                    })
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
 
-        {/* ==================== INQUIRIES TAB ==================== */}
-        {activeTab === 'inquiries' && (
-          <div className="bg-white rounded-2xl shadow-md p-6 border border-gray-100">
-            <div className="flex justify-between items-center mb-6">
-              <div>
-                <h2 className="text-2xl font-bold text-gray-800">Inquiries & Requests</h2>
-                <p className="text-gray-500 text-sm">Latest {inquiries.length} entries</p>
-              </div>
-              <button
-                onClick={fetchAllData}
-                disabled={loading}
-                className="bg-red-600 text-white px-5 py-2 rounded-xl text-sm font-medium hover:bg-red-700 transition disabled:opacity-50"
-              >
-                Refresh
-              </button>
-            </div>
-
-            {inquiries.length === 0 ? (
-              <div className="text-center py-16 text-gray-500">
-                <p className="text-lg">No inquiries found yet.</p>
-                <p className="text-sm mt-2">
-                  Submit a form on the website (Contact / Inquiry / Job) to see data here.
-                </p>
+        {/* Inquiries Tab */}
+        {!loading && activeTab === 'inquiries' && (
+          <div className="space-y-5">
+            {submissions.length === 0 ? (
+              <div className="bg-white rounded-2xl shadow p-12 text-center text-gray-500">
+                No form submissions yet
               </div>
             ) : (
-              <div className="space-y-4">
-                {inquiries.map((item, index) => {
-                  const attr = item.attributes || item;
-                  return (
-                    <div
-                      key={item.id || index}
-                      className="border border-gray-200 rounded-xl p-5 hover:shadow-md transition"
-                    >
-                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 mb-3">
-                        <div>
-                          <h3 className="font-bold text-lg text-gray-900">{attr.name || '—'}</h3>
-                          <p className="text-sm text-gray-600">{attr.email || '—'}</p>
-                        </div>
-                        <div className="flex gap-2">
-                          <span className="bg-red-100 text-red-700 text-xs font-medium px-3 py-1 rounded-full">
-                            {attr.type || 'Inquiry'}
-                          </span>
-                          <span className="bg-gray-100 text-gray-700 text-xs font-medium px-3 py-1 rounded-full">
-                            {attr.update || attr.status || 'New'}
-                          </span>
-                        </div>
-                      </div>
-
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-700">
-                        <p><strong>Phone:</strong> {attr.phone || '—'}</p>
-                        <p><strong>Organization:</strong> {attr.organization || '—'}</p>
-                        <p><strong>Product:</strong> {attr.product || '—'}</p>
-                        <p><strong>Source:</strong> {attr.source || '—'}</p>
-                      </div>
-
-                      {attr.message && (
-                        <p className="mt-3 text-sm text-gray-600 bg-gray-50 p-3 rounded-lg">
-                          {attr.message}
-                        </p>
-                      )}
-
-                      <p className="text-xs text-gray-400 mt-3">
-                        {attr.createdAt
-                          ? new Date(attr.createdAt).toLocaleString('en-IN')
-                          : '—'}
-                      </p>
+              submissions.map((s, i) => {
+                const a = s.attributes || s;
+                return (
+                  <div
+                    key={i}
+                    className="bg-white rounded-2xl shadow border-l-4 border-red-600 p-6"
+                  >
+                    <div className="flex flex-wrap justify-between gap-3 mb-3">
+                      <span className="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-bold uppercase">
+                        {a.type || 'unknown'}
+                      </span>
+                      <span className="text-sm text-gray-500">
+                        {new Date(a.createdAt).toLocaleString('en-IN', {
+                          timeZone: 'Asia/Kolkata',
+                        })}
+                      </span>
                     </div>
-                  );
-                })}
-              </div>
+                    <div className="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto">
+                      <pre className="whitespace-pre-wrap">
+                        {JSON.stringify(a.data || a, null, 2)}
+                      </pre>
+                    </div>
+                  </div>
+                );
+              })
             )}
-          </div>
-        )}
-
-        {/* ==================== SETTINGS ==================== */}
-        {activeTab === 'settings' && (
-          <div className="bg-white rounded-2xl shadow-md p-6 border border-gray-100">
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">Settings</h2>
-
-            <div className="space-y-5">
-              <div className="p-5 bg-gray-50 rounded-xl">
-                <p className="font-medium text-gray-800 mb-1">Admin Password</p>
-                <p className="text-sm text-gray-600">
-                  Current: <code className="bg-gray-200 px-2 py-0.5 rounded">eie2025admin</code>
-                </p>
-              </div>
-
-              <div className="p-5 bg-gray-50 rounded-xl">
-                <p className="font-medium text-gray-800 mb-1">Strapi Base URL</p>
-                <p className="text-sm text-gray-600 break-all">{getBaseUrl()}</p>
-              </div>
-
-              <div className="p-5 bg-blue-50 border border-blue-200 rounded-xl">
-                <p className="font-medium text-blue-800 mb-1">How Tracking Works</p>
-                <ul className="text-sm text-blue-900 list-disc list-inside space-y-1 mt-2">
-                  <li>Every page visit creates a record in VisitorLog</li>
-                  <li>Contact / Inquiry / Job forms save data in Inquiry collection</li>
-                  <li>This dashboard reads both collections in real-time</li>
-                </ul>
-              </div>
-            </div>
           </div>
         )}
       </div>

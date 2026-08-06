@@ -1,0 +1,48 @@
+{
+  "kind": "collectionType",
+  "collectionName": "submissions",
+  "info": {
+    "singularName": "submission",
+    "pluralName": "submissions",
+    "displayName": "Submission"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "type": {
+      "type": "enumeration",
+      "required": true,
+      "enum": [
+        "inquiry",
+        "complaint",
+        "job",
+        "remarks"
+      ]
+    },
+    "data": {
+      "type": "json",
+      "required": true
+    },
+    "email": {
+      "type": "email"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "product": {
+      "type": "string"
+    },
+    "update": {
+      "type": "enumeration",
+      "required": true,
+      "default": "new",
+      "enum": [
+        "new",
+        "in-progress",
+        "closed"
+      ]
+    }
+  }
+}
