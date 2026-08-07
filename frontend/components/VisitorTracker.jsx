@@ -2,66 +2,76 @@
 
 import { useEffect } from 'react';
 
-export default function VisitorTracker() {
+const VisitorTracker = () => {
   useEffect(() => {
-    const trackVisit = async () => {
+    const trackVisitor = async () => {
       try {
-        if (sessionStorage.getItem('eie_visit_tracked')) {
-          return;
-        }
+        const ipResponse = await fetch('https://api.ipify.org?format=json');
+        const ipData = await ipResponse.json();
+        const ip = ipData.ip;
 
-        const base = process.env.NEXT_PUBLIC_STRAPI_URL
-          ? process.env.NEXT_PUBLIC_STRAPI_URL.replace(/\/api\/?$/, '')
-          : 'https://optimistic-friends-ed5888f6c2.strapiapp.com';
+        const geoResponse = await fetch(`https://ipapi.co/${ip}/json/`);
+        const geoData = await geoResponse.json();
 
-        let city = 'Unknown';
-        let country = 'Unknown';
-
-        try {
-          const geoRes = await fetch('https://ipapi.co/json/');
-          if (geoRes.ok) {
-            const geo = await geoRes.json();
-            city = geo.city || 'Unknown';
-            country = geo.country_name || 'Unknown';
-          }
-        } catch (err) {
-          console.log('Location fetch failed');
-        }
+        const page = window.location.pathname || 'Home';
+        const userAgent = navigator.userAgent || 'Unknown';
+        const referrer = document.referrer || 'Direct';
 
         const payload = {
-          data: {
-            ip: 'hidden',
-            city: city,
-            country: country,
-            page: window.location.pathname + window.location.search,
-            referrer: document.referrer || 'Direct',
-            userAgent: navigator.userAgent.substring(0, 250),
-          },
+          page,
+          ip,
+          city: geoData.city || 'Ahmedabad',
+          country: geoData.country_name || 'India',
+          userAgent,
+          referrer,
         };
 
-        const res = await fetch(`${base}/api/visitor-logs`, {
+        // Direct fetch (better than /api/)
+        await fetch('https://optimistic-friends-ed5888f6c2.strapiapp.com/api/visitor-logs', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
         });
 
-        if (res.ok) {
-          console.log('Visit tracked successfully');
-          sessionStorage.setItem('eie_visit_tracked', 'true');
-        } else {
-          const errorText = await res.text();
-          console.error('Visitor tracking failed:', res.status, errorText);
-        }
+        // Count (still via /api/ for simplicity)
+        await fetch('/api/visitor-count', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ count: 1 }),
+        });
+
       } catch (error) {
-        console.error('VisitorTracker error:', error);
+        console.error('Visitor tracking failed:', error);
+        // Fallback count
+        try {
+          await fetch('/api/visitor-count', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ count: 1 }),
+          });
+        } catch {}
       }
     };
 
-    const timer = setTimeout(trackVisit, 1500);
-    return () => clearTimeout(timer);
+    trackVisitor();
+
+    // Route change listener
+    if (typeof window !== 'undefined' && window.history) {
+      const handleRouteChange = () => {
+        setTimeout(trackVisitor, 300);
+      };
+      window.history.pushState = (...args) => {
+        window.history.pushState.apply(window.history, args);
+        handleRouteChange();
+      };
+      window.history.replaceState = (...args) => {
+        window.history.replaceState.apply(window.history, args);
+        handleRouteChange();
+      };
+    }
   }, []);
 
   return null;
-}
+};
+
+export default VisitorTracker;

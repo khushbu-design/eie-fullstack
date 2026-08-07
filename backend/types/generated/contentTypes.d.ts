@@ -546,6 +546,42 @@ export interface ApiIndustryIndustry extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiInquiryInquiry extends Struct.CollectionTypeSchema {
+  collectionName: 'inquiries';
+  info: {
+    displayName: 'Inquiry';
+    pluralName: 'inquiries';
+    singularName: 'inquiry';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    email: Schema.Attribute.Email;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::inquiry.inquiry'
+    > &
+      Schema.Attribute.Private;
+    message: Schema.Attribute.String;
+    name: Schema.Attribute.String;
+    organization: Schema.Attribute.String;
+    phone: Schema.Attribute.String;
+    product: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    source: Schema.Attribute.String;
+    timestamp: Schema.Attribute.DateTime;
+    type: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiJobJob extends Struct.CollectionTypeSchema {
   collectionName: 'jobs';
   info: {
@@ -672,44 +708,6 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiSubmissionSubmission extends Struct.CollectionTypeSchema {
-  collectionName: 'submissions';
-  info: {
-    displayName: 'Submission';
-    pluralName: 'submissions';
-    singularName: 'submission';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    data: Schema.Attribute.JSON & Schema.Attribute.Required;
-    email: Schema.Attribute.Email;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::submission.submission'
-    > &
-      Schema.Attribute.Private;
-    phone: Schema.Attribute.String;
-    product: Schema.Attribute.String;
-    publishedAt: Schema.Attribute.DateTime;
-    type: Schema.Attribute.Enumeration<
-      ['inquiry', 'complaint', 'job', 'remarks']
-    > &
-      Schema.Attribute.Required;
-    update: Schema.Attribute.Enumeration<['new', 'in-progress', 'closed']> &
-      Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<'new'>;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
 export interface ApiVisitorCountVisitorCount extends Struct.SingleTypeSchema {
   collectionName: 'visitor_counts';
   info: {
@@ -761,9 +759,10 @@ export interface ApiVisitorLogVisitorLog extends Struct.CollectionTypeSchema {
       'api::visitor-log.visitor-log'
     > &
       Schema.Attribute.Private;
-    page: Schema.Attribute.String & Schema.Attribute.Required;
+    page: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     referrer: Schema.Attribute.String;
+    timestamp: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1285,10 +1284,10 @@ declare module '@strapi/strapi' {
       'api::category.category': ApiCategoryCategory;
       'api::certificate.certificate': ApiCertificateCertificate;
       'api::industry.industry': ApiIndustryIndustry;
+      'api::inquiry.inquiry': ApiInquiryInquiry;
       'api::job.job': ApiJobJob;
       'api::newsletter-subscriber.newsletter-subscriber': ApiNewsletterSubscriberNewsletterSubscriber;
       'api::product.product': ApiProductProduct;
-      'api::submission.submission': ApiSubmissionSubmission;
       'api::visitor-count.visitor-count': ApiVisitorCountVisitorCount;
       'api::visitor-log.visitor-log': ApiVisitorLogVisitorLog;
       'plugin::content-releases.release': PluginContentReleasesRelease;

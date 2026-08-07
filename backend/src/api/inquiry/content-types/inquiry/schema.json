@@ -1,32 +1,38 @@
 {
   "kind": "collectionType",
-  "collectionName": "visitor_logs",
+  "collectionName": "inquiries",
   "info": {
-    "singularName": "visitor-log",
-    "pluralName": "visitor-logs",
-    "displayName": "VisitorLog"
+    "singularName": "inquiry",
+    "pluralName": "inquiries",
+    "displayName": "Inquiry"
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "page": {
+    "name": {
       "type": "string"
     },
-    "ip": {
+    "email": {
+      "type": "email"
+    },
+    "phone": {
       "type": "string"
     },
-    "city": {
+    "organization": {
       "type": "string"
     },
-    "country": {
+    "product": {
       "type": "string"
     },
-    "userAgent": {
+    "message": {
       "type": "string"
     },
-    "referrer": {
+    "type": {
+      "type": "string"
+    },
+    "source": {
       "type": "string"
     },
     "timestamp": {
