@@ -8,7 +8,6 @@ import InquiryButton from "@/components/InquiryButton";
 import Footer from "../components/Footer";
 import { CompareProvider } from '@/context/CompareContext';
 import CompareBar from '@/components/CompareBar';
-import VisitorTracker from '@/components/VisitorTracker';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -75,7 +74,6 @@ export default function RootLayout({
           <Navbar />
 
           <main className="min-h-screen">
-            <VisitorTracker />
             {children}
           </main>
           
